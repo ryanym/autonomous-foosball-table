@@ -10,7 +10,7 @@ import cv2
 import time
 
 #constants
-CAM_ID = 0
+CAM_ID = 1
 CAM_WIDTH = 320
 CAM_HEIGHT = 240
 CAM_FPS = 90
@@ -42,8 +42,10 @@ BALL_Y_MAX = FIELD_W_PIXEL - BALL_R_PIXEL - 1
 BALL_X_MIN = BALL_R_PIXEL
 BALL_Y_MIN = BALL_R_PIXEL
 
+BALL_SPEED_Square_MIN = 2
 #print 1.0*FIELD_L_PIXEL / FIELD_L
 #print 1.0*FIELD_W_PIXEL / FIELD_W
+
 
 #BALL color
 hsv = None
@@ -64,7 +66,9 @@ def find_ball_path(ball_cur,ball_pre):
     ball_tar = [None] * 2
     ball_diff_x = ball_cur[0] - ball_pre[0]
     ball_diff_y = ball_cur[1] - ball_pre[1]
-
+    ball_speed = ball_diff_y*ball_diff_y +ball_diff_x*ball_diff_x
+    if ball_speed < BALL_SPEED_Square_MIN: #or ball_cur[0]>BALL_X_MAX or ball_cur[0]<BALL_X_MIN or ball_cur[1]<BALL_Y_MIN or ball_cur[1]>BALL_Y_MAX:
+        return path;
     if ball_diff_x > 0:
         ball_tar[0]  = BALL_X_MAX*1.0
     elif ball_diff_x == 0:
@@ -80,7 +84,8 @@ def find_ball_path(ball_cur,ball_pre):
         if(ball_diff_x==0):
             ball_tar[1]  = BALL_Y_MAX
         else:
-            ball_tar[1]  = ball_cur[0] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
+            ball_tar[1]  = ball_cur[1] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
+            
         if ball_tar[1] > BALL_Y_MAX:
             ball_col[0] = ball_cur[0]+(BALL_Y_MAX-ball_cur[1])/ball_diff_y*ball_diff_x
             ball_col[1] = BALL_Y_MAX;
@@ -95,7 +100,8 @@ def find_ball_path(ball_cur,ball_pre):
         if(ball_diff_x==0):
             ball_tar[1]  = BALL_Y_MIN
         else:
-            ball_tar[1]  = ball_cur[0] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
+            ball_tar[1]  = ball_cur[1] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
+            
         if ball_tar[1] < BALL_Y_MIN:
             ball_col[0] = ball_cur[0]+(BALL_Y_MIN-ball_cur[1])/ball_diff_y*ball_diff_x
             ball_col[1] = BALL_Y_MIN;
@@ -157,18 +163,18 @@ while(True):
             ball_cur = (-1,-1)
         else:
             if ball_pre[0] >0 and ball_cur[0] >0:
+                print 'preBall ',center_ftoi(ball_pre),'currentBall ',center_ftoi(ball_cur)
                 ball_path = find_ball_path(ball_cur,ball_pre)
                 print ball_path
                 for line in ball_path:
                     cv2.line(frame_field,center_ftoi(line[0]),center_ftoi(line[1]),(0,255,0),2,8,0)
                 #cv2.line(frame,center_ftoi(ball_cur),center_ftoi((ball_cur[0]+(ball_cur[0]-ball_pre[0])*40,ball_cur[1]+(ball_cur[1]-ball_pre[1])*40)),(0,255,0),2,8,0)
-            print 'preBall ',center_ftoi(ball_pre),'currentBall ',center_ftoi(ball_cur)
             ball_pre = ball_cur
             cv2.circle(frame_field,center_ftoi(ball_cur),int(tmp_radius),(0,255,0),2)
     else:
         print 'undetected'
 
-    cv2.imshow('frame',frame)
+    #cv2.imshow('frame',frame)
     cv2.imshow('field',frame_field)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
