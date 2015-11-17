@@ -124,7 +124,7 @@ cap.set(5,CAM_FPS)
 #Filter
 lowerb = np.array([LOWER_H,LOWER_S,LOWER_V])
 upperb = np.array([UPPER_H,UPPER_S,UPPER_V])
-kernel = np.ones((3,3),np.float32)/9
+kernel = np.ones((7,7),np.float32)/49
 
 ball_pre = (-1,-1)
 ball_cur = (-1,-1)
@@ -173,7 +173,33 @@ while(True):
             cv2.circle(frame_field,center_ftoi(ball_cur),int(tmp_radius),(0,255,0),2)
     else:
         print 'undetected'
+        
+    ROB_LOWHSV = np.array([0,99,129])
+    ROB_UPPHSV = np.array([23,235,255])
+    USER_LOWHSV = np.array([0,0,225])
+    USER_UPPHSV = np.array([179,13,255])
 
+    first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
+    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
+    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
+    cv2.imshow("Rectangle Image",dilate)
+    asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    c = sorted(contours, key = cv2.contourArea, reverse = True)
+    for cnt in c:
+            x,y,w,h = cv2.boundingRect(cnt)
+            if h < 30:
+                cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
+
+    first_fil_img = cv2.inRange(hsv, ROB_LOWHSV, ROB_UPPHSV)
+    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
+    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
+    cv2.imshow("Rectangle Image",dilate)
+    asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    c = sorted(contours, key = cv2.contourArea, reverse = True)
+    for cnt in c:
+            x,y,w,h = cv2.boundingRect(cnt)
+            cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
+                
     #cv2.imshow('frame',frame)
     cv2.imshow('field',frame_field)
 
