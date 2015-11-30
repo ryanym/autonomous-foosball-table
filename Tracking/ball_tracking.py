@@ -4,7 +4,7 @@ November 14, 2015
 ball tracking and path prediction
 ball path prediction only does on reflection on the long side
 '''
-
+import argparse
 import numpy as np
 import cv2
 import time
@@ -13,7 +13,7 @@ import time
 CAM_ID = 1
 CAM_WIDTH = 320
 CAM_HEIGHT = 240
-CAM_FPS = 90
+CAM_FPS = 60
 
 '''
 The Edge of the playfield, use for cut capture image
@@ -30,7 +30,22 @@ FIELD_L = 410 # mm
 FIELD_W = 290 # mm
 FIELD_L_PIXEL = EDGE_X_MAX - EDGE_X_MIN
 FIELD_W_PIXEL = EDGE_Y_MAX - EDGE_Y_MIN
+ROW_1 = 55 #mm
+ROW_2 = 155 #mm
+ROW_3 = 255 #mm
+ROW_4 = 357 #mm
 
+ROW_TOL = 10 #mm
+ROW_1_PIXEL = FIELD_L_PIXEL*ROW_1/FIELD_L
+ROW_2_PIXEL = FIELD_L_PIXEL*ROW_2/FIELD_L
+ROW_3_PIXEL = FIELD_L_PIXEL*ROW_3/FIELD_L
+ROW_4_PIXEL = FIELD_L_PIXEL*ROW_4/FIELD_L
+ROW_TOL_PIXEL = FIELD_L_PIXEL*ROW_TOL/FIELD_L
+
+FOOSMAN_DISTANCE =95 #mm
+FOOSMAN_WIDTH =28 #mm
+FOOSMAN_DISTANCE_PIXEL = FIELD_L_PIXEL*FOOSMAN_DISTANCE/FIELD_L
+FOOSMAN_WIDTH_PIXEL = FIELD_L_PIXEL*FOOSMAN_WIDTH/FIELD_L
 #BALL radiues in pixel
 BALL_R = 14 #mm
 BALL_R_MIN = 4
@@ -42,9 +57,9 @@ BALL_Y_MAX = FIELD_W_PIXEL - BALL_R_PIXEL - 1
 BALL_X_MIN = BALL_R_PIXEL
 BALL_Y_MIN = BALL_R_PIXEL
 
-BALL_SPEED_Square_MIN = 2
-#print 1.0*FIELD_L_PIXEL / FIELD_L
-#print 1.0*FIELD_W_PIXEL / FIELD_W
+BALL_SPEED_Square_MIN = 3
+print 1.0*FIELD_L_PIXEL / FIELD_L
+print 1.0*FIELD_W_PIXEL / FIELD_W
 
 
 #BALL color
@@ -57,7 +72,7 @@ UPPER_S = 183
 UPPER_V = 236
 
 ERROR_FILTER = np.ones((2,2),np.uint8)
-
+ERROR_FILTER_MEN = np.ones((3,3),np.uint8)
 def nothing(x):
     pass
 
@@ -67,7 +82,7 @@ def find_ball_path(ball_cur,ball_pre):
     ball_diff_x = ball_cur[0] - ball_pre[0]
     ball_diff_y = ball_cur[1] - ball_pre[1]
     ball_speed = ball_diff_y*ball_diff_y +ball_diff_x*ball_diff_x
-    if ball_speed < BALL_SPEED_Square_MIN: #or ball_cur[0]>BALL_X_MAX or ball_cur[0]<BALL_X_MIN or ball_cur[1]<BALL_Y_MIN or ball_cur[1]>BALL_Y_MAX:
+    if ball_speed < BALL_SPEED_Square_MIN:
         return path;
     if ball_diff_x > 0:
         ball_tar[0]  = BALL_X_MAX*1.0
@@ -115,6 +130,33 @@ def find_ball_path(ball_cur,ball_pre):
 def center_ftoi(center):
     return (int(center[0]),int(center[1]))
 
+def foosmen_location(foosmen):
+    foosmen_relocate = []
+    if len(foosmen) >= 3:
+        foosmen.sort(key=lambda tup: tup[2])
+        tmp_middle = (foosmen[0][2]+foosmen[-1][2])/2
+        foosmen_middle = ();
+        foosmen_middle = min(foosmen, key=lambda foosman:abs(foosman[2]-tmp_middle))
+        for i in (-1,0,1):
+            foosmen_relocate.append( (foosmen_middle[0],
+                                      foosmen_middle[1],
+                                      foosmen_middle[2]-FOOSMAN_WIDTH_PIXEL/2+i*FOOSMAN_DISTANCE_PIXEL,
+                                      foosmen_middle[2]+FOOSMAN_WIDTH_PIXEL/2+i*FOOSMAN_DISTANCE_PIXEL) )
+    if len(foosmen)==2:
+        foosmen.sort(key=lambda tup: tup[2])
+        foosmen_middle = ()
+        tmp_middle = (foosmen[0][2]+foosmen[1][2])/2
+        if tmp_middle < FIELD_W_PIXEL/2:
+            foosmen_middle = foosmen[1]
+        if tmp_middle >= FIELD_W_PIXEL/2:
+            foosmen_middle = foosmen[0]
+        for i in (-1,0,1):
+            foosmen_relocate.append( (foosmen_middle[0],
+                                      foosmen_middle[1],
+                                      foosmen_middle[2]-FOOSMAN_WIDTH_PIXEL/2+i*FOOSMAN_DISTANCE_PIXEL,
+                                      foosmen_middle[2]+FOOSMAN_WIDTH_PIXEL/2+i*FOOSMAN_DISTANCE_PIXEL) )
+    return foosmen_relocate
+    
 
 #set up campture
 cap = cv2.VideoCapture(CAM_ID)
@@ -142,6 +184,10 @@ while(True):
     
     cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MIN),(BALL_X_MAX,BALL_Y_MIN),(0,255,0),2,8,0)
     cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MAX),(BALL_X_MAX,BALL_Y_MAX),(0,255,0),2,8,0)
+    cv2.line(frame_field,(ROW_1_PIXEL,0),(ROW_1_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
+    cv2.line(frame_field,(ROW_2_PIXEL,0),(ROW_2_PIXEL,FIELD_W_PIXEL),(0,255,0),2,8,0)
+    cv2.line(frame_field,(ROW_3_PIXEL,0),(ROW_3_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
+    cv2.line(frame_field,(ROW_4_PIXEL,0),(ROW_4_PIXEL,FIELD_W_PIXEL),(0,255,0),2,8,0)
     
     cv2.imshow("Binary Image",dilate)
 
@@ -158,51 +204,78 @@ while(True):
                     ball_radius_max = tmp_radius
                     ball_cur = (x,y)
         if ball_found == False:
-            print 'Ball not found'
+            #print 'Ball not found'
             ball_pre = (-1,-1)
             ball_cur = (-1,-1)
         else:
             if ball_pre[0] >0 and ball_cur[0] >0:
                 print 'preBall ',center_ftoi(ball_pre),'currentBall ',center_ftoi(ball_cur)
                 ball_path = find_ball_path(ball_cur,ball_pre)
-                print ball_path
+                #print ball_path
                 for line in ball_path:
-                    cv2.line(frame_field,center_ftoi(line[0]),center_ftoi(line[1]),(0,255,0),2,8,0)
+                    cv2.line(frame_field,center_ftoi(line[0]),center_ftoi(line[1]),(255,0,0),2,8,0)
                 #cv2.line(frame,center_ftoi(ball_cur),center_ftoi((ball_cur[0]+(ball_cur[0]-ball_pre[0])*40,ball_cur[1]+(ball_cur[1]-ball_pre[1])*40)),(0,255,0),2,8,0)
             ball_pre = ball_cur
-            cv2.circle(frame_field,center_ftoi(ball_cur),int(tmp_radius),(0,255,0),2)
+            cv2.circle(frame_field,center_ftoi(ball_cur),int(tmp_radius),(255,0,0),2)
     else:
         print 'undetected'
         
     ROB_LOWHSV = np.array([0,99,129])
     ROB_UPPHSV = np.array([23,235,255])
     USER_LOWHSV = np.array([0,0,225])
-    USER_UPPHSV = np.array([179,13,255])
+    USER_UPPHSV = np.array([179,20,255])
 
     first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
-    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
-    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
+    erosion = cv2.erode(first_fil_img,ERROR_FILTER_MEN,1)
+    dilate = cv2.dilate(first_fil_img,ERROR_FILTER_MEN,1)
     cv2.imshow("Rectangle Image",dilate)
     asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     c = sorted(contours, key = cv2.contourArea, reverse = True)
+    row1=[]
+    row2=[]
+    row3=[]
+    row4=[]
     for cnt in c:
             x,y,w,h = cv2.boundingRect(cnt)
-            if h < 30:
-                cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
-
+            if (h < 30)and(w>3)and (h>3):    
+                if x+w+ROW_TOL_PIXEL > ROW_2_PIXEL and x-ROW_TOL_PIXEL < ROW_2_PIXEL:
+                    row2.append((x,w+x,y+h/2))
+                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
+                if x+w+ROW_TOL_PIXEL > ROW_4_PIXEL and x-ROW_TOL_PIXEL < ROW_4_PIXEL:
+                    row4.append((x,w+x,y+h/2))
+                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
     first_fil_img = cv2.inRange(hsv, ROB_LOWHSV, ROB_UPPHSV)
-    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
-    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
-    cv2.imshow("Rectangle Image",dilate)
+    erosion = cv2.erode(first_fil_img,ERROR_FILTER_MEN,1)
+    dilate = cv2.dilate(first_fil_img,ERROR_FILTER_MEN,1)
+    cv2.imshow("Rectangle Image1",dilate)
     asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     c = sorted(contours, key = cv2.contourArea, reverse = True)
     for cnt in c:
             x,y,w,h = cv2.boundingRect(cnt)
-            cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
-                
+            if (h < 30)and(w>3)and (h>3):
+                if x+w+ROW_TOL_PIXEL > ROW_1_PIXEL and x-ROW_TOL_PIXEL < ROW_1_PIXEL:
+                    row1.append((x,w+x,y+h/2))
+                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,0,255),2)
+                if x+w+ROW_TOL_PIXEL > ROW_3_PIXEL and x-ROW_TOL_PIXEL < ROW_3_PIXEL:
+                    row3.append((x,w+x,y+h/2))
+                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,0,255),2)
+
+    row1_foosmen = foosmen_location(row1)
+    for i in row1_foosmen:
+        cv2.rectangle(frame_field,(i[0],i[2]),(i[1],i[3]),(0,0,255),2)
+    row3_foosmen = foosmen_location(row3)
+    for i in row3_foosmen:
+        cv2.rectangle(frame_field,(i[0],i[2]),(i[1],i[3]),(0,0,255),2)
+    row2_foosmen = foosmen_location(row2)
+    for i in row2_foosmen:
+        cv2.rectangle(frame_field,(i[0],i[2]),(i[1],i[3]),(0,255,0),2)
+    row4_foosmen = foosmen_location(row4)
+    for i in row4_foosmen:
+        cv2.rectangle(frame_field,(i[0],i[2]),(i[1],i[3]),(0,255,0),2)
+            
     #cv2.imshow('frame',frame)
     cv2.imshow('field',frame_field)
-
+    
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 # When everything done, release the capture
