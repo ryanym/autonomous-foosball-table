@@ -58,6 +58,14 @@ BALL_Y_MAX = FIELD_W_PIXEL - BALL_R_PIXEL - 1
 BALL_X_MIN = BALL_R_PIXEL
 BALL_Y_MIN = BALL_R_PIXEL
 
+GOAL_W = 90#mm
+GOAL_L = 23#mm
+GOAL_W_PIXEL = FIELD_W_PIXEL*GOAL_W/FIELD_W
+GOAL_L_PIXEL = FIELD_L_PIXEL*GOAL_L/FIELD_L
+# xmin,xmax,ymin,ymax
+GOAL_USER = [0,GOAL_L_PIXEL,     (FIELD_W_PIXEL-GOAL_W_PIXEL)/2,(FIELD_W_PIXEL+GOAL_W_PIXEL)/2]
+GOAL_ROB = [FIELD_L_PIXEL-GOAL_L_PIXEL-1,FIELD_L_PIXEL-1,  (FIELD_W_PIXEL-GOAL_W_PIXEL)/2,(FIELD_W_PIXEL+GOAL_W_PIXEL)/2]
+
 BALL_SPEED_Square_MIN = 3
 print 1.0*FIELD_L_PIXEL / FIELD_L
 print 1.0*FIELD_W_PIXEL / FIELD_W
@@ -67,18 +75,20 @@ print 1.0*FIELD_W_PIXEL / FIELD_W
 hsv = None
 LOWER_H = 92
 LOWER_S = 112
-LOWER_V = 162
+LOWER_V = 128
 UPPER_H = 116
 UPPER_S = 183
-UPPER_V = 236
+UPPER_V = 239
 
 
-ROB_LOWHSV = np.array([0,40,159])
+GOAL_LOWHSV = np.array([92,116,62])
+GOAL_UPPHSV = np.array([112,183,99])
+ROB_LOWHSV = np.array([0,60,159])
 ROB_UPPHSV = np.array([24,235,255])
 USER_LOWHSV = np.array([0,0,235])
-USER_UPPHSV = np.array([179,32,255])
-EDGE_LOWHSV = np.array([50,2,0])
-EDGE_UPPHSV = np.array([179,255,255])
+USER_UPPHSV = np.array([179,36,255])
+EDGE_LOWHSV = np.array([60,0,0])
+EDGE_UPPHSV = np.array([115,255,255])
 
 	
 ERROR_FILTER = np.ones((2,2),np.uint8)
@@ -147,7 +157,7 @@ def foosmen_location(foosmen):
     #input array of (x,y_center,w,h)
     foosmen_relocate = []
     if len(foosmen) >= 3:
-        foosmen.sort(key=lambda tup: tup[2]*tup[3])
+        foosmen.sort(key=lambda tup: tup[2]*tup[3], reverse = True)
         foosmen = foosmen[0:3]
         foosmen.sort(key=lambda tup: tup[1])
         tmp_middle = (foosmen[0][1]+foosmen[2][1])/2
@@ -182,7 +192,7 @@ def unknown_detect(hsv):
     #return true when unknown detected, else false
     hsv_edge = (hsv[0:EDGE_Y_MIN,0:CAM_WIDTH],hsv[EDGE_Y_MAX:CAM_HEIGHT,0:CAM_WIDTH],hsv[0:CAM_HEIGHT,0:EDGE_X_MIN],hsv[0:CAM_HEIGHT,EDGE_X_MAX:CAM_WIDTH])
             
-    for edge_index in [0]:
+    for edge_index in [0,1]:
             edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV) 
             dilate = cv2.dilate(edge_fil_img,ERROR_FILTER_EDGE,1)
             asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
@@ -200,13 +210,13 @@ def unknown_detect(hsv):
                     edge_cover['x'] = x
                     break
 
-            print edge_cover
+            #print edge_cover
             cv2.imshow("edge"+str(edge_index),edge_fil_img) 
             if  edge_cover['x']> EDGE_X_MIN or edge_cover['x']+edge_cover['w']< EDGE_X_MAX:
                 return True
             
                 
-    for edge_index in [3]:
+    for edge_index in [2,3]:
             edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV)
             dilate = cv2.dilate(edge_fil_img,ERROR_FILTER_EDGE,1)
             asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
@@ -224,7 +234,7 @@ def unknown_detect(hsv):
                     edge_cover['h'] = h
                     edge_cover['y'] = y
                     break
-            print edge_cover
+            #print edge_cover
             cv2.imshow("edge"+str(edge_index),edge_fil_img)
             if  edge_cover['y']> EDGE_Y_MIN or edge_cover['y']+edge_cover['h']< EDGE_Y_MAX:
                 print edge_cover
@@ -268,10 +278,7 @@ while(True):
         
     
     hsv = hsv[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
-    dest_image = cv2.inRange(hsv, lowerb, upperb)
-    #reduce noise
-    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
-    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+
     
     cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MIN),(BALL_X_MAX,BALL_Y_MIN),(0,255,0),2,8,0)
     cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MAX),(BALL_X_MAX,BALL_Y_MAX),(0,255,0),2,8,0)
@@ -280,8 +287,13 @@ while(True):
     cv2.line(frame_field,(ROW_3_PIXEL,0),(ROW_3_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
     cv2.line(frame_field,(ROW_4_PIXEL,0),(ROW_4_PIXEL,FIELD_W_PIXEL),(0,255,0),2,8,0)
     
-    cv2.imshow("Ball",dilate)
+    
 
+    dest_image = cv2.inRange(hsv, lowerb, upperb)
+    #reduce noise
+    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
+    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+    cv2.imshow("Ball",dilate)
     a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
     ball_found = False
     ball_radius_max = 4
@@ -309,13 +321,49 @@ while(True):
             ball_pre = ball_cur
             cv2.circle(frame_field,center_ftoi(ball_cur),int(tmp_radius),(255,0,0),2)
     else:
-        print 'undetected'
-        
+        goal_user_area = hsv[GOAL_USER[2]:GOAL_USER[3],GOAL_USER[0]:GOAL_USER[1]]
+        goal_rob_area = hsv[GOAL_ROB[2]:GOAL_ROB[3],GOAL_ROB[0]:GOAL_ROB[1]]
+        #detect user goal 
+        dest_image = cv2.inRange(goal_user_area, GOAL_LOWHSV,GOAL_UPPHSV)
+        erosion = cv2.erode(dest_image,ERROR_FILTER,1)
+        dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+        cv2.imshow('goal_rob_area',dilate)
+        a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
+        user_ball_radius_max = 4
+        ball_center = (-1,-1)
+        if len(contours) >0:
+            for cnt in contours:
+                (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
+                if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
+                    if tmp_radius > ball_radius_max:
+                        user_ball_radius_max = tmp_radius
+        #detect rob goal 
+        dest_image = cv2.inRange(goal_rob_area, GOAL_LOWHSV,GOAL_UPPHSV)
+        erosion = cv2.erode(dest_image,ERROR_FILTER,1)
+        dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+        cv2.imshow('goal_user_area',dilate)
+        a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
+        rob_ball_radius_max = 4
+        ball_center = (-1,-1)
+        if len(contours) >0:
+            for cnt in contours:
+                (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
+                if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
+                    if tmp_radius > ball_radius_max:
+                        rob_ball_radius_max = tmp_radius
+                        ball_cur = (x,y)
+        if  rob_ball_radius_max==user_ball_radius_max or (rob_ball_radius_max ==4 and user_ball_radius_max == 4): 
+            print 'ball undetected'
+        if rob_ball_radius_max> user_ball_radius_max: 
+            print 'rob goal'
+        if rob_ball_radius_max< user_ball_radius_max: 
+            print 'user goal'
+    
 
 
     first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
     erosion = cv2.erode(first_fil_img,ERROR_FILTER_MEN,1)
-    dilate = cv2.dilate(first_fil_img,ERROR_FILTER_MEN,1)
+    dilate = cv2.dilate(first_fil_img,ERROR_FILTER_EDGE,1)
     cv2.imshow("Rectangle Image",dilate)
     asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     c = sorted(contours, key = cv2.contourArea, reverse = True)
@@ -325,7 +373,7 @@ while(True):
     row4=[]
     for cnt in c:
             x,y,w,h = cv2.boundingRect(cnt)
-            if (h < 30)and(w>6)and (h>6):    
+            if (h < 30)and(w>4)and (h>4):    
                 if x+w+ROW_TOL_PIXEL > ROW_2_PIXEL and x-ROW_TOL_PIXEL < ROW_2_PIXEL:
                     row2.append((x,y+h/2,w,h))
                     #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
