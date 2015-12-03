@@ -4,7 +4,6 @@ November 14, 2015
 ball tracking and path prediction
 ball path prediction only does on reflection on the long side
 '''
-import argparse
 import numpy as np
 import cv2
 import time
@@ -75,7 +74,7 @@ print 1.0*FIELD_W_PIXEL / FIELD_W
 hsv = None
 LOWER_H = 92
 LOWER_S = 112
-LOWER_V = 128
+LOWER_V = 148
 UPPER_H = 116
 UPPER_S = 183
 UPPER_V = 239
@@ -187,11 +186,9 @@ def foosmen_location(foosmen):
     
 
 def unknown_detect(hsv):
-    
     #0,1 compare with x-axis; 2,3 compare with y-axis
     #return true when unknown detected, else false
     hsv_edge = (hsv[0:EDGE_Y_MIN,0:CAM_WIDTH],hsv[EDGE_Y_MAX:CAM_HEIGHT,0:CAM_WIDTH],hsv[0:CAM_HEIGHT,0:EDGE_X_MIN],hsv[0:CAM_HEIGHT,EDGE_X_MAX:CAM_WIDTH])
-            
     for edge_index in [0,1]:
             edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV) 
             dilate = cv2.dilate(edge_fil_img,ERROR_FILTER_EDGE,1)
@@ -209,7 +206,6 @@ def unknown_detect(hsv):
                     edge_cover['w'] = w
                     edge_cover['x'] = x
                     break
-
             #print edge_cover
             cv2.imshow("edge"+str(edge_index),edge_fil_img) 
             if  edge_cover['x']> EDGE_X_MIN or edge_cover['x']+edge_cover['w']< EDGE_X_MAX:
@@ -228,7 +224,6 @@ def unknown_detect(hsv):
                 if(h>edge_cover['h']):
                     edge_cover['h'] = h
                     edge_cover['y'] = y
-
                 '''
                 if  y < EDGE_Y_MIN and y+h > EDGE_Y_MAX:
                     edge_cover['h'] = h
@@ -239,8 +234,6 @@ def unknown_detect(hsv):
             if  edge_cover['y']> EDGE_Y_MIN or edge_cover['y']+edge_cover['h']< EDGE_Y_MAX:
                 print edge_cover
                 return True
-            
-            
     return False
 
 #set up campture
@@ -273,13 +266,10 @@ while(True):
     '''
     unkown = unknown_detect(hsv)
     if(unkown):
-        print 'unkown detected'
-            
-        
+        print 'unkown detected'        
     
     hsv = hsv[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
 
-    
     cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MIN),(BALL_X_MAX,BALL_Y_MIN),(0,255,0),2,8,0)
     cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MAX),(BALL_X_MAX,BALL_Y_MAX),(0,255,0),2,8,0)
     cv2.line(frame_field,(ROW_1_PIXEL,0),(ROW_1_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
@@ -305,8 +295,8 @@ while(True):
                 ball_found = True
                 if tmp_radius > ball_radius_max:
                     ball_radius_max = tmp_radius
-                    ball_cur = (x,y)
-        if ball_found == False:
+                    ball_cur = (x,y)  
+        if ball_found == False :
             #print 'Ball not found'
             ball_pre = (-1,-1)
             ball_cur = (-1,-1)
@@ -320,7 +310,7 @@ while(True):
                 #cv2.line(frame,center_ftoi(ball_cur),center_ftoi((ball_cur[0]+(ball_cur[0]-ball_pre[0])*40,ball_cur[1]+(ball_cur[1]-ball_pre[1])*40)),(0,255,0),2,8,0)
             ball_pre = ball_cur
             cv2.circle(frame_field,center_ftoi(ball_cur),int(tmp_radius),(255,0,0),2)
-    else:
+    if(ball_found == False):
         goal_user_area = hsv[GOAL_USER[2]:GOAL_USER[3],GOAL_USER[0]:GOAL_USER[1]]
         goal_rob_area = hsv[GOAL_ROB[2]:GOAL_ROB[3],GOAL_ROB[0]:GOAL_ROB[1]]
         #detect user goal 
@@ -413,7 +403,7 @@ while(True):
     #cv2.imshow('frame',frame)
     cv2.imshow('field',frame_field)
     
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(2) & 0xFF == ord('q'):
         break
 # When everything done, release the capture
 cap.release()
