@@ -22,7 +22,7 @@ EDGE_X_MAX-EDGE_X_MIN-1,0     EDGE_X_MAX-EDGE_X_MIN-1,EDGE_Y_MAX-EDGE_Y_MIN-1
 '''
 
 EDGE_X_MIN = 20
-EDGE_X_MAX = 304
+EDGE_X_MAX = 302
 EDGE_Y_MIN = 18
 EDGE_Y_MAX = 220
 
@@ -49,7 +49,7 @@ FOOSMAN_WIDTH_PIXEL = FIELD_L_PIXEL*FOOSMAN_WIDTH/FIELD_L
 #BALL radiues in pixel
 BALL_R = 14 #mm
 BALL_R_MIN = 4
-BALL_R_MAX = 11
+BALL_R_MAX = 12
 BALL_R_PIXEL = int(BALL_R * FIELD_L_PIXEL / FIELD_L )
 #Ball center moving area
 BALL_X_MAX = FIELD_L_PIXEL - BALL_R_PIXEL -1
@@ -72,19 +72,19 @@ print 1.0*FIELD_W_PIXEL / FIELD_W
 
 #BALL color
 hsv = None
-LOWER_H = 92
+LOWER_H = 96
 LOWER_S = 112
-LOWER_V = 148
+LOWER_V = 128
 UPPER_H = 116
-UPPER_S = 183
+UPPER_S = 180
 UPPER_V = 239
 
 
 GOAL_LOWHSV = np.array([92,116,62])
 GOAL_UPPHSV = np.array([112,183,99])
 ROB_LOWHSV = np.array([0,60,159])
-ROB_UPPHSV = np.array([12,235,255])
-USER_LOWHSV = np.array([0,0,235])
+ROB_UPPHSV = np.array([11,235,255])
+USER_LOWHSV = np.array([0,0,230])
 USER_UPPHSV = np.array([179,36,255])
 EDGE_LOWHSV = np.array([60,0,0])
 EDGE_UPPHSV = np.array([115,255,255])
@@ -246,7 +246,7 @@ upperb = np.array([UPPER_H,UPPER_S,UPPER_V])
 kernel = np.ones((7,7),np.float32)/49
 
 kernel_edge = np.ones((3,3),np.float32)/9
-
+kernel_foosmen = np.ones((3,3),np.float32)/9
 ball_pre = (-1,-1)
 ball_cur = (-1,-1)
 
@@ -270,12 +270,7 @@ while(True):
     
     hsv = hsv[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
 
-    cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MIN),(BALL_X_MAX,BALL_Y_MIN),(0,255,0),2,8,0)
-    cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MAX),(BALL_X_MAX,BALL_Y_MAX),(0,255,0),2,8,0)
-    cv2.line(frame_field,(ROW_1_PIXEL,0),(ROW_1_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
-    cv2.line(frame_field,(ROW_2_PIXEL,0),(ROW_2_PIXEL,FIELD_W_PIXEL),(0,255,0),2,8,0)
-    cv2.line(frame_field,(ROW_3_PIXEL,0),(ROW_3_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
-    cv2.line(frame_field,(ROW_4_PIXEL,0),(ROW_4_PIXEL,FIELD_W_PIXEL),(0,255,0),2,8,0)
+
     
     
 
@@ -309,7 +304,7 @@ while(True):
                     cv2.line(frame_field,center_ftoi(line[0]),center_ftoi(line[1]),(255,0,0),2,8,0)
                 #cv2.line(frame,center_ftoi(ball_cur),center_ftoi((ball_cur[0]+(ball_cur[0]-ball_pre[0])*40,ball_cur[1]+(ball_cur[1]-ball_pre[1])*40)),(0,255,0),2,8,0)
             ball_pre = ball_cur
-            cv2.circle(frame_field,center_ftoi(ball_cur),int(tmp_radius),(255,0,0),2)
+            cv2.circle(frame_field,center_ftoi(ball_cur),int(ball_radius_max),(255,0,0),2)
     if(ball_found == False):
         goal_user_area = hsv[GOAL_USER[2]:GOAL_USER[3],GOAL_USER[0]:GOAL_USER[1]]
         goal_rob_area = hsv[GOAL_ROB[2]:GOAL_ROB[3],GOAL_ROB[0]:GOAL_ROB[1]]
@@ -348,9 +343,9 @@ while(True):
             print 'rob goal'
         if rob_ball_radius_max< user_ball_radius_max: 
             print 'user goal'
-    
-
-
+    # foosmen detection
+    dst = cv2.filter2D(frame_field,-1,kernel_foosmen)
+    hsv = cv2.cvtColor(dst, cv2.COLOR_BGR2HSV)
     first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
     erosion = cv2.erode(first_fil_img,ERROR_FILTER_MEN,1)
     dilate = cv2.dilate(first_fil_img,ERROR_FILTER_EDGE,1)
@@ -398,7 +393,15 @@ while(True):
     row4_foosmen = foosmen_location(row4)
     for i in row4_foosmen:
         cv2.rectangle(frame_field,(i[0],i[2]),(i[1],i[3]),(0,255,0),2)
-            
+
+
+    cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MIN),(BALL_X_MAX,BALL_Y_MIN),(0,255,0),2,8,0)
+    cv2.line(frame_field,(BALL_X_MIN,BALL_Y_MAX),(BALL_X_MAX,BALL_Y_MAX),(0,255,0),2,8,0)
+    cv2.line(frame_field,(ROW_1_PIXEL,0),(ROW_1_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
+    cv2.line(frame_field,(ROW_2_PIXEL,0),(ROW_2_PIXEL,FIELD_W_PIXEL),(0,255,0),2,8,0)
+    cv2.line(frame_field,(ROW_3_PIXEL,0),(ROW_3_PIXEL,FIELD_W_PIXEL),(0,0,255),2,8,0)
+    cv2.line(frame_field,(ROW_4_PIXEL,0),(ROW_4_PIXEL,FIELD_W_PIXEL),(0,255,0),2,8,0)
+    
     #cv2.imshow('frame',frame)
     cv2.imshow('field',frame_field)
     
