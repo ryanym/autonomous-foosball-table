@@ -13,7 +13,33 @@
 
 int val = 0; 
 
+<<<<<<< HEAD:Motor/test.ino
 void setup() {  
+=======
+#define SDPOWER            -1
+#define SDSS               53
+#define LED_PIN            13
+
+#define FAN_PIN            9
+
+#define PS_ON_PIN          12
+#define KILL_PIN           -1
+
+#define HEATER_0_PIN       10
+#define HEATER_1_PIN       8
+#define TEMP_0_PIN          13   // ANALOG NUMBERING
+#define TEMP_1_PIN          14   // ANALOG NUMBERING
+
+
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+
+void setup() {
+  pinMode(FAN_PIN , OUTPUT);
+  pinMode(HEATER_0_PIN , OUTPUT);
+  pinMode(HEATER_1_PIN , OUTPUT);
+  pinMode(LED_PIN  , OUTPUT);
+  
+>>>>>>> origin/master:Motor/test/test.ino
   pinMode(X_STEP_PIN  , OUTPUT);
   pinMode(X_DIR_PIN    , OUTPUT);
   pinMode(X_ENABLE_PIN    , OUTPUT);
