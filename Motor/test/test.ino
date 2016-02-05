@@ -38,6 +38,9 @@
 #define TEMP_0_PIN          13   // ANALOG NUMBERING
 #define TEMP_1_PIN          14   // ANALOG NUMBERING
 
+
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+
 void setup() {
   pinMode(FAN_PIN , OUTPUT);
   pinMode(HEATER_0_PIN , OUTPUT);
