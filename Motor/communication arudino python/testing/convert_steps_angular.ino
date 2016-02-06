@@ -1,10 +1,6 @@
-//takes in real angle and converts to number of steps
-int length_to_steps(float linear_length){
- //distance = 360mm * 30 teeth
- //need number of rotation first
+//takes in real angle in degrees and current step postion and converts to number of steps
+int angle_to_steps(float angle,int motor_current){
  //200 steps per rotation
- float num_rotations;
-
- num_rotations = linear_length / (spacing_teeth * num_teeth);
- return((int)stes_rev*10 / num_rotations*10);
+ float steps = (angle * rotational_steps) /  (360) - motor_current;
+ return((int)steps);
   }
