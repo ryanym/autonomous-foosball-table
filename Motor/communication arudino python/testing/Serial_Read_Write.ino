@@ -11,6 +11,7 @@ void Serial_Read(int* Move,bool* Safety){
             
             Read = 1;           
             delay(1);
+            
     }
 
   //if Serial read then print out return string
@@ -20,13 +21,15 @@ void Serial_Read(int* Move,bool* Safety){
     separate_into_array(incomingByte,Move,Safety);
 
     //sending data back
-    Serial.println(Move[0]);
-    Serial.println(Move[1]);
-    Serial.println(Move[2]);
-    Serial.println(Move[3]);
+//    Serial.println(Move[0]);
+//    Serial.println(Move[1]);
+//    Serial.println(Move[2]);
+//    Serial.println(Move[3]);
     
+    counter = 0;
     Read = 0;
     incomingByte = "";
   }
+
 }
 

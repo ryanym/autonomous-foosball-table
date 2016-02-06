@@ -11,35 +11,11 @@
 #define Z_ENABLE_PIN       8
 
 
-int val = 0; 
-
-<<<<<<< HEAD:Motor/test.ino
-void setup() {  
-=======
-#define SDPOWER            -1
-#define SDSS               53
-#define LED_PIN            13
-
-#define FAN_PIN            9
-
-#define PS_ON_PIN          12
-#define KILL_PIN           -1
-
-#define HEATER_0_PIN       10
-#define HEATER_1_PIN       8
-#define TEMP_0_PIN          13   // ANALOG NUMBERING
-#define TEMP_1_PIN          14   // ANALOG NUMBERING
-
-
-Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
-
 void setup() {
-  pinMode(FAN_PIN , OUTPUT);
-  pinMode(HEATER_0_PIN , OUTPUT);
-  pinMode(HEATER_1_PIN , OUTPUT);
-  pinMode(LED_PIN  , OUTPUT);
+  Serial.begin(9600);
+  Serial.print("RESET");
+ 
   
->>>>>>> origin/master:Motor/test/test.ino
   pinMode(X_STEP_PIN  , OUTPUT);
   pinMode(X_DIR_PIN    , OUTPUT);
   pinMode(X_ENABLE_PIN    , OUTPUT);
@@ -52,73 +28,39 @@ void setup() {
   pinMode(Z_DIR_PIN    , OUTPUT);
   pinMode(Z_ENABLE_PIN    , OUTPUT);
   
-    digitalWrite(X_ENABLE_PIN    , LOW);
-    digitalWrite(Y_ENABLE_PIN    , LOW);
-    digitalWrite(Z_ENABLE_PIN    , LOW);
+  digitalWrite(X_ENABLE_PIN    , LOW);
+  digitalWrite(Y_ENABLE_PIN    , LOW);
+  digitalWrite(Z_ENABLE_PIN    , LOW);
+}
+
+
+String steps; 
+void loop () {  
+//  while(Serial.available()) {
+//    //these delays are important so data keeps on being read
+//    delay(1);
+//    // read the incoming byte:\
+//    steps = Serial.readString ();
+//    delay(1);
+//    
+//    Serial.println(steps);  
+//  }
+//  //step(X_STEP_PIN,steps,400);
+//  //steps = 0;
 }
 
 
 
-int count=0;
-
-void loop () {
-  /*
-  val = digitalRead(X_MIN_PIN);
-
-  digitalWrite(LED_PIN, val);
-
-  
-  if(val ==0){
-  digitalWrite(X_ENABLE_PIN,HIGH);
-  }else{
-  digitalWrite(X_ENABLE_PIN, LOW);
+int step(int motor, int steps, int delay){
+  int counter = 0;
+  if(counter < steps){
+    digitalWrite(motor, HIGH);
+    delayMicroseconds(delay);
+    digitalWrite(motor, LOW);
+    delayMicroseconds(delay);
+    counter++;    
   }
-  */
-  
-  /*
-  if (millis() %1000 <500) 
-    digitalWrite(LED_PIN, HIGH);
-  else
-   digitalWrite(LED_PIN, LOW);
-  */
-  
-  
-//  if ( %10000 <5000) {
-//    digitalWrite(X_DIR_PIN    , HIGH);
-//    digitalWrite(Y_DIR_PIN    , LOW);
-//    /*
-//    digitalWrite(Z_DIR_PIN    , HIGH);
-//    digitalWrite(E_DIR_PIN    , HIGH);
-//    digitalWrite(Q_DIR_PIN    , HIGH);
-//    */
-//  }
-//  else {
-//    digitalWrite(X_DIR_PIN    , LOW);
-//    digitalWrite(Y_DIR_PIN    , HIGH);
-//    /*
-//    digitalWrite(Z_DIR_PIN    , LOW);
-//    digitalWrite(E_DIR_PIN    , LOW);
-//    digitalWrite(Q_DIR_PIN    , LOW);
-//    */
-//  }
-//  
-
-
-  //if(count<200){
-    digitalWrite(X_STEP_PIN    , HIGH);
-    digitalWrite(Y_STEP_PIN    , HIGH);
-    digitalWrite(Z_STEP_PIN    , HIGH);
-    
-    //delay(10);
-    delayMicroseconds(400);
-    
-    digitalWrite(X_STEP_PIN    , LOW);
-    digitalWrite(Y_STEP_PIN    , LOW);
-    digitalWrite(Z_STEP_PIN    , LOW);
-    delayMicroseconds(400);
-    //delay(10);
-    count++;
-  //}
-    //counter++;
-    //Serial.println(counter);
+  return 1;
 }
+
+
