@@ -1,4 +1,5 @@
 //takes in a pointer to an array which is 4 bytes long
+//linear lenghts should be in cm
 void Serial_Read(int* Move,bool* Safety){
   String incomingByte ="" ;
   
@@ -29,4 +30,6 @@ void Serial_Read(int* Move,bool* Safety){
     incomingByte = "";
   }
 }
+
+
 

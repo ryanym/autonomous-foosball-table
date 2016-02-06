@@ -26,3 +26,5 @@ void enable_pins(){
    digitalWrite(Q_ENABLE_PIN    , LOW);
   
 }
+
+

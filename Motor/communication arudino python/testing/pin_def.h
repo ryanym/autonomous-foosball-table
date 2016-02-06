@@ -37,3 +37,5 @@
 #define HEATER_1_PIN       8
 #define TEMP_0_PIN          13   // ANALOG NUMBERING
 #define TEMP_1_PIN          14   // ANALOG NUMBERING
+
+
