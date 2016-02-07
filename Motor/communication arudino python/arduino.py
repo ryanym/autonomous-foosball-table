@@ -31,7 +31,10 @@ def R(data_write):
     #important to close
     serARD.close()
 
-a = [200,200,200,200,'t']
+p2 = [200,1100,200,200,'t']
+n2 = [-200,1100,200,200,'t']
+p1 = [100,1100,200,200,'t']
+n1 = [-100,1100,200,200,'t']
 #only works with 5 valuess as the Arduino is expecting 4 integers and one chara
 #@parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
 #ex [1,2,3,4,t]
@@ -55,9 +58,9 @@ def R2(x):
     serARD.write(str_send);
     
     #readinf data and printing it
-    # data = serARD.read(20);
-    # #data = serARD.read(len(str(data_write))+1);
-    # print data
+    data = serARD.read(20);
+    #data = serARD.read(len(str(data_write))+1);
+    print data
 
     #important to close
     serARD.close()

@@ -11,7 +11,7 @@
 #define Z_DIR_PIN          7
 #define Z_ENABLE_PIN       8
 
-#include "pin_def.h"
+//#include "pin_def.h"
 /*The data to be sent should be comma delimited ex 4,5,6,7, the last comma is importatnt as well
  * When changing the number of receivevd varaibles make sure you change on the PC side
  * Program currently configred to do stuff with 4 vairables
@@ -41,14 +41,14 @@ bool Safety = false;
 
 int num_receive = 5;
 int Read = 0 ;                            //to signify if anything has entered serial
-bool Safety = false;                     //need to be true if shit happens and system needs to stop
+//bool Safety = false;                     //need to be true if shit happens and system needs to stop
 
 //motor
 int linear_steps = 200;                  //steps/rev for linear motors
 int rotational_steps = 200;              //steps /rev for rotational motor
 int motor_delay = 10;                    //in microseconds  between setting motor pin high and low
 int motor_pins[4] = {0,0,0,0};           //the motors pins which are set high and low to force motor movement
-int Move[4] = {0,0,0,0};                 //actual lenghts and angles to move
+//int Move[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
 int polarity_pins[4] = {0,0,0,0};        //for clockwise or anticlockwise rotation
@@ -97,7 +97,9 @@ void setup() {
 void loop() {
   
   Serial_Read(Move,&Safety);
-  step(X_STEP_PIN,Move[0],1000);
+ 
+   step(X_STEP_PIN,Move[0],1000);
+   step(Z_STEP_PIN,Move[1],1000);
   
   //funciton in move motor doc
   //convert_to_steps(steps_to_move,Move,motor_current);
@@ -105,12 +107,21 @@ void loop() {
 
 }
 
-int step(int motor, int steps, int delay){
-  if(counter < steps){
+int step(int motor, int steps, int deltaT){
+  if(motor == X_STEP_PIN ){
+    if(steps < 1){  
+      digitalWrite(X_DIR_PIN, LOW);
+      steps = -steps;
+    }
+    else{
+      digitalWrite(X_DIR_PIN, HIGH);
+    }
+  }
+  while(counter < steps){
     digitalWrite(motor, HIGH);
-    delayMicroseconds(delay);
+    delayMicroseconds(deltaT);
     digitalWrite(motor, LOW);
-    delayMicroseconds(delay);
+    delayMicroseconds(deltaT);
     counter++;    
   }
   return 1;
