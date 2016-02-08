@@ -14,7 +14,7 @@ def array_to_string(x):
 
 def R(data_write):
     
-    serARD = serial.Serial(port='/dev/cu.usbmodem1421', baudrate=9600);
+    serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
     #printing the serial port conencted to
     print serARD.name
 
@@ -42,7 +42,7 @@ def R2(x):
     #array to be sent
     #x=[3,4,5,6]
     #turning on serial
-    serARD = serial.Serial(port='/dev/cu.usbmodem1421', baudrate=9600);
+    serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
     
     #printing the serial port conencted to
     print serARD.name
@@ -64,6 +64,15 @@ def R2(x):
 
     #important to close
     serARD.close()
+
+for i in range(10):
+    R2(n1)
+    time.sleep(1)
+    R2(p1)
+    time.sleep(1)
+
+
+
             
 
     

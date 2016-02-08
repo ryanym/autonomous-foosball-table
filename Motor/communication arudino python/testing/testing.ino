@@ -98,12 +98,30 @@ void loop() {
   
   Serial_Read(Move,&Safety);
  
-   step(X_STEP_PIN,Move[0],1000);
-   step(Z_STEP_PIN,Move[1],1000);
+   //step(X_STEP_PIN,Move[0],800);
+  // step(Z_STEP_PIN,Move[1],800);
   
   //funciton in move motor doc
   //convert_to_steps(steps_to_move,Move,motor_current);
   //move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
+  int  steps = Move[0];
+  
+  if(steps < 1){  
+    digitalWrite(X_DIR_PIN, LOW);
+    steps = -steps;
+  }
+  else{
+    digitalWrite(X_DIR_PIN, HIGH);
+  }
+  if(counter < steps){
+    digitalWrite(X_STEP_PIN, HIGH);
+    digitalWrite(Z_STEP_PIN, HIGH);
+    delayMicroseconds(1000);
+    digitalWrite(X_STEP_PIN, LOW);
+    digitalWrite(Z_STEP_PIN, LOW);
+    delayMicroseconds(1000);
+    counter++;    
+  }
 
 }
 
@@ -117,7 +135,7 @@ int step(int motor, int steps, int deltaT){
       digitalWrite(X_DIR_PIN, HIGH);
     }
   }
-  while(counter < steps){
+  if(counter < steps){
     digitalWrite(motor, HIGH);
     delayMicroseconds(deltaT);
     digitalWrite(motor, LOW);
