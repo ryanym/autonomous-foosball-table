@@ -18,14 +18,18 @@
 bool Safety = false;
  
 //number of data to be received
-int num_receive = 5;
+int num_receive = 8;
 int Read = 0 ;                            //to signify if anything has entered serial
 //bool Safety = false;                     //need to be true if shit happens and system needs to stop
 
 //motor
 int linear_steps = 200;                  //steps/rev for linear motors
 int rotational_steps = 200;              //steps /rev for rotational motor
-int motor_delay = 2000;                    //in microseconds  between setting motor pin high and low
+
+int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
+int after_motor_delay = 100;
+int polarity_delay = 1500;
+
 int motor_pins[4] = {X_STEP_PIN  ,Z_STEP_PIN  ,Y_STEP_PIN  ,E_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
 int Move[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors

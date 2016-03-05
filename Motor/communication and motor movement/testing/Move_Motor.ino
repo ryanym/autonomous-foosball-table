@@ -36,7 +36,7 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
    }
    
    //delay for polarity change
-   delayMicroseconds(2000);
+   delayMicroseconds(polarity_delay);
    
 
   //turn voltage high and low to drive the stepper motor
@@ -60,6 +60,8 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
         motor_current[j] = motor_current[j] + polarity[j];
         }
      }
+
+    delayMicroseconds(after_motor_delay);
   }
   Serial.println("coutners");
 }

@@ -31,11 +31,17 @@ def R(data_write):
 
     #important to close
     serARD.close()
+#[row1 linear,row 1 rotaion,row2 linear,row2 rotation,safdty,motor delay,
+    # ,after motor delay,polarity delay]
 
+motor_delay = 825;
+after_delay = 500;
+polarity_delay = 1000;
+time_sleep = 0.3
 #p2 = [200,1100,200,200,'t']
 #n2 = [-200,1100,200,200,'t']
-#p1 = [100,1100,200,200,'t']
-n1 = [2,10,2,2,'t']
+p1 = [6,0,6,0,'t',motor_delay,after_delay,polarity_delay]
+n1 = [2,0,2,0,'t',motor_delay,after_delay,polarity_delay]
 
 #only works with 5 valuess as the Arduino is expecting 4 integers and one chara
 #@parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
@@ -61,19 +67,19 @@ def R2(x):
     serARD.write(str_send);
     
     #readinf data and printing it
-    data = serARD.read(2);
+    #data = serARD.read(2);
     #data = serARD.read(len(str(data_write))+1);
     print data
 
     #important to close
     serARD.close()
+    
+for i in range(10):
 
-#for i in range(10):
-
-    #R2(n1)
-    #time.sleep(1)
-    #R2(p1)
-    #time.sleep(1)
+    R2(n1)
+    time.sleep(time_sleep)
+    R2(p1)
+    time.sleep(time_sleep)
 
 
 

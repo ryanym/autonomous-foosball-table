@@ -26,7 +26,19 @@ void separate_into_array(String incomingByte,int* Move,bool* Safety){
                 *Safety = false;
                 }
             }
-              
+//TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+            if(move_array_count == 5){
+               motor_delay = append.toInt();
+            }
+            
+            if(move_array_count == 6){
+               after_motor_delay = append.toInt();
+            }
+            
+            if(move_array_count == 7){
+               polarity_delay = append.toInt();
+            }
+//TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP 
             //Increment counters and reset append string
             move_array_count++;  
             string_counter++;
