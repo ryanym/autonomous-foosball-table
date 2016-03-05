@@ -12,11 +12,11 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
   int polarity[4] = {0,0,0,0};
   
   
-   //determing maximum value
+  //determing maximum value
   max_steps = get_max_val(steps);
 
   //determine poalrity of signals
-  for(j=0;j<3;j++){
+  for(j=0;j<4;j++){
      if(steps[j]<0){
       //counter clockwise
 
@@ -30,14 +30,20 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
       digitalWrite(polarity_pins[j], LOW);
       polarity[j] = clockwise;
       }
+      Serial.println("Polarity");
+      Serial.println(polarity[j]);
+      
    }
+   
+   //delay for polarity change
+   delayMicroseconds(2000);
    
 
   //turn voltage high and low to drive the stepper motor
-  for(i=0;i<=max_steps;i++){
+  for(i=0;i<max_steps;i++){
     //turning HIGH
-    for(j=0;j<3;j++){
-      if(steps[j]<i){
+    for(j=0;j<4;j++){
+      if(abs(steps[j])>i){
         //turn on specific motor  PI
         digitalWrite(motor_pins[j], HIGH);
         }   
@@ -46,28 +52,37 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
     delayMicroseconds(motor_delay);
     
      //turning LOW
-    for(j=0;j<3;j++){
-      if(steps[j]<i){
+    for(j=0;j<4;j++){
+      if(abs(steps[j])>i){
         //turn off specific motor PIN
-        //increment value of steps
+        //increment/decrement value of steps
         digitalWrite(motor_pins[j], LOW);
         motor_current[j] = motor_current[j] + polarity[j];
         }
      }
   }
-
-  //0 ing all the movements so movements do not repeat
-  for(i=0;i<4;i++){
-    Move[i] = 0;
-  }
+  Serial.println("coutners");
 }
 
 //===========================================================================
 void convert_to_steps(int* steps_to_move,int* lengths_angles,int* motor_current){
-  int i = 0 ;
-  for(i=0;i<4;i++){
-    steps_to_move[i] = length_to_steps(lengths_angles[i],motor_current[i]);
-  }
+  
+  steps_to_move[0] = length_to_steps(lengths_angles[0],motor_current[0]);
+  steps_to_move[1] = angle_to_steps(lengths_angles[1],motor_current[1]);
+  steps_to_move[2] = length_to_steps(lengths_angles[2],motor_current[2]);
+  steps_to_move[3] = angle_to_steps(lengths_angles[3],motor_current[3]);
+
+  Serial.println("Motor current");
+  Serial.println(motor_current[0]);
+  Serial.println(motor_current[1]);
+  Serial.println(motor_current[2]);
+  Serial.println(motor_current[3]);
+
+  Serial.println("steps to move");
+  Serial.println(steps_to_move[0]);
+  Serial.println(steps_to_move[1]);
+  Serial.println(steps_to_move[2]);
+  Serial.println(steps_to_move[3]);  
  }
 //========================================================================
 int get_max_val(int* steps){
@@ -76,8 +91,8 @@ int get_max_val(int* steps){
   
   max_steps = steps[0];
   for(i=0;i<4;i++){
-    if(steps[i] > max_steps){
-      max_steps = steps[i];
+    if(abs(steps[i]) > max_steps){
+      max_steps = abs(steps[i]);
       }
     }
   return(max_steps);

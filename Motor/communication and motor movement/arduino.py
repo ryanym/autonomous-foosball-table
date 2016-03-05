@@ -14,7 +14,8 @@ def array_to_string(x):
 
 def R(data_write):
     
-    serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
+    #serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
+    serARD = serial.Serial(17, 9600);
     #printing the serial port conencted to
     print serARD.name
 
@@ -25,16 +26,17 @@ def R(data_write):
     serARD.write(str(data_write));
     
     #readinf data and printing it
-    data = serARD.read(len(str(data_write))+1);
-    print data
+    #data = serARD.read(len(str(data_write))+1);
+    #print data
 
     #important to close
     serARD.close()
 
-p2 = [200,1100,200,200,'t']
-n2 = [-200,1100,200,200,'t']
-p1 = [100,1100,200,200,'t']
-n1 = [-100,1100,200,200,'t']
+#p2 = [200,1100,200,200,'t']
+#n2 = [-200,1100,200,200,'t']
+#p1 = [100,1100,200,200,'t']
+n1 = [2,10,2,2,'t']
+
 #only works with 5 valuess as the Arduino is expecting 4 integers and one chara
 #@parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
 #ex [1,2,3,4,t]
@@ -42,8 +44,9 @@ def R2(x):
     #array to be sent
     #x=[3,4,5,6]
     #turning on serial
-    serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    
+    #serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
+    COM_Port = 18;
+    serARD = serial.Serial((COM_Port-1), 9600);
     #printing the serial port conencted to
     print serARD.name
 
@@ -58,18 +61,19 @@ def R2(x):
     serARD.write(str_send);
     
     #readinf data and printing it
-    data = serARD.read(20);
+    data = serARD.read(2);
     #data = serARD.read(len(str(data_write))+1);
     print data
 
     #important to close
     serARD.close()
 
-for i in range(10):
-    R2(n1)
-    time.sleep(1)
-    R2(p1)
-    time.sleep(1)
+#for i in range(10):
+
+    #R2(n1)
+    #time.sleep(1)
+    #R2(p1)
+    #time.sleep(1)
 
 
 
