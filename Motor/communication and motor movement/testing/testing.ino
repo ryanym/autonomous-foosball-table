@@ -26,6 +26,7 @@ int Read = 0 ;                            //to signify if anything has entered s
 int linear_steps = 200;                  //steps/rev for linear motors
 int rotational_steps = 200;              //steps /rev for rotational motor
 
+//moor delays also used for homing
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
 int after_motor_delay = 100;
 int polarity_delay = 1500;
@@ -47,20 +48,39 @@ int counter = 0;
 //Serial read confirmed. So movement funcitons only run when needed to
 bool serial_read = false; 
 
+//sensor pins 
+int sensor_pins[4] = {X_MIN_PIN,0,X_MAX_PIN,0};
+
 void setup() {
   // put your setup code here, to run once:
   enable_pins();
+  delay(100);
+  
   Serial.begin(9600);
   Serial.print("RESET");
-
+  homing(motor_current);
   //so motors do not urn more than they are supposed ot. FOr rotational there are no consideraitons
   //for linear it should notgo beyond 8.5 cm. This limit should be set in the PC stage as motor controller will not be aware of it
+
 }
 
 
 
 
 void loop() {
+  if(digitalRead(X_MIN_PIN)){
+    digitalWrite(LED_PIN,HIGH);
+  }else{
+    digitalWrite(LED_PIN,LOW);
+  }
+  Serial.println("analogRead");
+  Serial.print(digitalRead(X_MIN_PIN));
+  Serial.print("  ");
+  Serial.print(digitalRead(X_MAX_PIN));
+ 
+
+  
+  delayMicroseconds(1);
   
   Serial_Read(Move,&Safety);
  
