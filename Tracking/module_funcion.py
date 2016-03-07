@@ -1,136 +1,3 @@
-'''#Image Processing
-def ImageProcessing(camera_frame):
-    dst = cv2.filter2D(camera_frame,-1,kernel)
-    hsv_frame = cv2.cvtColor(dst, cv2.COLOR_BGR2HSV)
-    return hsv_frame
-
-#Ball Detection
-def BallDetection(hsv_frame):
-    lowerb = np.array([LOWER_H,LOWER_S,LOWER_V])
-    upperb = np.array([UPPER_H,UPPER_S,UPPER_V])
-    dest_image = cv2.inRange(hsv_frame, lowerb, upperb)
-    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
-    dilate = cv2.dilate(dest_image,ERROR_FILTER_DIL,1)
-    cv2.imshow("Ball",dilate)
-    asfdas,contours,hierarchy = cv2.findContours(dilate, 1, 2)
-    findBall = False
-    radiusMax = 4
-    m_ball_x = -1
-    m_ball_y = -1
-    ballCenter = (-1,-1)
-    if len(contours) >0:
-        for cnt in contours:
-            (x,y),radius = cv2.minEnclosingCircle(cnt)
-            center = (int(x),int(y))
-            radius = int(radius)
-            if radius >4 and radius <10:
-                findBall = True
-                if radius > radiusMax:
-                    radiusMax = radius
-                    ballCenter = center
-                    m_ball_x = int(x)
-                    m_ball_y = int(y)
-        if findBall == False:
-            print 'Ball not shown'
-        else:
-            print ballCenter
-            cv2.circle(frame,ballCenter,radiusMax,(0,255,0),2)      
-    else:
-        print 'undetected'
-
-    m_ball_found = findBall
-    return (m_ball_x,m_ball_y,m_ball_found)
-    
-
-
-#Foosman Detection 
-def FoosmanDetection(hsv_frame):
-    first_fil_img = cv2.inRange(hsv_frame, ROB_LOWHSV, ROB_UPPHSV)
-    dilate = cv2.dilate(first_fil_img,REC_ERROR_FILTER_DIL,1)
-    cv2.imshow("Robot Image",dilate)
-    asfdas,contours,hierarchy = cv2.findContours(dilate, 1, 2)
-    detectRec(contours,frame)
-
-    #unfinished
-    if len(contours) >0:
-        for cnt in contours:
-            x,y,w,h = cv2.boundingRect(cnt)
-            if(w<10 or h<16 ): continue
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
-            recCenter=(int(x+w/2),int(y+h/2))
-            #cv2.circle(fram,recCenter,(255,0,0),3,3)
-            print recCenter
-    else:
-        print 'undetected'
-
-'''
-########################################
-def SetupCam():
-    CAM_ID = 1
-    CAM_WIDTH = 320
-    CAM_HEIGHT = 240
-    CAM_FPS = 90
-    cap = cv2.VideoCapture(CAM_ID)
-    if(cap.isOpened()):
-        cap.set(3,CAM_WIDTH)
-        cap.set(4,CAM_HEIGHT)
-        cap.set(5,CAM_FPS)
-        return True
-    else:
-        return False
-
-
-########################################
-def getHSV():
-    ret, frame = cap.read()
-    cv2.imshow('foolcapture',frame)
-    dst = cv2.filter2D(frame,-1,kernel)
-    frame_field = frame[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
-    hsv = cv2.cvtColor(dst, cv2.COLOR_BGR2HSV)
-    '''
-    hsv_edge = [None,None,None,None]
-    hsv_edge[0] = hsv[0:EDGE_Y_MIN,0:CAM_WIDTH]
-    hsv_edge[1] = hsv[EDGE_Y_MAX:CAM_HEIGHT,0:CAM_WIDTH]
-    hsv_edge[2] = hsv[0:CAM_HEIGHT,0:EDGE_X_MIN]
-    hsv_edge[3] = hsv[0:CAM_HEIGHT,EDGE_X_MAX:CAM_WIDTH]
-    '''
-    hsv_edge = hsv[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
-    return hsv_edge
-#######################################
-def getBallPosition(hsv):
-    dest_image = cv2.inRange(hsv, lowerb, upperb)
-    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
-    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
-    cv2.imshow("Ball",dilate)
-    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
-    ball_found = False
-    ball_radius_max = 4
-    ball_center = (-1,-1)
-    if len(contours) >0:
-        for cnt in contours:
-            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
-            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
-                ball_found = True
-                if tmp_radius > ball_radius_max:
-                    ball_radius_max = tmp_radius
-                    ball_cur = (x,y)  
-        if ball_found == False :
-            #print 'Ball not found'
-            ball_pre = (-1,-1)
-            ball_cur = (-1,-1)
-            return (-1,-1,False)
-        else:
-            if ball_pre[0] >0 and ball_cur[0] >0:
-                print 'preBall ',center_ftoi(ball_pre),'currentBall ',center_ftoi(ball_cur)
-                ball_path = find_ball_path(ball_cur,ball_pre)
-                #print ball_path
-                for line in ball_path:
-                    cv2.line(frame_field,center_ftoi(line[0]),center_ftoi(line[1]),(255,0,0),2,8,0)
-                #cv2.line(frame,center_ftoi(ball_cur),center_ftoi((ball_cur[0]+(ball_cur[0]-ball_pre[0])*40,ball_cur[1]+(ball_cur[1]-ball_pre[1])*40)),(0,255,0),2,8,0)
-            ball_pre = ball_cur
-            cv2.circle(frame_field,center_ftoi(ball_cur),int(ball_radius_max),(255,0,0),2)
-
-    return (ball_cur[0],ball_cur[1],ball_found)
 
 ########################################################
 def foosmen_location(foosmen):
@@ -195,6 +62,75 @@ def getRowPosition(hsv):
      #NOT FINISHED, unclear middle position in foosmen_location
 
 ########################################
+
+def SetupCam():
+    CAM_ID = 1
+    CAM_WIDTH = 320
+    CAM_HEIGHT = 240
+    CAM_FPS = 90
+    cap = cv2.VideoCapture(CAM_ID)
+    if(cap.isOpened()):
+        cap.set(3,CAM_WIDTH)
+        cap.set(4,CAM_HEIGHT)
+        cap.set(5,CAM_FPS)
+        return (True,cap)
+    else:
+        return (False,cap)
+
+def getHSV(cap):
+    ret, frame = cap.read()
+    cv2.imshow('foolcapture',frame)
+    dst = cv2.filter2D(frame,-1,kernel)
+    frame_field = frame[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
+    hsv = cv2.cvtColor(dst, cv2.COLOR_BGR2HSV)
+    '''
+    hsv_edge = [None,None,None,None]
+    hsv_edge[0] = hsv[0:EDGE_Y_MIN,0:CAM_WIDTH]
+    hsv_edge[1] = hsv[EDGE_Y_MAX:CAM_HEIGHT,0:CAM_WIDTH]
+    hsv_edge[2] = hsv[0:CAM_HEIGHT,0:EDGE_X_MIN]
+    hsv_edge[3] = hsv[0:CAM_HEIGHT,EDGE_X_MAX:CAM_WIDTH]
+    '''
+    hsv_edge = hsv[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
+    return hsv_edge,frame_field
+
+
+def getBallPosition(hsv):
+    dest_image = cv2.inRange(hsv, lowerb, upperb)
+    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
+    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+    cv2.imshow("Ball",dilate)
+    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
+    ball_found = False
+    ball_pre = (-1,-1)
+    ball_cur = (-1,-1)
+    ball_radius_max = 4
+    ball_center = (-1,-1)
+    if len(contours) >0:
+        for cnt in contours:
+            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
+            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
+                ball_found = True
+                if tmp_radius > ball_radius_max:
+                    ball_radius_max = tmp_radius
+                    ball_cur = (x,y)  
+        if ball_found == False :
+            #print 'Ball not found'
+            
+            return (-1,-1,False)
+        else:
+            if ball_pre[0] >0 and ball_cur[0] >0:
+                print 'preBall ',center_ftoi(ball_pre),'currentBall ',center_ftoi(ball_cur)
+                ball_path = find_ball_path(ball_cur,ball_pre)
+                #print ball_path
+                #for line in ball_path:
+                    #cv2.line(frame_field,center_ftoi(line[0]),center_ftoi(line[1]),(255,0,0),2,8,0)
+                #cv2.line(frame,center_ftoi(ball_cur),center_ftoi((ball_cur[0]+(ball_cur[0]-ball_pre[0])*40,ball_cur[1]+(ball_cur[1]-ball_pre[1])*40)),(0,255,0),2,8,0)
+            ball_pre = ball_cur
+            #cv2.circle(frame_field,center_ftoi(ball_cur),int(ball_radius_max),(255,0,0),2)
+
+    return (ball_cur[0],ball_cur[1],ball_found)
+
+
 def getUnknown(hsv):
      #0,1 compare with x-axis; 2,3 compare with y-axis
     #return true when unknown detected, else false
@@ -244,8 +180,10 @@ def getUnknown(hsv):
             if  edge_cover['y']> EDGE_Y_MIN or edge_cover['y']+edge_cover['h']< EDGE_Y_MAX:
                 return True
     return False
-####################################
+
+
 def getGoal(hsv):
+    ball_radius_max = 4
     goalR_goalU=(False,False)
     goal_user_area = hsv[GOAL_USER[2]:GOAL_USER[3],GOAL_USER[0]:GOAL_USER[1]]
     goal_rob_area = hsv[GOAL_ROB[2]:GOAL_ROB[3],GOAL_ROB[0]:GOAL_ROB[1]]
@@ -281,15 +219,12 @@ def getGoal(hsv):
     if  rob_ball_radius_max==user_ball_radius_max or (rob_ball_radius_max ==4 and user_ball_radius_max == 4): 
         return goalR_goalU
     if rob_ball_radius_max> user_ball_radius_max: 
-        goalR_goalU[0]=True
+        goalR_goalU=[True,False]
         return goalR_goalU
     if rob_ball_radius_max< user_ball_radius_max: 
-        goalR_goalU[1]=True
+        goalR_goalU=[False,True]
         return goalR_goalU
         
-
-
-
     
     
     
