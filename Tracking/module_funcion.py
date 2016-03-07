@@ -1,4 +1,4 @@
-#Image Processing
+'''#Image Processing
 def ImageProcessing(camera_frame):
     dst = cv2.filter2D(camera_frame,-1,kernel)
     hsv_frame = cv2.cvtColor(dst, cv2.COLOR_BGR2HSV)
@@ -63,7 +63,7 @@ def FoosmanDetection(hsv_frame):
     else:
         print 'undetected'
 
-
+'''
 ########################################
 def SetupCam():
     CAM_ID = 1
