@@ -31,11 +31,11 @@ int motor_delay = 1000;                    //in microseconds  between setting mo
 int after_motor_delay = 100;
 int polarity_delay = 1500;
 
-int motor_pins[4] = {X_STEP_PIN  ,Z_STEP_PIN  ,Y_STEP_PIN  ,E_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
+int motor_pins[4] = {X_STEP_PIN  ,E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
 int Move[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
-int polarity_pins[4] = {X_DIR_PIN,Z_DIR_PIN,Y_DIR_PIN,E_DIR_PIN};        //for clockwise or anticlockwise rotation
+int polarity_pins[4] = {X_DIR_PIN,E_DIR_PIN,Y_DIR_PIN,Q_DIR_PIN};        //for clockwise or anticlockwise rotation
 
 //linear Gear
 int num_teeth = 30;                              //num of teeth on rotaional gear for linear tranlation
@@ -58,7 +58,7 @@ void setup() {
   
   Serial.begin(9600);
   Serial.print("RESET");
-  homing(motor_current);
+  //homing(motor_current);
   //so motors do not urn more than they are supposed ot. FOr rotational there are no consideraitons
   //for linear it should notgo beyond 8.5 cm. This limit should be set in the PC stage as motor controller will not be aware of it
 
@@ -68,17 +68,6 @@ void setup() {
 
 
 void loop() {
-  if(digitalRead(X_MIN_PIN)){
-    digitalWrite(LED_PIN,HIGH);
-  }else{
-    digitalWrite(LED_PIN,LOW);
-  }
-  Serial.println("analogRead");
-  Serial.print(digitalRead(X_MIN_PIN));
-  Serial.print("  ");
-  Serial.print(digitalRead(X_MAX_PIN));
- 
-
   
   delayMicroseconds(1);
   
@@ -94,30 +83,6 @@ void loop() {
     move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
     serial_read = false;
   }
-  
-/*  int  steps = Move[0];
-  
-  if(steps < 1){  
-    digitalWrite(X_DIR_PIN, LOW);
-    digitalWrite(Z_DIR_PIN, LOW);
-    steps = -steps;
-  }
-  else{
-    digitalWrite(X_DIR_PIN, HIGH);
-    digitalWrite(Z_DIR_PIN, HIGH);
-  }
-
-  
-  if(counter < steps){
-    digitalWrite(X_STEP_PIN, HIGH);
-    digitalWrite(Z_STEP_PIN, HIGH);
-    delayMicroseconds(1000);
-    digitalWrite(X_STEP_PIN, LOW);
-    digitalWrite(Z_STEP_PIN, LOW);
-    delayMicroseconds(1000);
-    counter++;    
-  }
-*/
 }
 
 int step(int motor, int steps, int deltaT){

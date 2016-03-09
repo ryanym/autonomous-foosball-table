@@ -34,14 +34,20 @@ def R(data_write):
 #[row1 linear,row 1 rotaion,row2 linear,row2 rotation,safdty,motor delay,
     # ,after motor delay,polarity delay]
 
-motor_delay = 825;
+#825,500,1000,0.3 for linear
+#1000,950,1000,0.3 for rotaioanal
+motor_delay = 800;
 after_delay = 500;
 polarity_delay = 1000;
-time_sleep = 0.3
+time_sleep = 0.1;
 #p2 = [200,1100,200,200,'t']
 #n2 = [-200,1100,200,200,'t']
-p1 = [6,0,6,0,'t',motor_delay,after_delay,polarity_delay]
-n1 = [2,0,2,0,'t',motor_delay,after_delay,polarity_delay]
+l1 = [7,0,0,0,'t',motor_delay,after_delay,polarity_delay]
+l2 = [2,0,0,0,'t',motor_delay,after_delay,polarity_delay]
+r1 = [1,0,1,0,'t',motor_delay,after_delay,polarity_delay]
+r2 = [4,0,4,0,'t',motor_delay,after_delay,polarity_delay]
+
+home = [0,0,0,0,'t',motor_delay,after_delay,polarity_delay]
 
 #only works with 5 valuess as the Arduino is expecting 4 integers and one chara
 #@parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
@@ -74,15 +80,19 @@ def R2(x):
     #important to close
     serARD.close()
     
-for i in range(10):
-
-    R2(n1)
+for i in range(5):
+    R2(r1)
     time.sleep(time_sleep)
-    R2(p1)
+    R2(r2)
     time.sleep(time_sleep)
 
 
-
+#R2(r1);
+#print( "R2");
+#time.sleep(time_sleep)
+#R2(l2);
+#time.sleep(time_sleep)
+R2(home);
             
 
     

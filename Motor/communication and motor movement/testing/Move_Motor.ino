@@ -61,6 +61,7 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
         }
      }
 
+    //check for serial
     delayMicroseconds(after_motor_delay);
   }
 }
