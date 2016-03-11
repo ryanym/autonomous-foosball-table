@@ -19,20 +19,20 @@ void homing(int* motor_current){
      
       if(digitalRead(sensor_pins[j])){
         //turn on specific motor  PI
-        digitalWrite(motor_pins[j], HIGH);
+        digitalWrite(motor_control_pins[j], HIGH);
         }   
      }
 
-    delayMicroseconds(motor_delay+1000);
+    delayMicroseconds(homing_delay);
     
      //turning LOW
     for(j=0;j<4;j+=2){
       if(digitalRead(sensor_pins[j])){
-        digitalWrite(motor_pins[j], LOW);
+        digitalWrite(motor_control_pins[j], LOW);
        }
      }
 
-     delayMicroseconds(after_motor_delay+10);
+     delayMicroseconds(homing_delay);
   }
 
     

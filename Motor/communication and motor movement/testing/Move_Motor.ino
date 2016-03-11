@@ -10,7 +10,9 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
   int i,max_steps,j = 0 ;
   int steps[4] = { r1_l , r1_r , r2_l , r2_r };
   int polarity[4] = {0,0,0,0};
-  
+
+  /* clearing the mid read flag */
+  mid_serial_read = false;
   
   //determing maximum value
   max_steps = get_max_val(steps);
@@ -32,7 +34,6 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
       }
       Serial.println("Polarity");
       Serial.println(polarity[j]);
-      
    }
    
    //delay for polarity change
@@ -41,27 +42,38 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
 
   //turn voltage high and low to drive the stepper motor
   for(i=0;i<max_steps;i++){
-    //turning HIGH
+    /* turning pins HIGH */
     for(j=0;j<4;j++){
       if(abs(steps[j])>i){
-        //turn on specific motor  PI
-        digitalWrite(motor_pins[j], HIGH);
+        //turn on specific motor  PIN
+        digitalWrite(motor_control_pins[j], HIGH);
         }   
      }
 
-    delayMicroseconds(motor_delay);
+     /* Check Serial and delay */
+    if(Serial.available() > 0){
+      Serial_Read(Lengths_Angles,&Safety);
+      mid_serial_read = true;
+     }
+     else{
+      delayMicroseconds(motor_delay);       
+     }
     
-     //turning LOW
+     /* turning pins LOW */
     for(j=0;j<4;j++){
       if(abs(steps[j])>i){
         //turn off specific motor PIN
         //increment/decrement value of steps
-        digitalWrite(motor_pins[j], LOW);
+        digitalWrite(motor_control_pins[j], LOW);
         motor_current[j] = motor_current[j] + polarity[j];
         }
      }
 
-    //check for serial
+    /* if flag raised break from loop */
+    if(mid_serial_read == true){
+      break;
+      }
+      
     delayMicroseconds(after_motor_delay);
   }
 }
