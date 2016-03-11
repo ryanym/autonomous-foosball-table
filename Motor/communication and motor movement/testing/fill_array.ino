@@ -1,9 +1,9 @@
-void separate_into_array(String incomingByte,int* Move,bool* Safety){
+void separate_into_array(String incomingByte,int* lengths_angles,bool* safety){
   
   int i = 0 ; 
   int j = 0 ;
   int string_counter = 0;
-  int move_array_count = 0;
+  int array_count = 0;
   String append = "";
   
     for(i=0;i<num_receive;i++){
@@ -12,35 +12,35 @@ void separate_into_array(String incomingByte,int* Move,bool* Safety){
           if(incomingByte[string_counter] == ','){
          
             //convert to integer add to move array
-            if(move_array_count<4){
-              Move[move_array_count] = 0;
-              Move[move_array_count] = append.toInt();
+            if(array_count<4){
+              lengths_angles[array_count] = 0;
+              lengths_angles[array_count] = append.toInt();
                          
             }
 
-            if(move_array_count == 4){
+            if(array_count == 4){
               if(append[0] == 't'){
-                *Safety = true;
+                *safety = true;
                 }
               else if(append[0] == 'f'){
-                *Safety = false;
+                *safety = false;
                 }
             }
 //TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-            if(move_array_count == 5){
+            if(array_count == 5){
                motor_delay = append.toInt();
             }
             
-            if(move_array_count == 6){
+            if(array_count == 6){
                after_motor_delay = append.toInt();
             }
             
-            if(move_array_count == 7){
+            if(array_count == 7){
                polarity_delay = append.toInt();
             }
 //TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP 
             //Increment counters and reset append string
-            move_array_count++;  
+            array_count++;  
             string_counter++;
             append="";
             break;

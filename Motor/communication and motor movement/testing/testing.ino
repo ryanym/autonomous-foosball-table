@@ -13,7 +13,7 @@
 max size is 32767 for each integer...do not go above this limit*/
 
 /* Safety is false but turns true if system needs to stop */
-bool Safety = false;
+bool safety = false;
  
 /* number of data to be received */
 int num_receive = 8;
@@ -40,7 +40,7 @@ int polarity_pins[4] = {X_DIR_PIN,E_DIR_PIN,Y_DIR_PIN,Q_DIR_PIN};        //for c
 int sensor_pins[4] = {X_MIN_PIN,0,X_MAX_PIN,0};
 
 /* arrays actively manipualted */
-int Lengths_Angles[4] = {0,0,0,0};                 //actual lenghts and angles to move
+int lengths_angles[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
 
@@ -69,11 +69,11 @@ void loop() {
   //delayMicroseconds(1);
 
   /* Check if serial data avaible */
-  Serial_Read(Lengths_Angles,&Safety);
+  Serial_Read(lengths_angles,&safety);
 
   //funciton in move motor doc
   if(serial_read == true || mid_serial_read == true){
-    convert_to_steps(steps_to_move,Lengths_Angles,motor_current);
+    convert_to_steps(steps_to_move,lengths_angles,motor_current);
     move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
     serial_read = false;
   }

@@ -1,6 +1,6 @@
 //takes in a pointer to an array which is 4 bytes long
 //linear lenghts should be in cm
-void Serial_Read(int* Lengths_Angles,bool* Safety){
+void Serial_Read(int* lengths_angles,bool* safety){
   String incomingByte ="" ;
   
   while(Serial.available() > 0) {
@@ -22,13 +22,13 @@ void Serial_Read(int* Lengths_Angles,bool* Safety){
   if(Read  == 1){
     
     //printing array after and fills the Move array with the 4 received integers
-    separate_into_array(incomingByte,Lengths_Angles,Safety);
+    separate_into_array(incomingByte,lengths_angles,safety);
 
     //sending data back
-    Serial.println(Lengths_Angles[0]);
-    Serial.println(Lengths_Angles[1]);
-    Serial.println(Lengths_Angles[2]);
-    Serial.println(Lengths_Angles[3]);
+    Serial.println(lengths_angles[0]);
+    Serial.println(lengths_angles[1]);
+    Serial.println(lengths_angles[2]);
+    Serial.println(lengths_angles[3]);
     
   
     Read = 0;
