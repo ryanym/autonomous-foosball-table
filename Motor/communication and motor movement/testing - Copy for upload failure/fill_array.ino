@@ -27,7 +27,6 @@ void separate_into_array(String incomingByte,int* lengths_angles,bool* safety){
                 }
             }
 //TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-
             if(array_count == 5){
                motor_delay = append.toInt();
             }
@@ -39,7 +38,6 @@ void separate_into_array(String incomingByte,int* lengths_angles,bool* safety){
             if(array_count == 7){
                polarity_delay = append.toInt();
             }
-            
 //TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP 
             //Increment counters and reset append string
             array_count++;  

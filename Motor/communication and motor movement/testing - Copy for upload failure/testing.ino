@@ -18,7 +18,7 @@ bool safety = false;
 /* number of data to be received */
 int num_receive = 8;
 int Read = 0 ;                            //to signify if anything has entered serial   
-long baudrate = 230400;
+int baudrate = 9600;
    
 /* Serial read confirmed. So movement funcitons only run when needed to */
 bool serial_read,mid_serial_read = false;       
@@ -50,7 +50,7 @@ int num_teeth = 30;                              //num of teeth on rotaional gea
 float spacing_teeth  = 0.2;                        //in cm since as input of length is in cm
 
 /* time keeping */
-long time_start,time_end,time_elapsed,time1,time2 = 0;
+int time_start,time_end,time_elapsed = 0;
 
 void setup() {
   /* enable all pins */
@@ -58,7 +58,7 @@ void setup() {
   delay(100);
 
   /* begin Serial config */
-  Serial.begin(baudrate);
+  Serial.begin(9600);
   Serial.print("RESET");
 
   /* home motors */
