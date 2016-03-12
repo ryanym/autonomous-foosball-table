@@ -38,6 +38,7 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
       Serial.println("MID SERIAL ACTIVATE !!!");
       Serial_Read(lengths_angles,&safety);
       mid_serial_read = true;
+      delayMicroseconds(motor_delay-serial_delay);
      }
      else{
       delayMicroseconds(motor_delay);       
@@ -58,14 +59,18 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
       Serial.println("MID SERIAL 2 ACTIVATE !!!");
       Serial_Read(lengths_angles,&safety);
       mid_serial_read = true;
+      delayMicroseconds(after_motor_delay-serial_delay);
      }
+     else{
+      delayMicroseconds(after_motor_delay);
+      }
      
     // if flag raised break from loop
     if(mid_serial_read == true){
       break;
      }
       
-    delayMicroseconds(after_motor_delay);
+    
   }
 }
 
