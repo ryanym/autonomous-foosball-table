@@ -1,6 +1,6 @@
 #include "pin_def.h"
 
-void enable_pins(){
+void enable_RAMPS_pins(){
   pinMode(LED_PIN  , OUTPUT);
   
   pinMode(X_STEP_PIN  , OUTPUT);
@@ -36,5 +36,10 @@ void enable_pins(){
    digitalWrite(Q_ENABLE_PIN    , LOW);
   
 }
+
+void serial_config(){
+  Serial.begin(baudrate);
+  Serial.print("RESET");
+  }
 
 

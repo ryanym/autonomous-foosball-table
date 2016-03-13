@@ -1,4 +1,4 @@
-void separate_into_array(String incomingByte,int* lengths_angles,bool* safety){
+void separate_into_array(String incomingByte,float* lengths_angles,bool* safety){
   
   int i = 0 ; 
   int j = 0 ;
@@ -14,7 +14,7 @@ void separate_into_array(String incomingByte,int* lengths_angles,bool* safety){
             //convert to integer add to move array
             if(array_count<4){
               lengths_angles[array_count] = 0;
-              lengths_angles[array_count] = append.toInt();
+              lengths_angles[array_count] = append.toFloat();
                          
             }
 
@@ -24,20 +24,21 @@ void separate_into_array(String incomingByte,int* lengths_angles,bool* safety){
                 }
               else if(append[0] == 'f'){
                 *safety = false;
+                safety_broken();
                 }
             }
 //TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
             if(array_count == 5){
-               motor_delay = append.toInt();
+               motor_delay = append.toFloat();
             }
             
             if(array_count == 6){
-               after_motor_delay = append.toInt();
+               after_motor_delay = append.toFloat();
             }
             
             if(array_count == 7){
-               polarity_delay = append.toInt();
+               polarity_delay = append.toFloat();
             }
             
 //TEMPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP 

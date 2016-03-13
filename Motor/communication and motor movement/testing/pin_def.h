@@ -1,3 +1,4 @@
+/* RAMPS PINS */
 #define X_STEP_PIN         54
 #define X_DIR_PIN          55
 #define X_ENABLE_PIN       38
@@ -38,4 +39,6 @@
 #define TEMP_0_PIN          13   // ANALOG NUMBERING
 #define TEMP_1_PIN          14   // ANALOG NUMBERING
 
+/* EXTERNAL BUTTONS */
+#define STOP_PIN 2
 

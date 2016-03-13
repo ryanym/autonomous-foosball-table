@@ -22,10 +22,12 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
   /* determine poalrity of signals */
   determine_polarity(steps,polarity);
 
-  /* turn voltage high and low to drive the stepper motor */
-  /* break if serial avaiable */
+  /** turn voltage high and low to drive the stepper motor 
+   *  break if serial avaiable 
+   */
   time2 = micros();
   for(i=0;i<max_steps;i++){
+    
     // turning pins HIGH 
     for(j=0;j<4;j++){
       if(abs(steps[j])>i){
@@ -34,16 +36,8 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
         }   
      }
 
-     // Check Serial and delay  <-------------------NEED TO TEST ITS INTEGRATION
-    if(Serial.available() > 0){
-      Serial.println("MID SERIAL AVIL ");
-      Serial_Read(lengths_angles,&safety);
-      mid_serial_read = true;
-      //delayMicroseconds(motor_delay-serial_delay);
-     }
-     else{
-      delayMicroseconds(motor_delay);       
-     }
+     // Check Serial and delay  
+     serial_or_delay(motor_delay);
     
      // turning pins LOW 
     for(j=0;j<4;j++){
@@ -55,33 +49,29 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
         }
      }
  
-    // Check Serial and delay  <-------------------NEED TO TEST ITS INTEGRATION
-    if(Serial.available() > 0){
-      Serial.println("MID SERIAL AVIL ");
-      time1 = micros();
-      Serial_Read(lengths_angles,&safety);
-      time1 = micros() - time1;
-      mid_serial_read = true;
-      //delayMicroseconds(after_motor_delay-serial_delay);
-     }
-     else{
-      delayMicroseconds(after_motor_delay);
-      }
-     
+    // Check Serial and delay  
+    serial_or_delay(after_motor_delay);
+    
     // if flag raised break from loop
     if(mid_serial_read == true){
-      Serial.print("MID SERIAL ACTIVATE  ..");
-      Serial.println(time1);
       break;
      }
-      
-    
   }
+  
    time2 = micros()-time2;
    Serial.print("MOVE MOTOR TIMING:  ");
    Serial.println(time2);
 }
-
+///========================================================================
+void serial_or_delay(int Delay){
+    if(Serial.available() > 0){
+      Serial_Read(lengths_angles,&safety);
+      mid_serial_read = true;
+     }
+     else{
+      delayMicroseconds(Delay);
+     }
+  }
 ///=========================================================================
 void determine_polarity(int* steps,int* polarity){
   int j=0;
@@ -106,7 +96,7 @@ void determine_polarity(int* steps,int* polarity){
    delayMicroseconds(polarity_delay);
  }
 //===========================================================================
-void convert_to_steps(int* steps_to_move,int* lengths_angles,int* motor_current){
+void convert_to_steps(int* steps_to_move,float* lengths_angles,int* motor_current){
   
   steps_to_move[0] = length_to_steps(lengths_angles[0],motor_current[0]);
   steps_to_move[1] = angle_to_steps(lengths_angles[1],motor_current[1]);
