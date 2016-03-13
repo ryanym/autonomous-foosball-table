@@ -18,7 +18,7 @@ bool safety = false;
 /* number of data to be received */
 int num_receive = 8;
 int Read = 0 ;                            //to signify if anything has entered serial   
-long baudrate = 230400;
+long baudrate = 9600;
    
 /* Serial read confirmed. So movement funcitons only run when needed to */
 bool serial_read,mid_serial_read = false;       
@@ -33,7 +33,6 @@ int motor_delay = 1000;                    //in microseconds  between setting mo
 int after_motor_delay = 100;
 int polarity_delay = 1500;
 int homing_delay = motor_delay+1000;
-int serial_delay = 0;
 
 /* PIN configuration */
 int motor_control_pins[4] = {X_STEP_PIN  ,E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
@@ -71,11 +70,14 @@ void loop() {
 
   /* Check if serial data avaible */
   Serial_Read(lengths_angles,&safety);
-
+  
+ 
+  
+ 
   //funciton in move motor doc
   if(serial_read == true || mid_serial_read == true){
-    //convert_to_steps(steps_to_move,lengths_angles,motor_current);
-   // move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
+    convert_to_steps(steps_to_move,lengths_angles,motor_current);
+    move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
     serial_read = false;
   }
 }

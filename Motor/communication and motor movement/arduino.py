@@ -11,40 +11,17 @@ def array_to_string(x):
             str_send = str_send + str(x[j])+","
     return(str_send)
     
-
-def R(data_write):
-    
-    #serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(17, 9600);
-    #printing the serial port conencted to
-    print serARD.name
-
-    data =0;
-    i=0;
-    
-    #send data
-    serARD.write(str(data_write));
-    
-    #readinf data and printing it
-    #data = serARD.read(len(str(data_write))+1);
-    #print data
-
-    #important to close
-    serARD.close()
-#[row1 linear,row 1 rotaion,row2 linear,row2 rotation,safdty,motor delay,
-    # ,after motor delay,polarity delay]
-
 #825,500,1000,0.3 for linear
 #1000,950,1000,0.3 for rotaioanal
-motor_delay = 800;
+motor_delay = 820;
 after_delay = 500;
 polarity_delay = 1000;
-time_sleep = 0.1;
+time_sleep = 0.4;
 #p2 = [200,1100,200,200,'t']
 #n2 = [-200,1100,200,200,'t']
-l1 = [7,0,0,0,'t',motor_delay,after_delay,polarity_delay]
-l2 = [2,0,0,0,'t',motor_delay,after_delay,polarity_delay]
-r1 = [1,0,1,0,'t',motor_delay,after_delay,polarity_delay]
+l1 = [8,0,0,0,'t',motor_delay,after_delay,polarity_delay]
+l2 = [0,0,0,0,'t',motor_delay,after_delay,polarity_delay]
+r1 = [1,360,0,0,'t',motor_delay,after_delay,polarity_delay]
 r2 = [4,0,4,0,'t',motor_delay,after_delay,polarity_delay]
 
 home = [0,0,0,0,'t',motor_delay,after_delay,polarity_delay]
@@ -80,10 +57,10 @@ def R2(x):
     #important to close
     serARD.close()
     
-for i in range(5):
-    R2(r1)
+for i in range(10):
+    R2(l1)
     time.sleep(time_sleep)
-    R2(r2)
+    R2(l2)
     time.sleep(time_sleep)
 
 

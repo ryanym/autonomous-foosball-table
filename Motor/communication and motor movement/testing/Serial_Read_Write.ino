@@ -5,7 +5,7 @@ void Serial_Read(int* lengths_angles,bool* safety){
   
   while(Serial.available() > 0) {
    // Time testing
-    time_start  = micros();
+    //time_start  = micros();
     
     //these delays are important so data keeps on being read
             delay(1);
@@ -17,13 +17,13 @@ void Serial_Read(int* lengths_angles,bool* safety){
             serial_read = true;         
             delay(1);
     }
-  time1= micros();
+  
   //if Serial read then print out return string
   if(Read  == 1){
     
     //printing array after and fills the Move array with the 4 received integers
     separate_into_array(incomingByte,lengths_angles,safety);
-  time2=micros();
+  
     //sending data back
     Serial.println(lengths_angles[0]);
     Serial.println(lengths_angles[1]);
@@ -34,17 +34,8 @@ void Serial_Read(int* lengths_angles,bool* safety){
     Read = 0;
     incomingByte = "";
 
-    //Serial timing 16Mhz - 4 us resolution
-    time_end = micros();
-    time_elapsed = time_end - time_start;
-    time1 = time1-time_start;
-    time2 = time2 - time_start;
-    Serial.print("SERIAL TIMINGS  ");
-    Serial.println(time_elapsed);
-    Serial.print("time 1 ,time 2   ");
-    Serial.print(time1);
-    Serial.print("  ,  ");
-    Serial.println(time2);
+    //Serial timing 16Mhz - 4 us resolution - 600 us
+
   }
   
 }
