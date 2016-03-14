@@ -7,6 +7,8 @@ ball path prediction only does on reflection on the long side
 import numpy as np
 import cv2
 import time
+from arduino import *
+
 
 #constants
 CAM_ID = 1
@@ -417,5 +419,8 @@ while(cam_open):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
+################ AI ###################################
+#################ARDUINO INTERFACE ####################
 
-#####################################
+print(l1)
+#R2(l1);
