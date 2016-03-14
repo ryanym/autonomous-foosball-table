@@ -42,8 +42,8 @@ ROW_3_PIXEL = FIELD_L_PIXEL*ROW_3/FIELD_L
 ROW_4_PIXEL = FIELD_L_PIXEL*ROW_4/FIELD_L
 ROW_TOL_PIXEL = FIELD_L_PIXEL*ROW_TOL/FIELD_L
 
-FOOSMAN_DISTANCE = 88 #mm
-FOOSMAN_WIDTH =28 #mm
+FOOSMAN_DISTANCE = 91 #mm
+FOOSMAN_WIDTH =26 #mm
 FOOSMAN_DISTANCE_PIXEL = FIELD_L_PIXEL*FOOSMAN_DISTANCE/FIELD_L
 FOOSMAN_WIDTH_PIXEL = FIELD_L_PIXEL*FOOSMAN_WIDTH/FIELD_L
 #BALL radiues in pixel
@@ -278,8 +278,7 @@ def getHSV(cap):
     frame_field = hsv[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
     return hsv_edge,frame_field
 
-
-def getBallPosition(hsv):
+def getBallPosition(hsv):  # return true position in mm
     dest_image = cv2.inRange(hsv, lowerb, upperb)
     erosion = cv2.erode(dest_image,ERROR_FILTER,1)
     dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
@@ -296,7 +295,7 @@ def getBallPosition(hsv):
                 ball_found = True
                 if tmp_radius > ball_radius_max:
                     ball_cur = (x,y)  
-    return (ball_cur[0],ball_cur[1],ball_found)
+    return (ball_cur[0]*L_PTOMM,ball_cur[1]*W_PTOMM,ball_found)
 
 def getUnknown(hsv_edge):
      #0,1 compare with x-axis; 2,3 compare with y-axis
@@ -391,26 +390,32 @@ def getGoal(hsv):
         goalU=True
     return (goalR,goalU)
 
+
+def getPosition(ball_x,ball_y): # follow the ball
+    posiiton = 0.
+    if(ball_y-FOOSMAN_WIDTH/2)>0:
+        position =  (ball_y-FOOSMAN_WIDTH/2) % FOOSMAN_DISTANCE
+    return position
+
 ###############################
 cam_open,cap = SetupCam()
 while(cam_open):
     hsv_edge,frame_field = getHSV(cap)
     cv2.imshow('frame_field',frame_field)
-    ball_x,ball_y,ball_found = getBallPosition(frame_field)
-    getRowPosition(frame_field);
-    getEnemyPosition(frame_field);
-    unkown = getUnknown(hsv_edge)
+    ball_x,ball_y,ball_found = getBallPosition(frame_field)   # ball position in mm.
+    #getRowPosition(frame_field);
+    #getEnemyPosition(frame_field);
+    #unkown = getUnknown(hsv_edge)
     if(ball_found == False):
         Rob,User = getGoal(frame_field)
         print Rob,User
     else:
-        print ball_x,ball_y,unkown
+        print ball_x,ball_y
     
     if cv2.waitKey(2) & 0xFF == ord('q'):
         break
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-
 
 #####################################
