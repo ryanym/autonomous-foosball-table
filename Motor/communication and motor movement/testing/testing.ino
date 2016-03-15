@@ -53,7 +53,7 @@ long time_start,time_end,time_elapsed,time1,time2,time3,time4,time5 = 0;
 
 void setup() {
   /* enable all pins */
-  enable_RAMPS_pins();
+  enable_pins();
   delay(100);
 
   /* begin Serial config */
@@ -71,12 +71,12 @@ void loop() {
 
   /* Check if serial data avaible */
   //for testing inlcuded if sstaemetn
-  if(Serial.available() > 0){
-  time2 = micros();
+  //if(Serial.available() > 0){
+  //time2 = micros();
   Serial_Read(lengths_angles,&safety);
-  time2 = micros() - time2;
-  Serial.print("SERIAL FULL TIMING  ");
-  Serial.println(time2);
+  //time2 = micros() - time2;
+  //Serial.print("SERIAL FULL TIMING  ");
+  //Serial.println(time2);
   }
 
   /* move motors if any flags have been set */

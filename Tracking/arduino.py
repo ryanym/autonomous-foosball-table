@@ -17,16 +17,16 @@ def array_to_string(x):
 # 825,800,1000,0.3 for linear
 # 1000,950,1000,0.3 for rotaioanal
 # after motor delay has to be atleast a value so it wont add erros. 500 works but adds erros.atleast 800 needed.
-motor_delay = 950;
-after_delay = 800;
+motor_delay = 1000;
+after_delay = 1000;
 polarity_delay = 1000;
-time_sleep = 0.15;
+time_sleep = 0.5;
 # p2 = [200,1100,200,200,'t']
 # n2 = [-200,1100,200,200,'t']
-l1 = [8, 0, 0, 0, t, motor_delay, after_delay, polarity_delay]
-l2 = [0, 0, 0, 0, t, motor_delay, after_delay, polarity_delay]
-r1 = [1, 360, 0, 0, t, motor_delay, after_delay, polarity_delay]
-r2 = [4, 0, 4, 0, t, motor_delay, after_delay, polarity_delay]
+l1 = [8, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+l2 = [0, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+r1 = [1, 360, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+r2 = [4, 0, 4, 0, 't', motor_delay, after_delay, polarity_delay]
 
 home = [0, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
 
@@ -36,13 +36,13 @@ home = [0, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
 # @parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
 # ex [1,2,3,4,t]
 def R2(x):
-    COM_Port = 18;
+    COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial((COM_Port - 1), 9600);
+    serARD = serial.Serial(port='COM8',baudrate=9600);
     # printing the serial port conencted to
-    print serARD.name
-
+    # print serARD.name
+    print x[0]
     data = 0;
     i = 0;
     j = 0;
@@ -56,24 +56,25 @@ def R2(x):
     # readinf data and printing it
     # data = serARD.read(2);
     # data = serARD.read(len(str(data_write))+1);
-    print data
+    # print data
 
     # important to close
     serARD.close()
 
-
-for i in range(10):
-    R2(l1)
-    time.sleep(time_sleep)
-    R2(l2)
-    time.sleep(time_sleep)
+def test():
+    for i in range(10):
+        R2(l1)
+        time.sleep(time_sleep)
+        R2(l2)
+        time.sleep(time_sleep)
+    R2(home);
 
 # R2(r1);
 # print( "R2");
 # time.sleep(time_sleep)
 # R2(l2);
 # time.sleep(time_sleep)
-R2(home);
+
 
 
 

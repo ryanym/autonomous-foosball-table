@@ -44,8 +44,8 @@ ROW_3_PIXEL = FIELD_L_PIXEL*ROW_3/FIELD_L
 ROW_4_PIXEL = FIELD_L_PIXEL*ROW_4/FIELD_L
 ROW_TOL_PIXEL = FIELD_L_PIXEL*ROW_TOL/FIELD_L
 
-FOOSMAN_DISTANCE = 91 #mm
-FOOSMAN_WIDTH =26 #mm
+FOOSMAN_DISTANCE = 88 #mm
+FOOSMAN_WIDTH =24 #mm
 FOOSMAN_DISTANCE_PIXEL = FIELD_L_PIXEL*FOOSMAN_DISTANCE/FIELD_L
 FOOSMAN_WIDTH_PIXEL = FIELD_L_PIXEL*FOOSMAN_WIDTH/FIELD_L
 #BALL radiues in pixel
@@ -69,8 +69,8 @@ GOAL_ROB = [FIELD_L_PIXEL-GOAL_L_PIXEL-1,FIELD_L_PIXEL-1,  (FIELD_W_PIXEL-GOAL_W
 
 BALL_SPEED_Square_MIN = 3
 
-L_PTOMM =  1.0*FIELD_L_PIXEL / FIELD_L
-W_PTOMM =  1.0*FIELD_W_PIXEL / FIELD_W
+L_PTOMM =  1.0*FIELD_L / FIELD_L_PIXEL
+W_PTOMM =  1.0*FIELD_W / (FIELD_W_PIXEL-6)
 
 print L_PTOMM
 print W_PTOMM
@@ -242,7 +242,7 @@ cap.set(5,CAM_FPS)
 #Filter
 lowerb = np.array([LOWER_H,LOWER_S,LOWER_V])
 upperb = np.array([UPPER_H,UPPER_S,UPPER_V])
-kernel = np.ones((3,3),np.float32)/9
+kernel = np.ones((7,7),np.float32)/49
 
 kernel_edge = np.ones((3,3),np.float32)/9
 kernel_foosmen = np.ones((3,3),np.float32)/9
@@ -394,10 +394,16 @@ def getGoal(hsv):
 
 
 def getPosition(ball_x,ball_y): # follow the ball
-    posiiton = 0.
-    if(ball_y-FOOSMAN_WIDTH/2)>0:
-        position =  (ball_y-FOOSMAN_WIDTH/2) % FOOSMAN_DISTANCE
-    return position
+    p = 0
+    if(ball_y-FOOSMAN_WIDTH/2-0.3)>3*FOOSMAN_DISTANCE:
+        p =  88
+    elif(ball_y-FOOSMAN_WIDTH/2-0.3)>2*FOOSMAN_DISTANCE:
+        p =  (ball_y-FOOSMAN_WIDTH/2)-2*FOOSMAN_DISTANCE
+    elif(ball_y-FOOSMAN_WIDTH/2-0.3)>FOOSMAN_DISTANCE:
+        p =  (ball_y-FOOSMAN_WIDTH/2)-FOOSMAN_DISTANCE
+    elif(ball_y-FOOSMAN_WIDTH/2-0.3)>0:
+        p =  (ball_y-FOOSMAN_WIDTH/2)
+    return p
 
 ###############################
 cam_open,cap = SetupCam()
@@ -411,16 +417,24 @@ while(cam_open):
     if(ball_found == False):
         Rob,User = getGoal(frame_field)
         print Rob,User
-    else:
-        print ball_x,ball_y
+    #else:
+        #print ball_x,ball_y
     
     if cv2.waitKey(2) & 0xFF == ord('q'):
         break
+    ################ AI ###################################
+    rod_position = getPosition(ball_x,ball_y)/10
+    print ball_x,ball_y, rod_position
+    
+
+    #################ARDUINO INTERFACE ##################
+    time.sleep(0.25);
+    test = [rod_position, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+    R2(test);
+    
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-################ AI ###################################
-#################ARDUINO INTERFACE ####################
 
-print(l1)
-#R2(l1);
+
+

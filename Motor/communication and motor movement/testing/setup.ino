@@ -1,6 +1,6 @@
 #include "pin_def.h"
 
-void enable_RAMPS_pins(){
+void enable_pins(){
   pinMode(LED_PIN  , OUTPUT);
   
   pinMode(X_STEP_PIN  , OUTPUT);
