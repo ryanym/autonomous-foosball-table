@@ -69,22 +69,22 @@ void setup() {
 void loop() {
 
   /* Check if serial data avaible */
-<<<<<<< Updated upstream
-  //for testing inlcuded if sstaemetn
+
+/*  //for testing inlcuded if sstaemetn
   if(Serial.available() > 0){
     time2 = micros();
     Serial_Read(lengths_angles,&safety);
     time2 = micros() - time2;
     Serial.print("SERIAL FULL TIMING  ");
     Serial.println(time2);
-  }
+  }*/
 
   /* move motors if any flags have been set */
-=======
+
 //  Serial_Read(lengths_angles,&safety);
   ReadSteps(lengths_angles,&safety);
   //funciton in move motor doc
->>>>>>> Stashed changes
+
   if(serial_read == true || mid_serial_read == true){
     convert_to_steps(steps_to_move,lengths_angles,motor_current);
     move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
