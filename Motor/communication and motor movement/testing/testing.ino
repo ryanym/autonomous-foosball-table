@@ -70,18 +70,9 @@ void loop() {
 
   /* Check if serial data avaible */
 
-/*  //for testing inlcuded if sstaemetn
-  if(Serial.available() > 0){
-    time2 = micros();
-    Serial_Read(lengths_angles,&safety);
-    time2 = micros() - time2;
-    Serial.print("SERIAL FULL TIMING  ");
-    Serial.println(time2);
-  }*/
-
-  /* move motors if any flags have been set */
 
 //  Serial_Read(lengths_angles,&safety);
+
   ReadSteps(lengths_angles,&safety);
   //funciton in move motor doc
 

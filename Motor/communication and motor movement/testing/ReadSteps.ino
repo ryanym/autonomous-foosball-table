@@ -2,7 +2,7 @@ void ReadSteps(float* lengths_angles,bool* safety){
   time_start  = micros();
   String content = "";
   while(Serial.available() > 0 ){
-    content = Serial.readString();
+    content = Serial.readStringUntil('n');
     Read = 1;  
     serial_read = true; 
   }
