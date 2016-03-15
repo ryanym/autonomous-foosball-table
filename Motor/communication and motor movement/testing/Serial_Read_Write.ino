@@ -8,8 +8,13 @@ void Serial_Read(float* lengths_angles,bool* safety){
     //time_start  = micros();
     
     //these delays are important so data keeps on being read
+<<<<<<< Updated upstream
             delayMicroseconds(500);
             // read the incoming byte:\
+=======
+            delay(1);
+            // read the incoming byte:
+>>>>>>> Stashed changes
             int inChar = Serial.read();   
             incomingByte += (char)inChar;
             

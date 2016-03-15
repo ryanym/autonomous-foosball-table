@@ -36,8 +36,21 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
         }   
      }
 
+<<<<<<< Updated upstream
      // Check Serial and delay  
      serial_or_delay(motor_delay);
+=======
+     // Check Serial and delay  <-------------------NEED TO TEST ITS INTEGRATION
+    if(Serial.available() > 0){
+//      Serial.println("MID SERIAL ACTIVATE !!!");
+      Serial_Read(lengths_angles,&safety);
+      mid_serial_read = true;
+      delayMicroseconds(motor_delay-serial_delay);
+     }
+     else{
+      delayMicroseconds(motor_delay);       
+     }
+>>>>>>> Stashed changes
     
      // turning pins LOW 
     for(j=0;j<4;j++){
@@ -65,6 +78,10 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
 ///========================================================================
 void serial_or_delay(int Delay){
     if(Serial.available() > 0){
+<<<<<<< Updated upstream
+=======
+//      Serial.println("MID SERIAL 2 ACTIVATE !!!");
+>>>>>>> Stashed changes
       Serial_Read(lengths_angles,&safety);
       mid_serial_read = true;
      }

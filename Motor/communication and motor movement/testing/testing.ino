@@ -28,8 +28,8 @@ int rotational_steps = 200;              //steps /rev for rotational motor
 
 /*  delays also used for movement as well as homing */
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
-int after_motor_delay = 100;
-int polarity_delay = 1500;
+int after_motor_delay = 950;
+int polarity_delay = 1000;
 int homing_delay = motor_delay+1000;
 
 /* PIN configuration */
@@ -69,6 +69,7 @@ void setup() {
 void loop() {
 
   /* Check if serial data avaible */
+<<<<<<< Updated upstream
   //for testing inlcuded if sstaemetn
   if(Serial.available() > 0){
     time2 = micros();
@@ -79,6 +80,11 @@ void loop() {
   }
 
   /* move motors if any flags have been set */
+=======
+//  Serial_Read(lengths_angles,&safety);
+  ReadSteps(lengths_angles,&safety);
+  //funciton in move motor doc
+>>>>>>> Stashed changes
   if(serial_read == true || mid_serial_read == true){
     convert_to_steps(steps_to_move,lengths_angles,motor_current);
     move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
