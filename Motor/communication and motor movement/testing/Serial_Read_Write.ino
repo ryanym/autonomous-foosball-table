@@ -3,19 +3,30 @@
 void Serial_Read(float* lengths_angles,bool* safety){
   String incomingByte ="" ;
   time3 = micros();
-  while(Serial.available() > 0) {
+  /*while(Serial.available() > 0) {
    // Time testing
     //time_start  = micros();
     
     //these delays are important so data keeps on being read
-            delay(1);
+            delayMicroseconds(500);
             // read the incoming byte:\
             int inChar = Serial.read();   
             incomingByte += (char)inChar;
             
             Read = 1;  
             serial_read = true;         
-            delay(1);
+            delayMicroseconds(500);
+    }*/
+    
+    while(Serial.available() > 0) {
+    
+    //these delays are important so data keeps on being read
+            // read the incoming byte:\
+            
+            incomingByte = Serial.readStringUntil('\n');
+            
+            Read = 1;  
+            serial_read = true;             
     }
     time3 = micros() - time3;
   

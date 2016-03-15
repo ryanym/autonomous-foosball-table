@@ -1,4 +1,3 @@
-
 #include "pin_def.h"
 /*The data to be sent should be comma delimited ex 4,5,6,7, the last comma is importatnt as well
  * When changing the number of receivevd varaibles make sure you change on the PC side
@@ -71,12 +70,12 @@ void loop() {
 
   /* Check if serial data avaible */
   //for testing inlcuded if sstaemetn
-  //if(Serial.available() > 0){
-  //time2 = micros();
-  Serial_Read(lengths_angles,&safety);
-  //time2 = micros() - time2;
-  //Serial.print("SERIAL FULL TIMING  ");
-  //Serial.println(time2);
+  if(Serial.available() > 0){
+    time2 = micros();
+    Serial_Read(lengths_angles,&safety);
+    time2 = micros() - time2;
+    Serial.print("SERIAL FULL TIMING  ");
+    Serial.println(time2);
   }
 
   /* move motors if any flags have been set */

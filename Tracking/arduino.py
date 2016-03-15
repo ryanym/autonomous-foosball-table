@@ -11,6 +11,7 @@ def array_to_string(x):
     str_send = ""
     for j in range(0, len(x)):
         str_send = str_send + str(x[j]) + ","
+    str_send = str_send + "\n";
     return (str_send)
 
 

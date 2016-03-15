@@ -19,10 +19,10 @@ void separate_into_array(String incomingByte,float* lengths_angles,bool* safety)
             }
 
             if(array_count == 4){
-              if(append[0] == 't'){
+              if(append[0] == 't' || append[0] == 'T'){
                 *safety = true;
                 }
-              else if(append[0] == 'f'){
+              else if(append[0] == 'f' || append[0] == 'F'){
                 *safety = false;
                 safety_broken();
                 }
