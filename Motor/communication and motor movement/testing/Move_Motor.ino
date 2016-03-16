@@ -68,7 +68,7 @@ void serial_or_delay(int Delay){
     if(Serial.available() > 0){
 //      Serial.println("MID SERIAL 2 ACTIVATE !!!");
 
-      Serial_Read(lengths_angles,&safety);
+      ReadSteps(lengths_angles,&safety);
       mid_serial_read = true;
      }
      else{

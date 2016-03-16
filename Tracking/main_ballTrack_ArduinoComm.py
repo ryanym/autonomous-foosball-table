@@ -23,10 +23,11 @@ while(cam_open):
     
 
     #################ARDUINO INTERFACE ##################
-    time.sleep(0.25);
-    test = [rod_position, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
-    #R2(test);
+    time.sleep(0.1);
+    test = [rod_position, 0, 0, 0]
+    R2(test);
     
-# When everything done, release the capture
+# When everything done,home motors and release the capture
+R2(home)
 cap.release()
 cv2.destroyAllWindows()

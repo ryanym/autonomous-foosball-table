@@ -28,8 +28,8 @@ int rotational_steps = 200;              //steps /rev for rotational motor
 
 /*  delays also used for movement as well as homing */
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
-int after_motor_delay = 950;
-int polarity_delay = 1000;
+int after_motor_delay = 500;
+int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
 
 /* PIN configuration */
@@ -59,8 +59,8 @@ void setup() {
   serial_config();
 
   /*setup interrupt*/
-  attachInterrupt(digitalPinToInterrupt(STOP_PIN), stop_button_interupt , CHANGE);
-  pinMode(STOP_PIN , INPUT);
+  //attachInterrupt(digitalPinToInterrupt(STOP_PIN), stop_button_interupt , CHANGE);
+  //pinMode(STOP_PIN , INPUT);
 
   /* home motors */
   //homing(motor_current);
@@ -69,12 +69,7 @@ void setup() {
 void loop() {
 
   /* Check if serial data avaible */
-
-
-//  Serial_Read(lengths_angles,&safety);
-
   ReadSteps(lengths_angles,&safety);
-  //funciton in move motor doc
 
   if(serial_read == true || mid_serial_read == true){
     convert_to_steps(steps_to_move,lengths_angles,motor_current);
