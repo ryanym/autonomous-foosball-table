@@ -2,10 +2,9 @@ import serial
 import time
 
 
-# serial port number should be = COM# - 1
 
-# return a string sperated by commas for sending over serial comm
-# ex [3,4,5,6,3] = "3,4,5,6,3"
+# return a string sperated by commas with an endline character 'n' for sending over serial comm
+# ex [3,4,5,6,3] = "3,4,5,6,3,n"
 # there has to be a comma at the end to signify ending of characters
 def array_to_string(x):
     str_send = ""
@@ -21,13 +20,16 @@ def array_to_string(x):
 motor_delay = 1000;
 after_delay = 1000;
 polarity_delay = 1000;
-time_sleep = 0.5;
+
+
+time_sleep = 2;
 # p2 = [200,1100,200,200,'t']
 # n2 = [-200,1100,200,200,'t']
-l1 = [8, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+#l1 = [0, .9, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+l1 = [0, 360, 0, 0]
 l2 = [0, 0, 0, 0]
-r1 = [1, 360, 0, 0]
-r2 = [4, 0, 4, 0]
+r1 = [10, 360, 0, 0]
+r2 = [40, 0, 4, 0]
 
 home = [0, 0, 0, 0]
 
@@ -55,7 +57,6 @@ def R2(x):
     serARD.write(str_send);
 
     # readinf data and printing it
-    # data = serARD.read(2);
     # data = serARD.read(len(str(data_write))+1);
     # print data
 
@@ -63,7 +64,7 @@ def R2(x):
     serARD.close()
 
 def test():
-    for i in range(10):
+    for i in range(5):
         R2(l1)
         time.sleep(time_sleep)
         R2(l2)
@@ -75,10 +76,9 @@ def test():
 
 # notes on implementation
 # send a byte to start the signal
-# wait for inf returned ---> must know how many bytes are sent back
 # TESTS
 # see how many bytes neede for expect4ed values of characters
 # PROBELMS
 # arduino resets on serial comm which can be resolved by using a capactor between RESET and 5V
 
-# end - goal = send 4 numbers and a confirmation bit of either 0 or 1
+

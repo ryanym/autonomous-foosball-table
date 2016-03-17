@@ -33,8 +33,8 @@ int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
 
 /* PIN configuration */
-int motor_control_pins[4] = {X_STEP_PIN  ,E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
-int polarity_pins[4] = {X_DIR_PIN,E_DIR_PIN,Y_DIR_PIN,Q_DIR_PIN};        //for clockwise or anticlockwise rotation
+int motor_control_pins[4] = {E_STEP_PIN  ,X_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
+int polarity_pins[4] = {E_DIR_PIN,X_DIR_PIN,Y_DIR_PIN,Q_DIR_PIN};        //for clockwise or anticlockwise rotation
 int sensor_pins[4] = {X_MIN_PIN,0,X_MAX_PIN,0};
 int stop_pin  = STOP_PIN;
 
@@ -45,7 +45,7 @@ int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
 
 /* linear gear properties */
 int num_teeth = 30;                              //num of teeth on rotaional gear for linear tranlation
-float spacing_teeth  = 0.2;                        //in cm since as input of length is in cm
+float spacing_teeth  = 2;                        //in cm since as input of length is in mm
 
 /* time keeping */
 long time_start,time_end,time_elapsed,time1,time2,time3,time4,time5 = 0;
