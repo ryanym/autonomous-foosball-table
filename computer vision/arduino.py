@@ -10,7 +10,7 @@ def array_to_string(x):
     str_send = ""
     for j in range(0, len(x)):
         str_send = str_send + str(x[j]) + ","
-    str_send += "\n"
+    str_send += "n"
     return (str_send)
 
 
@@ -50,7 +50,7 @@ def R2(x):
     # important to close
     serARD.close()
 
-time_sleep = 3.2;
+time_sleep = 0.15;
 # p2 = [200,1100,200,200,'t']
 # n2 = [-200,1100,200,200,'t']
 #l1 = [0, .9, 0, 0, 't', motor_delay, after_delay, polarity_delay]
@@ -61,7 +61,7 @@ r2 = [40, 0, 4, 0]
 
 home = [0, 0, 0, 0]
 def test():
-    for i in range(40):
+    for i in range(5):
         R2(l1)
         time.sleep(time_sleep)
         R2(l2)

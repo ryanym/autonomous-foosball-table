@@ -1,11 +1,15 @@
 void ReadSteps(float* lengths_angles,bool* safety){
   time_start  = micros();
   String content = "";
+
+  //Read input strings
   while(Serial.available() > 0 ){
     content = Serial.readStringUntil('n');
     Read = 1;  
     serial_read = true; 
   }
+
+ 
   if(Read == 1){
     for(int i = 0; i < 4; i++){
       int index = content.indexOf(","); 

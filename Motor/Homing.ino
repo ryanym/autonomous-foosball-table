@@ -10,23 +10,22 @@ void homing(int* motor_current){
   //polarity change delay
   delayMicroseconds(polarity_delay);
   
-  //home motors IMPORTANT NOTE>>>FOR LINEAR ONLY AS LOOP IS BEING INCREMENTEDD BY 2
   /* turn voltage high and low to drive the stepper motor */
   for(i=0;i<max_steps;i++){
     //turning HIGH
-    for(j=0;j<4;j+=2){
-     //if snesor not triggered then change polarity
-      if(digitalRead(sensor_pins[j])){
-        //turn on specific motor  PI
-        digitalWrite(motor_control_pins[j], HIGH);
-        }   
+    for(j=0;j<4;j++){
+     //if snesor not triggered then change polarity and is defined
+      if(digitalRead(sensor_pins[j]) && sensor_pins[j] != 0 ){
+        //turn on specific motor  
+          digitalWrite(motor_control_pins[j], HIGH);
+        }    
      }
 
     delayMicroseconds(homing_delay);
     
      //turning LOW
     for(j=0;j<4;j+=2){
-      if(digitalRead(sensor_pins[j])){
+      if(digitalRead(sensor_pins[j]) && sensor_pins[j] != 0 ){
         digitalWrite(motor_control_pins[j], LOW);
        }
      }
