@@ -15,7 +15,6 @@ max size is 32767 for each integer...do not go above this limit*/
 bool safety = false;
  
 /* number of data to be received */
-int num_receive = 8;
 int Read = 0 ;                            //to signify if anything has entered serial   
 long baudrate = 9600;
    

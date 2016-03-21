@@ -12,5 +12,4 @@ void safety_broken(){
 
 void stop_button_interupt(){
   safety_broken();
-  
   }
