@@ -21,19 +21,6 @@ motor_delay = 1000;
 after_delay = 1000;
 polarity_delay = 1000;
 
-
-time_sleep = 2;
-# p2 = [200,1100,200,200,'t']
-# n2 = [-200,1100,200,200,'t']
-#l1 = [0, .9, 0, 0, 't', motor_delay, after_delay, polarity_delay]
-l1 = [0, 360, 0, 0]
-l2 = [0, 0, 0, 0]
-r1 = [10, 360, 0, 0]
-r2 = [40, 0, 4, 0]
-
-home = [0, 0, 0, 0]
-
-
 # 0,0,0,0,'t',950,600,1000,
 
 # @parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
@@ -63,8 +50,18 @@ def R2(x):
     # important to close
     serARD.close()
 
+time_sleep = 3.2;
+# p2 = [200,1100,200,200,'t']
+# n2 = [-200,1100,200,200,'t']
+#l1 = [0, .9, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+l1 = [95, 360, 95, 360]
+l2 = [0, 0, 0, 0]
+r1 = [10, 360, 0, 0]
+r2 = [40, 0, 4, 0]
+
+home = [0, 0, 0, 0]
 def test():
-    for i in range(5):
+    for i in range(40):
         R2(l1)
         time.sleep(time_sleep)
         R2(l2)

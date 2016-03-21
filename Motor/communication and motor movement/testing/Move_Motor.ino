@@ -33,6 +33,7 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
       if(abs(steps[j])>i){
         //turn on specific motor  PIN
         digitalWrite(motor_control_pins[j], HIGH);
+        delayMicroseconds(between_motor_delay);
         }   
      }
 
@@ -47,6 +48,7 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
         //increment/decrement value of steps
         digitalWrite(motor_control_pins[j], LOW);
         motor_current[j] = motor_current[j] + polarity[j];
+        delayMicroseconds(between_motor_delay);
         }
      }
  
