@@ -28,7 +28,8 @@ int rotational_steps = 200;              //steps /rev for rotational motor
 
 /*  delays also used for movement as well as homing */
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
-int after_motor_delay = 500;
+int after_motor_delay = 400;
+int between_motor_delay = 10;
 int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
 
@@ -45,7 +46,7 @@ int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
 
 /* linear gear properties */
 int num_teeth = 30;                              //num of teeth on rotaional gear for linear tranlation
-float spacing_teeth  = 0.2;                        //in cm since as input of length is in cm
+float spacing_teeth  = 2;                        //in cm since as input of length is in mm
 
 /* time keeping */
 long time_start,time_end,time_elapsed,time1,time2,time3,time4,time5 = 0;

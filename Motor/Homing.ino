@@ -15,8 +15,7 @@ void homing(int* motor_current){
   for(i=0;i<max_steps;i++){
     //turning HIGH
     for(j=0;j<4;j+=2){
-      //Serial.println(digitalRead(sensor_pins[j]));
-     
+     //if snesor not triggered then change polarity
       if(digitalRead(sensor_pins[j])){
         //turn on specific motor  PI
         digitalWrite(motor_control_pins[j], HIGH);
