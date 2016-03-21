@@ -10,7 +10,7 @@ def array_to_string(x):
     str_send = ""
     for j in range(0, len(x)):
         str_send = str_send + str(x[j]) + ","
-    str_send = str_send + "n";
+    str_send += "\n"
     return (str_send)
 
 
@@ -29,7 +29,7 @@ def R2(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(port='COM18',baudrate=9600);
+    serARD = serial.Serial(port='COM18',baudrate=9600)
     # printing the serial port conencted to
     # print serARD.name
     print (x[0])
