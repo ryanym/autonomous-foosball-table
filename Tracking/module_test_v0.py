@@ -14,7 +14,7 @@ from arduino import *
 CAM_ID = 1
 CAM_WIDTH = 320
 CAM_HEIGHT = 240
-CAM_FPS = 90
+CAM_FPS = 120
 
 '''
 The Edge of the playfield, use for cut capture image
@@ -70,7 +70,7 @@ GOAL_ROB = [FIELD_L_PIXEL-GOAL_L_PIXEL-1,FIELD_L_PIXEL-1,  (FIELD_W_PIXEL-GOAL_W
 BALL_SPEED_Square_MIN = 3
 
 L_PTOMM =  1.0*FIELD_L / FIELD_L_PIXEL
-W_PTOMM =  1.0*FIELD_W / (FIELD_W_PIXEL-6)
+W_PTOMM =  1.0*FIELD_W / (FIELD_W_PIXEL)
 
 print L_PTOMM
 print W_PTOMM
@@ -157,7 +157,7 @@ def center_ftoi(center):
     return (int(center[0]),int(center[1]))
 
 def w_ptomm(pixels):
-    return pixels*w_PTOMM;
+    return pixels*W_PTOMM;
 
 def l_ptomm(pixels):
     return pixels*L_PTOMM;
@@ -173,8 +173,7 @@ def foosmen_location(foosmen):
         tmp_middle = (foosmen[0][1]+foosmen[2][1])/2
         foosmen_middle = ();
         foosmen_middle = min(foosmen, key=lambda foosman:abs(foosman[1]-tmp_middle))
-        foosmen_relocate = foosmen_middle[1]
-        
+        foosmen_relocate = w_ptomm(foosmen_middle[1])
     return foosmen_relocate
 
 
@@ -182,10 +181,36 @@ def foosmen_location(foosmen):
 def getRowPosition(hsv):
     first_fil_img = cv2.inRange(hsv, ROB_LOWHSV, ROB_UPPHSV)
     erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
-    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
+    dilate = cv2.dilate(erosion,ERROR_FILTER,1)
     cv2.imshow("robot foosmen",dilate)
     asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     c = sorted(contours, key = cv2.contourArea, reverse = True)
+
+    row2 = [];
+    row4 = [];
+    for cnt in c:
+            x,y,w,h = cv2.boundingRect(cnt)
+            if (h < 30)and(w>4)and (h>4):
+                if x+w+ROW_TOL_PIXEL > ROW_2_PIXEL and x-ROW_TOL_PIXEL < ROW_2_PIXEL:
+                    row2.append((x,y+h/2,w,h))
+                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
+                if x+w+ROW_TOL_PIXEL > ROW_4_PIXEL and x-ROW_TOL_PIXEL < ROW_4_PIXEL:
+                    row4.append((x,y+h/2,w,h))
+    foosmen_location(row2);
+    foosmen_location(row4);
+
+    row2_linear = foosmen_location(row2);
+    row4_linear = foosmen_location(row4);
+    return row2_linear,row4_linear
+
+def getEnemyPosition(hsv):
+    first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
+    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
+    dilate = cv2.dilate(erosion,ERROR_FILTER,1)
+    cv2.imshow("user foosmen",dilate)
+    asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    c = sorted(contours, key = cv2.contourArea, reverse = True)
+
     row1 = [];
     row3 = [];
     for cnt in c:
@@ -197,39 +222,9 @@ def getRowPosition(hsv):
                 if x+w+ROW_TOL_PIXEL > ROW_3_PIXEL and x-ROW_TOL_PIXEL < ROW_3_PIXEL:
                     row3.append((x,y+h/2,w,h))
                     #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,0,255),2)
-    foosmen_location(row1);
-    foosmen_location(row3);
-
-
-
-
-
-
-
-
-
-
-def getEnemyPosition(hsv):
-    first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
-    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
-    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
-    cv2.imshow("user foosmen",dilate)
-    asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-    c = sorted(contours, key = cv2.contourArea, reverse = True)
-    row2 = [];
-    row4 = [];
-    for cnt in c:
-            x,y,w,h = cv2.boundingRect(cnt)
-            if (h < 30)and(w>4)and (h>4):    
-                if x+w+ROW_TOL_PIXEL > ROW_2_PIXEL and x-ROW_TOL_PIXEL < ROW_2_PIXEL:
-                    row2.append((x,y+h/2,w,h))
-                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
-                if x+w+ROW_TOL_PIXEL > ROW_4_PIXEL and x-ROW_TOL_PIXEL < ROW_4_PIXEL:
-                    row4.append((x,y+h/2,w,h))
-    foosmen_location(row2);
-    foosmen_location(row4);
-
-
+    row1_linear = foosmen_location(row1);
+    row3_linear = foosmen_location(row3);
+    return row1_linear,row3_linear
 
 
 '''
@@ -242,7 +237,7 @@ cap.set(5,CAM_FPS)
 #Filter
 lowerb = np.array([LOWER_H,LOWER_S,LOWER_V])
 upperb = np.array([UPPER_H,UPPER_S,UPPER_V])
-kernel = np.ones((7,7),np.float32)/49
+kernel = np.ones((5,5),np.float32)/25
 
 kernel_edge = np.ones((3,3),np.float32)/9
 kernel_foosmen = np.ones((3,3),np.float32)/9
@@ -426,11 +421,12 @@ while(cam_open):
     rod_position = getPosition(ball_x,ball_y)/10
     print ball_x,ball_y, rod_position
     
-
+    print getRowPosition(frame_field)
+    #print getEnemyPosition(frame_field)
     #################ARDUINO INTERFACE ##################
-    time.sleep(0.25);
-    test = [rod_position, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
-    R2(test);
+    #time.sleep(0.25);
+    #test = [rod_position, 0, 0, 0, 't', motor_delay, after_delay, polarity_delay]
+    #R2(test);
     
 # When everything done, release the capture
 cap.release()

@@ -86,15 +86,3 @@ void loop() {
     serial_read = false;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
