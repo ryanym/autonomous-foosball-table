@@ -24,10 +24,11 @@ bool serial_read,mid_serial_read = false;
 /* motor properties */
 int linear_steps = 200;                  //steps/rev for linear motors
 int rotational_steps = 200;              //steps /rev for rotational motor
+int motor_moved[4] = {false,false,false,false};
 
-/*  delays also used for movement as well as homing */
-int motor_delay = 2000;                    //in microseconds  between setting motor pin high and low
-int after_motor_delay = 10;
+/*  delays also used for movement as well as homing */ //200 works for motor_delay
+int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
+int after_motor_delay = 100;
 int between_motor_delay = 0;
 int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
@@ -35,7 +36,7 @@ int homing_delay = motor_delay+1000;
 /* PIN configuration */
 int motor_control_pins[4] = {X_STEP_PIN  ,E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
 int polarity_pins[4] = {X_DIR_PIN,E_DIR_PIN,Y_DIR_PIN,Q_DIR_PIN};        //for clockwise or anticlockwise rotation
-int sensor_pins[4] = {X_MIN_PIN,0,0,0};
+int sensor_pins[4][2] = {{X_MIN_PIN,X_MAX_PIN},{0,0},{0,0},{0,0}};       //two for linear
 int stop_pin  = STOP_PIN;
 
 /* arrays actively manipualted */
@@ -68,7 +69,6 @@ void setup() {
 }
 
 void loop() {
-
   /* Check if serial data avaible */
   ReadSteps(lengths_angles,&safety);
 

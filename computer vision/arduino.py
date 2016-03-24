@@ -25,7 +25,7 @@ polarity_delay = 1000;
 
 # @parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
 # ex [1,2,3,4,t]
-def R2(x):
+def SendController(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
@@ -62,14 +62,14 @@ r2 = [40, 0, 4, 0]
 home = [0, 0, 0, 0]
 def test():
     for i in range(5):
-        R2(l1)
+        SendController(l1)
         time.sleep(time_sleep)
-        R2(l2)
+        SendController(l2)
         time.sleep(time_sleep)
-    R2(home);
+    SendController(home);
 
 #R2(home);
-
+#test();
 
 # notes on implementation
 # send a byte to start the signal

@@ -27,14 +27,22 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
    */
   time2 = micros();
   for(i=0;i<max_steps;i++){
-    
     // turning pins HIGH 
     for(j=0;j<4;j++){
       if(abs(steps[j])>i){
-        //turn on specific motor  PIN
-        digitalWrite(motor_control_pins[j], HIGH);
-        delayMicroseconds(between_motor_delay);
-        }   
+        if(steps[j] > 0 && digitalRead(sensor_pins[j][1])){
+          //turn on specific motor  PIN
+          digitalWrite(motor_control_pins[j], HIGH);
+          delayMicroseconds(between_motor_delay);
+          motor_moved[j] = true;
+        }
+        else if(steps[j] < 0 && digitalRead(sensor_pins[j][0])){
+          //turn on specific motor  PIN
+          digitalWrite(motor_control_pins[j], HIGH);
+          delayMicroseconds(between_motor_delay);
+          motor_moved[j] = true;
+         }
+       }   
      }
 
 
@@ -43,12 +51,13 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
     
      // turning pins LOW 
     for(j=0;j<4;j++){
-      if(abs(steps[j])>i){
+      if(motor_moved[j] == true){
         //turn off specific motor PIN
         //increment/decrement value of steps
         digitalWrite(motor_control_pins[j], LOW);
         motor_current[j] = motor_current[j] + polarity[j];
         delayMicroseconds(between_motor_delay);
+        motor_moved[j] = false;
         }
      }
  
