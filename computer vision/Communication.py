@@ -28,14 +28,14 @@ def moveTo(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(port='COM18',baudrate=9600)
+    serARD = serial.Serial(port='COM3',baudrate=9600)
     # printing the serial port conencted to
     # print serARD.name
-    print (x[0])
+    # print (x)
 
     # converting arrray into a sendable string
     str_send = array_to_string(x)
-
+    print str_send
     # writing the string to the serial port
     serARD.write(str_send);
 

@@ -7,6 +7,7 @@ class Rod:
         self.rodNumber = rodNumber
 
     def homeRod(self):
+        print 'homing rod'
         moveTo(home)
 
     def ballFollowPostion(ball_x, ball_y):

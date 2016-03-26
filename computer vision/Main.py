@@ -1,8 +1,11 @@
 from AI import * #Ai makes use of mudle_test so prevent recusrsive inclusion
+from RodLogic import Rod
+
+r1 = Rod(1)
 ###############################
 cam_open,cap = SetupCam()
 ball_x_pre=0
-ball_y_pre = 0;
+ball_y_pre = 0
 while(cam_open):
     hsv_edge,frame_field = getHSV(cap)
     cv2.imshow('frame_field',frame_field)
@@ -25,13 +28,15 @@ while(cam_open):
 
     #################ARDUINO INTERFACE ##################
     time.sleep(0.2);
-    test = [rod_pos_r1l, rod_pos_r1r, rod_pos_r1l, rod_pos_r2r]
-    SendController(test);
+    # test = [rod_pos_r1l, rod_pos_r1r, rod_pos_r1l, rod_pos_r2r]
+    test = [rod_pos_r1l,0, 0, 0]
+    moveTo(test);
 
     ball_x_pre = ball_x
     ball_y_pre = ball_y
 
 # When everything done,home motors and release the capture
-SendController(home)
+moveTo(home)
+# r1.homeRod()
 cap.release()
 cv2.destroyAllWindows()
