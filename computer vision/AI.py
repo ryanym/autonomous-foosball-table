@@ -1,4 +1,4 @@
-from module_test_v0 import *
+from ImageProcessing import *
 
 def AI(ball_x,ball_y,ball_x_pre,ball_y_pre):
     #get BALL SPEED

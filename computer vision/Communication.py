@@ -2,7 +2,6 @@ import serial
 import time
 
 
-
 # return a string sperated by commas with an endline character 'n' for sending over serial comm
 # ex [3,4,5,6,3] = "3,4,5,6,3,n"
 # there has to be a comma at the end to signify ending of characters
@@ -25,7 +24,7 @@ polarity_delay = 1000;
 
 # @parma = [int row1_linear,int row1_roational,int row2_linear,int row2_roational,character t or f)
 # ex [1,2,3,4,t]
-def SendController(x):
+def moveTo(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
@@ -33,9 +32,6 @@ def SendController(x):
     # printing the serial port conencted to
     # print serARD.name
     print (x[0])
-    data = 0;
-    i = 0;
-    j = 0;
 
     # converting arrray into a sendable string
     str_send = array_to_string(x)
@@ -62,11 +58,13 @@ r2 = [40, 0, 4, 0]
 home = [0, 0, 0, 0]
 def test():
     for i in range(5):
-        SendController(l1)
+        moveTo(l1)
         time.sleep(time_sleep)
-        SendController(l2)
+        moveTo(l2)
         time.sleep(time_sleep)
-    SendController(home);
+    moveTo(home);
+
+
 
 #R2(home);
 #test();
