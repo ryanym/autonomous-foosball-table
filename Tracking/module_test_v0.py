@@ -54,10 +54,10 @@ BALL_R_MIN = 4 #pixel
 BALL_R_MAX = 12 #pixel
 BALL_R_PIXEL = int(BALL_R * FIELD_L_PIXEL / FIELD_L )
 #Ball center moving area
-BALL_X_MAX = FIELD_L_PIXEL - BALL_R_PIXEL -1
-BALL_Y_MAX = FIELD_W_PIXEL - BALL_R_PIXEL - 1
-BALL_X_MIN = BALL_R_PIXEL
-BALL_Y_MIN = BALL_R_PIXEL
+BALL_X_MAX = FIELD_L - BALL_R -1
+BALL_Y_MAX = FIELD_W - BALL_R - 1
+BALL_X_MIN = BALL_R
+BALL_Y_MIN = BALL_R
 
 GOAL_W = 90#mm
 GOAL_L = 23#mm
@@ -144,7 +144,7 @@ def find_ball_path(ball_cur,ball_pre):
             ball_tar[1]  = ball_cur[1] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
             
         if ball_tar[1] < BALL_Y_MIN:
-            ball_col[0] = ball_r[0]+(BALL_Y_MIN-ball_cur[1])/ball_diff_y*ball_diff_x
+            ball_col[0] = ball_cur[0]+(BALL_Y_MIN-ball_cur[1])/ball_diff_y*ball_diff_x
             ball_col[1] = BALL_Y_MIN;
             ball_tar[1] = BALL_Y_MIN * 2 - ball_tar[1];
             path.append((ball_cur,ball_col))
@@ -292,7 +292,7 @@ def getBallPosition(hsv):  # return true position in mm
                 ball_found = True
                 if tmp_radius > ball_radius_max:
                     ball_cur = (x,y)  
-    return (ball_cur[0]*L_PTOMM,ball_cur[1]*W_PTOMM,ball_found)
+    return ((ball_cur[0]*L_PTOMM,ball_cur[1]*W_PTOMM),ball_found)
 
 def getUnknown(hsv_edge):
      #0,1 compare with x-axis; 2,3 compare with y-axis
@@ -400,12 +400,27 @@ def getPosition(ball_x,ball_y): # follow the ball
         p =  (ball_y-FOOSMAN_WIDTH/2)
     return p
 
+
+
+ball_cur = (250,250)
+ball_pre = (240,240)
+path = find_ball_path(ball_cur,ball_pre)
+print path
+
+
+
 ###############################
+
+'''
 cam_open,cap = SetupCam()
 while(cam_open):
     hsv_edge,frame_field = getHSV(cap)
     cv2.imshow('frame_field',frame_field)
-    ball_x,ball_y,ball_found = getBallPosition(frame_field)   # ball position in mm.
+    ball_cur,ball_found = getBallPosition(frame_field)   # ball position in mm.
+    path = find_ball_path(ball_cur,ball_pre)
+    ball_pre =ball_cur;
+
+
     #getRowPosition(frame_field);
     #getEnemyPosition(frame_field);
     #unkown = getUnknown(hsv_edge)
@@ -418,8 +433,8 @@ while(cam_open):
     if cv2.waitKey(2) & 0xFF == ord('q'):
         break
     ################ AI ###################################
-    rod_position = getPosition(ball_x,ball_y)/10
-    print ball_x,ball_y, rod_position
+    rod_position = getPosition(ball_cur[0],ball_cur[1])/10
+    print ball_cur[0],ball_cur[1], rod_position
     
     print getRowPosition(frame_field)
     #print getEnemyPosition(frame_field)
@@ -434,3 +449,4 @@ cv2.destroyAllWindows()
 
 
 
+'''
