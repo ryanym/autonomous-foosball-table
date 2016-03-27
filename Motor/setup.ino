@@ -39,7 +39,9 @@ void enable_pins(){
 
 void serial_config(){
   Serial.begin(baudrate);
+#ifdef SERIAL_PRINT
   Serial.print("RESET");
+#endif
   }
 
 

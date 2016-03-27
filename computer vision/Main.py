@@ -23,15 +23,16 @@ while(cam_open):
     if cv2.waitKey(2) & 0xFF == ord('q'):
         break
     ################ AI ###################################
-    rod_pos_r1l , rod_pos_r1r , rod_pos_rod_posi_r2l , rod_pos_r2r = AI(ball_x,ball_y,ball_x_pre,ball_y_pre)
+    rod_pos_r1l , rod_pos_r1r , rod_pos_rod_posi_r2l , rod_pos_r2r ,safety_flag = AI(ball_x,ball_y,ball_x_pre,ball_y_pre)
     print ball_x,ball_y, rod_pos_r1l
 
     #################ARDUINO INTERFACE ##################
-    time.sleep(0.2);
+
     # test = [rod_pos_r1l, rod_pos_r1r, rod_pos_r1l, rod_pos_r2r]
     test = [rod_pos_r1l,0, 0, 0]
     moveTo(test);
 
+    time.sleep(0.2);
     ball_x_pre = ball_x
     ball_y_pre = ball_y
 

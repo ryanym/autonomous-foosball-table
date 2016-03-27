@@ -28,7 +28,7 @@ def moveTo(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(port='COM3',baudrate=9600)
+    serARD = serial.Serial(port='COM11',baudrate=9600)
     # printing the serial port conencted to
     # print serARD.name
     # print (x)
@@ -40,11 +40,31 @@ def moveTo(x):
     serARD.write(str_send);
 
     # readinf data and printing it
-    # data = serARD.read(len(str(data_write))+1);
-    # print data
+    data = serARD.readline()
+    time_start = time.clock()
+    print data
+    print serARD.readline()
 
     # important to close
     serARD.close()
+    print(time.clock() - time_start)
+
+def getCurrentSteps():
+    time_start = time.clock()
+    #serARD = serial.Serial(port='COM11',baudrate=9600)
+    serARD.write("0n")    #just send one random charcacter
+    print  serARD.readline()
+
+   # print serARD.readline()
+   # print serARD.readline()
+
+    #print(time.clock() - time_start)
+    mylist = [int(x) for x in '3 ,2 ,6'.split(',')]
+    #print (mylist)
+
+    time_end = time.clock() - time_start;
+    print(time_end)
+    return(0)
 
 time_sleep = 0.15;
 # p2 = [200,1100,200,200,'t']
@@ -62,12 +82,15 @@ def test():
         time.sleep(time_sleep)
         moveTo(l2)
         time.sleep(time_sleep)
-    moveTo(home);
+    moveTo(home)
 
 
 
-#R2(home);
-#test();
+moveTo(l1);
+time.sleep(0.01)
+serARD = serial.Serial(port='COM11',baudrate=9600)
+getCurrentSteps()
+serARD.close()
 
 # notes on implementation
 # send a byte to start the signal

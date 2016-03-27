@@ -71,16 +71,21 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
   }
   
    time2 = micros()-time2;
+#ifdef SERIAL_PRINT
    Serial.print("MOVE MOTOR TIMING:  ");
    Serial.println(time2);
+#endif
+
 }
 ///========================================================================
 void serial_or_delay(int Delay){
     if(Serial.available() > 0){
+
 //      Serial.println("MID SERIAL 2 ACTIVATE !!!");
 
-      ReadSteps(lengths_angles,&safety);
-      mid_serial_read = true;
+       if(ReadSteps(lengths_angles,&safety)){
+          mid_serial_read = true;
+       }
      }
      else{
       delayMicroseconds(Delay);
@@ -116,7 +121,7 @@ void convert_to_steps(int* steps_to_move,float* lengths_angles,int* motor_curren
   steps_to_move[1] = angle_to_steps(lengths_angles[1],motor_current[1]);
   steps_to_move[2] = length_to_steps(lengths_angles[2],motor_current[2]);
   steps_to_move[3] = angle_to_steps(lengths_angles[3],motor_current[3]);
-
+#ifdef SERIAL_PRINT
   Serial.println("Motor current");
   Serial.println(motor_current[0]);
   Serial.println(motor_current[1]);
@@ -128,6 +133,8 @@ void convert_to_steps(int* steps_to_move,float* lengths_angles,int* motor_curren
   Serial.println(steps_to_move[1]);
   Serial.println(steps_to_move[2]);
   Serial.println(steps_to_move[3]);
+
+#endif
     
  }
 //========================================================================

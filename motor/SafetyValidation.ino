@@ -6,7 +6,9 @@ void safety_broken(){
    digitalWrite(Z_ENABLE_PIN    , HIGH);
    digitalWrite(E_ENABLE_PIN    , HIGH);
    digitalWrite(Q_ENABLE_PIN    , HIGH);  
+#ifdef SERIAL_PRINT
    Serial.println("safety violated");
+#endif
 
   }
 
