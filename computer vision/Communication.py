@@ -98,7 +98,7 @@ def moveTo(x):
     return : array of motor absolute positions [l1,r1,l2,r2]
 '''
 def getCurrentSteps():
-    returnList = [0,0,0,0]
+    returnList = [0, 0, 0, 0]
     time_start = time.clock()
 
     serARD.write("0n")    #just send one random charcacter
@@ -133,10 +133,11 @@ def steps2Rotaional(steps):
 # #testing out how fast i can recevie serial
 # moveTo(home)
 # time.sleep(1)
-#
+# #
 # moveTo(l1);
-serARD = serial.Serial(port='COM11',baudrate=9600)
-
+# time.sleep(1)
+# serARD = serial.Serial(port='COM18',baudrate=9600)
+# print getCurrentSteps()
 # serARD.close()
 
 

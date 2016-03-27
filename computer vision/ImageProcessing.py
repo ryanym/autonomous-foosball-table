@@ -154,7 +154,7 @@ def find_ball_path(ball_cur,ball_pre):
             ball_tar[1]  = ball_cur[1] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
             
         if ball_tar[1] < BALL_Y_MIN:
-            ball_col[0] = ball_r[0]+(BALL_Y_MIN-ball_cur[1])/ball_diff_y*ball_diff_x
+            ball_col[0] = ball_cur[0]+(BALL_Y_MIN-ball_cur[1])/ball_diff_y*ball_diff_x
             ball_col[1] = BALL_Y_MIN;
             ball_tar[1] = BALL_Y_MIN * 2 - ball_tar[1];
             path.append((ball_cur,ball_col))
