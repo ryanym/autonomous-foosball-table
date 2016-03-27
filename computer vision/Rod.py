@@ -11,6 +11,8 @@ class Rod:
         self.ball_x_pre = 0
         self.prevP = 0
         self.kicked = False
+        self.prekick = False
+
     def homeRod(self):
         print 'homing rod'
         moveTo(home)
@@ -41,22 +43,23 @@ class Rod:
             if x >= 120 and x <= 160:
                 return True
     def move(self,y,x):
-        global prekick, rot, pos
-        prekick = False
-        if self.canKickForward(x) and not self.kicked and not prekick:
-            rot = -45
-            prekick = True
-
-        elif self.canKickForward(x) and not self.kicked and prekick:
-            rot = 45
-            self.kicked = True
-
+        global lin, rot
+        if self.canKickForward(x):
+            if not self.kicked and not self.prekick:
+                rot = -45
+                self.prekick = True
+            elif not self.kicked and self.prekick:
+                rot = 45
+                self.kicked  = True
+            else:
+                rot = 0
+                self.kicked = False
+                self.prekick = False
         else:
             rot = 0
-            self.kicked = False
 
         lin = self.ballFollowPosition(y)
         pos = [lin,rot,0,0]
-        print self.canKickForward(x), self.kicked
+        print self.canKickForward(x), self.prekick, self.kicked
         print pos
         moveTo(pos)

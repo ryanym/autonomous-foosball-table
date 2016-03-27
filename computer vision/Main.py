@@ -23,7 +23,7 @@ while(cam_open):
     if cv2.waitKey(2) & 0xFF == ord('q'):
         break
 
-    time.sleep(0.2)
+
 
     # test = [rod_pos_r1l, rod_pos_r1r, rod_pos_r1l, rod_pos_r2r]
     # testp = r1.ballFollowPosition(ball_x,ball_y)
@@ -34,6 +34,7 @@ while(cam_open):
     #     moveTo(test)
     # print ball_x
     r1.move(ball_y,ball_x)
+    time.sleep(0.2)
 
 
 # When everything done,home motors and release the capture
