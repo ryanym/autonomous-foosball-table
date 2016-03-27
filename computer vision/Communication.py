@@ -35,7 +35,7 @@ def moveTo(x):
 
     # converting arrray into a sendable string
     str_send = array_to_string(x)
-    print str_send
+    # print("move rod to: %s" % str_send)
     # writing the string to the serial port
     serARD.write(str_send);
 
@@ -56,6 +56,7 @@ r1 = [10, 360, 0, 0]
 r2 = [40, 0, 4, 0]
 
 home = [0, 0, 0, 0]
+
 def test():
     for i in range(5):
         moveTo(l1)

@@ -103,6 +103,10 @@ EDGE_UPPHSV = np.array([115,255,255])
 	
 ERROR_FILTER = np.ones((2,2),np.uint8)
 
+# move ball prev position declearation rym
+ball_x_pre = 0
+ball_y_pre = 0
+
 def nothing(x):
     pass
 

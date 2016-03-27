@@ -1,11 +1,10 @@
 from AI import * #Ai makes use of mudle_test so prevent recusrsive inclusion
-from RodLogic import Rod
+from Rod import Rod
 
-r1 = Rod(1)
+r1 = Rod(0)
 ###############################
 cam_open,cap = SetupCam()
-ball_x_pre=0
-ball_y_pre = 0
+
 while(cam_open):
     hsv_edge,frame_field = getHSV(cap)
     cv2.imshow('frame_field',frame_field)
@@ -23,20 +22,27 @@ while(cam_open):
     if cv2.waitKey(2) & 0xFF == ord('q'):
         break
     ################ AI ###################################
-    rod_pos_r1l , rod_pos_r1r , rod_pos_rod_posi_r2l , rod_pos_r2r = AI(ball_x,ball_y,ball_x_pre,ball_y_pre)
-    print ball_x,ball_y, rod_pos_r1l
+    # rod_pos_r1l , rod_pos_r1r , rod_pos_rod_posi_r2l , rod_pos_r2r = AI(ball_x,ball_y,ball_x_pre,ball_y_pre)
+    # print ball_x,ball_y, rod_pos_r1l
 
     #################ARDUINO INTERFACE ##################
-    time.sleep(0.2);
+    time.sleep(0.2)
     # test = [rod_pos_r1l, rod_pos_r1r, rod_pos_r1l, rod_pos_r2r]
-    test = [rod_pos_r1l,0, 0, 0]
-    moveTo(test);
+    # testp = r1.ballFollowPosition(ball_x,ball_y)
+    # test = [testp,0, 0, 0]
+    #
+    #
+    # if(testp):
+    #     moveTo(test)
+    # print ball_x
+    r1.move(ball_y,ball_x)
 
-    ball_x_pre = ball_x
-    ball_y_pre = ball_y
 
 # When everything done,home motors and release the capture
-moveTo(home)
+print 'before home'
+r1.homeRod()
+print home
+print 'after home'
 # r1.homeRod()
 cap.release()
 cv2.destroyAllWindows()
