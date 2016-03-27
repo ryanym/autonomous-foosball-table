@@ -26,7 +26,7 @@ def moveTo(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(port='COM3',baudrate=9600)
+    serARD = serial.Serial(port='COM18',baudrate=9600)
     # printing the serial port conencted to
     # print serARD.name
     # print (x)
@@ -65,7 +65,7 @@ def getCurrentSteps():
 
 TIME_SLEEP = 0.15;
 # p2 = [200,1100,200,200,'t']
-l1 = [95, 360, 95, 360]
+l1 = [80, 360, 80, 360]
 l2 = [0, 0, 0, 0]
 r1 = [10, 360, 0, 0]
 r2 = [40, 0, 4, 0]
@@ -73,10 +73,10 @@ r2 = [40, 0, 4, 0]
 home = [0, 0, 0, 0]
 
 def test():
-    for i in range(5):
+    for i in range(15):
         moveTo(l1)
         time.sleep(TIME_SLEEP)
-        moveTo(l2)
+        moveTo(home)
         time.sleep(TIME_SLEEP)
     moveTo(home)
 
