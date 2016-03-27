@@ -16,7 +16,7 @@ __asm volatile ("nop");
  #define clockwise 1
 
  //DEFINTION
- #define SERIAL_PRINT    //for Serial print taht are not necessary
+// #define SERIAL_PRINT    //for Serial print taht are not necessary
  
 /*four motors going from row1_linear,row1_rotational,row2_linear,row2_rotational
 max size is 32767 for each integer...do not go above this limit*/

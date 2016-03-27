@@ -1,6 +1,7 @@
 from Communication import *
 from ImageProcessing import *
 
+
 class Rod:
 
     def __init__(self, rodNumber):
@@ -11,9 +12,9 @@ class Rod:
         self.kicked = False
         self.prekick = False
 
-    def homeRod(self):
+    def home(self):
         print 'homing rod'
-        moveTo(home)
+        return [0,0,0,0]
 
     def ballFollowPosition(self,ball_y):
 
@@ -56,8 +57,11 @@ class Rod:
         else:
             rot = 0
 
-        lin = self.ballFollowPosition(y)
+        lin = int(self.ballFollowPosition(y))
+        # lin = self.ballFollowPosition(y)
         pos = [lin,rot,0,0]
-        print self.canKickForward(x), self.prekick, self.kicked
-        print pos
-        moveTo(pos)
+        print "cal:", pos
+        return pos
+        # print self.canKickForward(x), self.prekick, self.kicked
+        # print pos
+        # moveTo(pos)

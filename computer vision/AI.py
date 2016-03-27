@@ -73,7 +73,7 @@ def ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre):
     y = [[False,0],[False,0]]
     path = find_ball_path(ball_cur = [ball_x,ball_y] , ball_pre = [ball_x_pre,ball_y_pre])
 
-    print path
+    # print path
     #print ("time for path find " + str(time_total))
     #print ("array size " + str(len(path)))
     #print ("ROW friendly   " + str(ROW_FRIENDLY[0]) + "   " +  str(ROW_FRIENDLY[1]))
@@ -85,7 +85,7 @@ def ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre):
 
             #find if row point in between
             if((ROW_FRIENDLY[j]>path[i][0][0] and ROW_FRIENDLY[j] < path[i][1][0]) or (ROW_FRIENDLY[j]<path[i][0][0] and ROW_FRIENDLY[j]>path[i][1][0]) ):
-                intersecting[j][0] = True;
+                intersecting[j][0] = True
                 intersecting[j][1] = i
 
                 #find equation of line
