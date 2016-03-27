@@ -3,6 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="5a4fed0a-8c10-4f10-9026-1f7a795a0822" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Motor/ReadSteps.ino" afterPath="$PROJECT_DIR$/Motor/ReadSteps.ino" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Motor/setup.ino" afterPath="$PROJECT_DIR$/Motor/setup.ino" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/.idea/workspace.xml" afterPath="$PROJECT_DIR$/computer vision/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/AI.py" afterPath="$PROJECT_DIR$/computer vision/AI.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/Communication.py" afterPath="$PROJECT_DIR$/computer vision/Communication.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/ImageProcessing.py" afterPath="$PROJECT_DIR$/computer vision/ImageProcessing.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/Main.py" afterPath="$PROJECT_DIR$/computer vision/Main.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/motor/Motor.ino" afterPath="$PROJECT_DIR$/motor/Motor.ino" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/motor/MoveMotor.ino" afterPath="$PROJECT_DIR$/motor/MoveMotor.ino" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/motor/SafetyValidation.ino" afterPath="$PROJECT_DIR$/motor/SafetyValidation.ino" />
     </list>
     <ignored path="autonomous-foosball-table.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,16 +40,17 @@
       <file leaf-file-name="Communication.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/computer vision/Communication.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+            <state relative-caret-position="863">
+              <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+                <marker date="1459102061513" expanded="true" signature="2287:2524" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Rod.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Rod.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/computer vision/Rod.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="387">
@@ -54,8 +65,8 @@
       <file leaf-file-name="ImageProcessing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="297" column="18" selection-start-line="297" selection-start-column="13" selection-end-line="297" selection-end-column="18" />
+            <state relative-caret-position="1132">
+              <caret line="349" column="18" selection-start-line="349" selection-start-column="18" selection-end-line="349" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -64,18 +75,18 @@
       <file leaf-file-name="AI.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/computer vision/AI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
+            <state relative-caret-position="229">
+              <caret line="23" column="21" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/computer vision/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+            <state relative-caret-position="340">
+              <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding>
                 <element signature="e#0#76#0" expanded="true" />
               </folding>
@@ -114,8 +125,8 @@
         <option value="$PROJECT_DIR$/computer vision/ImageProcessing.py" />
         <option value="$PROJECT_DIR$/computer vision/RodLogic.py" />
         <option value="$PROJECT_DIR$/computer vision/Communication.py" />
-        <option value="$PROJECT_DIR$/computer vision/Main.py" />
         <option value="$PROJECT_DIR$/computer vision/Rod.py" />
+        <option value="$PROJECT_DIR$/computer vision/Main.py" />
       </list>
     </option>
   </component>
@@ -473,12 +484,19 @@
       <option name="project" value="LOCAL" />
       <updated>1459101823656</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="need to implement a better kick motion">
+      <created>1459101890479</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1459101890479</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="260" y="20" width="1400" height="1000" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -487,7 +505,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -528,6 +546,7 @@
           <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <marker date="1459102061513" expanded="true" signature="2287:2524" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -590,6 +609,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <marker date="1459102061513" expanded="true" signature="2287:2524" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -600,6 +620,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <marker date="1459102061513" expanded="true" signature="2287:2524" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -610,6 +631,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <marker date="1459102061513" expanded="true" signature="2287:2524" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -638,36 +660,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/computer vision/AI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="12" column="35" selection-start-line="12" selection-start-column="35" selection-end-line="12" selection-end-column="35" />
+        <state relative-caret-position="229">
+          <caret line="23" column="21" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="297" column="18" selection-start-line="297" selection-start-column="13" selection-end-line="297" selection-end-column="18" />
+        <state relative-caret-position="1132">
+          <caret line="349" column="18" selection-start-line="349" selection-start-column="18" selection-end-line="349" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/computer vision/Communication.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+        <state relative-caret-position="863">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/computer vision/Main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="10" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#76#0" expanded="true" />
+            <marker date="1459102061513" expanded="true" signature="2287:2524" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -686,6 +699,16 @@
           <caret line="47" column="19" selection-start-line="47" selection-start-column="19" selection-end-line="47" selection-end-column="19" />
           <folding>
             <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/computer vision/Main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#76#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -3,9 +3,6 @@ by Chenhe, Roland
 November 14, 2015
 ball tracking and path prediction
 ball path prediction only does on reflection on the long side
-
-Functions :
-
 '''
 import numpy as np
 import cv2
@@ -18,7 +15,7 @@ from Communication import *
 CAM_ID = 1
 CAM_WIDTH = 320
 CAM_HEIGHT = 240
-CAM_FPS = 90
+CAM_FPS = 120
 
 '''
 The Edge of the playfield, use for cut capture image
@@ -40,6 +37,11 @@ ROW_1 = 55 #mm
 ROW_2 = 155 #mm
 ROW_3 = 255 #mm
 ROW_4 = 357 #mm
+DISTANCE_BET_ROWS = 9 #mm
+ROW_2_MIN = ROW_2 - DISTANCE_BET_ROWS/2.0
+ROW_2_MAX = ROW_2 + DISTANCE_BET_ROWS/2.0
+ROW_4_MIN = ROW_4 - DISTANCE_BET_ROWS/2.0
+ROW_4_MAX = ROW_4 + DISTANCE_BET_ROWS/2.0
 
 ROW_TOL = 10 #mm
 ROW_1_PIXEL = FIELD_L_PIXEL*ROW_1/FIELD_L
@@ -74,7 +76,7 @@ GOAL_ROB = [FIELD_L_PIXEL-GOAL_L_PIXEL-1,FIELD_L_PIXEL-1,  (FIELD_W_PIXEL-GOAL_W
 BALL_SPEED_Square_MIN = 3
 
 L_PTOMM =  1.0*FIELD_L / FIELD_L_PIXEL
-W_PTOMM =  1.0*FIELD_W / (FIELD_W_PIXEL-6)
+W_PTOMM =  1.0*FIELD_W / (FIELD_W_PIXEL)
 
 print L_PTOMM
 print W_PTOMM
@@ -111,13 +113,6 @@ def nothing(x):
     pass
 
 def find_ball_path(ball_cur,ball_pre):
-    """
-    :param ball_cur:
-    :param ball_pre:
-    :return:  path
-    NOTE : if ball speed is too slow path returned is empty
-         :
-    """
     path = []
     ball_tar = [None] * 2
     ball_diff_x = ball_cur[0] - ball_pre[0]
@@ -143,7 +138,7 @@ def find_ball_path(ball_cur,ball_pre):
             ball_tar[1]  = ball_cur[1] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
             
         if ball_tar[1] > BALL_Y_MAX:
-            ball_col[0] = ball_cur[0]+(BALL_Y_MAX-ball_cur[1])/ball_diff_y*ball_diff_x  # using ratio
+            ball_col[0] = ball_cur[0]+(BALL_Y_MAX-ball_cur[1])/ball_diff_y*ball_diff_x
             ball_col[1] = BALL_Y_MAX;
             ball_tar[1] = BALL_Y_MAX * 2 - ball_tar[1];
             path.append((ball_cur,ball_col))
@@ -172,10 +167,11 @@ def center_ftoi(center):
     return (int(center[0]),int(center[1]))
 
 def w_ptomm(pixels):
-    return pixels*w_PTOMM;
+    return pixels*W_PTOMM;
 
 def l_ptomm(pixels):
     return pixels*L_PTOMM;
+
 
 def foosmen_location(foosmen):
     #input array of (x,y_center,w,h)
@@ -187,18 +183,44 @@ def foosmen_location(foosmen):
         tmp_middle = (foosmen[0][1]+foosmen[2][1])/2
         foosmen_middle = ();
         foosmen_middle = min(foosmen, key=lambda foosman:abs(foosman[1]-tmp_middle))
-        foosmen_relocate = foosmen_middle[1]
-        
+        foosmen_relocate = w_ptomm(foosmen_middle[1])
     return foosmen_relocate
 
-#############################################GETTING FOOSBALL GAME DATA#################################################
+
+################################################################################################################################ 
 def getRowPosition(hsv):
     first_fil_img = cv2.inRange(hsv, ROB_LOWHSV, ROB_UPPHSV)
     erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
-    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
+    dilate = cv2.dilate(erosion,ERROR_FILTER,1)
     cv2.imshow("robot foosmen",dilate)
     asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     c = sorted(contours, key = cv2.contourArea, reverse = True)
+
+    row2 = [];
+    row4 = [];
+    for cnt in c:
+            x,y,w,h = cv2.boundingRect(cnt)
+            if (h < 30)and(w>4)and (h>4):
+                if x+w+ROW_TOL_PIXEL > ROW_2_PIXEL and x-ROW_TOL_PIXEL < ROW_2_PIXEL:
+                    row2.append((x,y+h/2,w,h))
+                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
+                if x+w+ROW_TOL_PIXEL > ROW_4_PIXEL and x-ROW_TOL_PIXEL < ROW_4_PIXEL:
+                    row4.append((x,y+h/2,w,h))
+    foosmen_location(row2);
+    foosmen_location(row4);
+
+    row2_linear = foosmen_location(row2);
+    row4_linear = foosmen_location(row4);
+    return row2_linear,row4_linear
+
+def getEnemyPosition(hsv):
+    first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
+    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
+    dilate = cv2.dilate(erosion,ERROR_FILTER,1)
+    cv2.imshow("user foosmen",dilate)
+    asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    c = sorted(contours, key = cv2.contourArea, reverse = True)
+
     row1 = [];
     row3 = [];
     for cnt in c:
@@ -210,139 +232,9 @@ def getRowPosition(hsv):
                 if x+w+ROW_TOL_PIXEL > ROW_3_PIXEL and x-ROW_TOL_PIXEL < ROW_3_PIXEL:
                     row3.append((x,y+h/2,w,h))
                     #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,0,255),2)
-    foosmen_location(row1);
-    foosmen_location(row3);
-
-def getEnemyPosition(hsv):
-    first_fil_img = cv2.inRange(hsv, USER_LOWHSV, USER_UPPHSV)
-    erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
-    dilate = cv2.dilate(first_fil_img,ERROR_FILTER,1)
-    cv2.imshow("user foosmen",dilate)
-    asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-    c = sorted(contours, key = cv2.contourArea, reverse = True)
-    row2 = [];
-    row4 = [];
-    for cnt in c:
-            x,y,w,h = cv2.boundingRect(cnt)
-            if (h < 30)and(w>4)and (h>4):    
-                if x+w+ROW_TOL_PIXEL > ROW_2_PIXEL and x-ROW_TOL_PIXEL < ROW_2_PIXEL:
-                    row2.append((x,y+h/2,w,h))
-                    #cv2.rectangle(frame_field,(x,y),(x+w,y+h),(0,255,0),2)
-                if x+w+ROW_TOL_PIXEL > ROW_4_PIXEL and x-ROW_TOL_PIXEL < ROW_4_PIXEL:
-                    row4.append((x,y+h/2,w,h))
-    foosmen_location(row2);
-    foosmen_location(row4);
-
-def getBallPosition(hsv):  #return true position in mm
-    dest_image = cv2.inRange(hsv, lowerb, upperb)
-    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
-    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
-    cv2.imshow("Ball",dilate)
-    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
-    ball_found = False
-    ball_cur = (-1,-1)
-    ball_radius_max = 4
-    ball_center = (-1,-1)
-    if len(contours) >0:
-        for cnt in contours:
-            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
-            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
-                ball_found = True
-                if tmp_radius > ball_radius_max:
-                    ball_cur = (x,y)
-    return (ball_cur[0]*L_PTOMM,ball_cur[1]*W_PTOMM,ball_found)
-
-def getUnknown(hsv_edge):
-     #0,1 compare with x-axis; 2,3 compare with y-axis
-    #return true when unknown detected, else false
-    for edge_index in [0,1]:
-            edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV)
-            dilate = cv2.dilate(edge_fil_img,ERROR_FILTER,1)
-            asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-            c = sorted(contours, key = cv2.contourArea, reverse = True)
-            edge_cover = {'x':0,'w':0}#y,h
-            for cnt in c:
-                x,y,w,h = cv2.boundingRect(cnt)
-                '''
-                if(w>edge_cover['w']):
-                    edge_cover['w'] = w
-                    edge_cover['x'] = x
-                '''
-                if  x < EDGE_X_MIN and x+w > EDGE_X_MAX:
-                    edge_cover['w'] = w
-                    edge_cover['x'] = x
-                    break
-            #print edge_cover
-            cv2.imshow("edge"+str(edge_index),edge_fil_img)
-            if  edge_cover['x']> EDGE_X_MIN or edge_cover['x']+edge_cover['w']< EDGE_X_MAX:
-                return True
-
-
-    for edge_index in [2,3]:
-            edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV)
-            dilate = cv2.dilate(edge_fil_img,ERROR_FILTER,1)
-            asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-            c = sorted(contours, key = cv2.contourArea, reverse = True)
-            edge_cover = {'y':0,'h':0}#y,h
-            for cnt in c:
-                x,y,w,h = cv2.boundingRect(cnt)
-                '''
-                if(h>edge_cover['h']):
-                    edge_cover['h'] = h
-                    edge_cover['y'] = y
-                '''
-                if  y < EDGE_Y_MIN and y+h > EDGE_Y_MAX:
-                    edge_cover['h'] = h
-                    edge_cover['y'] = y
-                    break
-            #print edge_cover
-            cv2.imshow("edge"+str(edge_index),edge_fil_img)
-            if  edge_cover['y']> EDGE_Y_MIN or edge_cover['y']+edge_cover['h']< EDGE_Y_MAX:
-                return True
-    return False
-
-def getGoal(hsv):
-    ball_radius_max = 4
-    goalR = False
-    goalU=False
-    goal_user_area = hsv[GOAL_USER[2]:GOAL_USER[3],GOAL_USER[0]:GOAL_USER[1]]
-    goal_rob_area = hsv[GOAL_ROB[2]:GOAL_ROB[3],GOAL_ROB[0]:GOAL_ROB[1]]
-    #detect user goal
-    dest_image = cv2.inRange(goal_user_area, GOAL_LOWHSV,GOAL_UPPHSV)
-    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
-    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
-    cv2.imshow('goal_rob_area',dilate)
-    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
-    user_ball_radius_max = 4
-    ball_center = (-1,-1)
-    if len(contours) >0:
-        for cnt in contours:
-            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
-            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
-                if tmp_radius > ball_radius_max:
-                    user_ball_radius_max = tmp_radius
-    #detect rob goal
-    dest_image = cv2.inRange(goal_rob_area, GOAL_LOWHSV,GOAL_UPPHSV)
-    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
-    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
-    cv2.imshow('goal_user_area',dilate)
-    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
-    rob_ball_radius_max = 4
-    ball_center = (-1,-1)
-    if len(contours) >0:
-        for cnt in contours:
-            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
-            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
-                if tmp_radius > ball_radius_max:
-                    rob_ball_radius_max = tmp_radius
-                    ball_cur = (x,y)
-    #if  rob_ball_radius_max==user_ball_radius_max or (rob_ball_radius_max ==4 and user_ball_radius_max == 4):
-    #    return goalR_goalU
-    if rob_ball_radius_max> user_ball_radius_max:
-        goalR=True
-    if rob_ball_radius_max< user_ball_radius_max:
-        goalU=True
-    return (goalR,goalU)
+    row1_linear = foosmen_location(row1);
+    row3_linear = foosmen_location(row3);
+    return row1_linear,row3_linear
 
 
 '''
@@ -355,13 +247,13 @@ cap.set(5,CAM_FPS)
 #Filter
 lowerb = np.array([LOWER_H,LOWER_S,LOWER_V])
 upperb = np.array([UPPER_H,UPPER_S,UPPER_V])
-kernel = np.ones((7,7),np.float32)/49
+kernel = np.ones((5,5),np.float32)/25
 
 kernel_edge = np.ones((3,3),np.float32)/9
 kernel_foosmen = np.ones((3,3),np.float32)/9
 ball_pre = (-1,-1)
 ball_cur = (-1,-1)
-############################### CAMERA REALTED #####################################33
+###############################
 def SetupCam():
     CAM_ID = 1
     CAM_WIDTH = 320
@@ -393,10 +285,130 @@ def getHSV(cap):
     frame_field = hsv[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
     return hsv_edge,frame_field
 
+def getBallPosition(hsv):  # return true position in mm
+    dest_image = cv2.inRange(hsv, lowerb, upperb)
+    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
+    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+    cv2.imshow("Ball",dilate)
+    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
+    ball_found = False
+    ball_cur = (-1,-1)
+    ball_radius_max = 4
+    ball_center = (-1,-1)
+    if len(contours) >0:
+        for cnt in contours:
+            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
+            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
+                ball_found = True
+                if tmp_radius > ball_radius_max:
+                    ball_cur = (x,y)  
+    return (ball_cur[0]*L_PTOMM,ball_cur[1]*W_PTOMM,ball_found)
+
+def getUnknown(hsv_edge):
+     #0,1 compare with x-axis; 2,3 compare with y-axis
+    #return true when unknown detected, else false
+    for edge_index in [0,1]:
+            edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV) 
+            dilate = cv2.dilate(edge_fil_img,ERROR_FILTER,1)
+            asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+            c = sorted(contours, key = cv2.contourArea, reverse = True)
+            edge_cover = {'x':0,'w':0}#y,h
+            for cnt in c:
+                x,y,w,h = cv2.boundingRect(cnt)
+                '''
+                if(w>edge_cover['w']):
+                    edge_cover['w'] = w
+                    edge_cover['x'] = x
+                '''
+                if  x < EDGE_X_MIN and x+w > EDGE_X_MAX:
+                    edge_cover['w'] = w
+                    edge_cover['x'] = x
+                    break
+            #print edge_cover
+            cv2.imshow("edge"+str(edge_index),edge_fil_img) 
+            if  edge_cover['x']> EDGE_X_MIN or edge_cover['x']+edge_cover['w']< EDGE_X_MAX:
+                return True
+            
+                
+    for edge_index in [2,3]:
+            edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV)
+            dilate = cv2.dilate(edge_fil_img,ERROR_FILTER,1)
+            asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+            c = sorted(contours, key = cv2.contourArea, reverse = True)
+            edge_cover = {'y':0,'h':0}#y,h
+            for cnt in c:
+                x,y,w,h = cv2.boundingRect(cnt)
+                '''
+                if(h>edge_cover['h']):
+                    edge_cover['h'] = h
+                    edge_cover['y'] = y
+                '''
+                if  y < EDGE_Y_MIN and y+h > EDGE_Y_MAX:
+                    edge_cover['h'] = h
+                    edge_cover['y'] = y
+                    break
+            #print edge_cover
+            cv2.imshow("edge"+str(edge_index),edge_fil_img)
+            if  edge_cover['y']> EDGE_Y_MIN or edge_cover['y']+edge_cover['h']< EDGE_Y_MAX:
+                return True
+    return False
 
 
+def getGoal(hsv):
+    ball_radius_max = 4
+    goalR = False
+    goalU=False
+    goal_user_area = hsv[GOAL_USER[2]:GOAL_USER[3],GOAL_USER[0]:GOAL_USER[1]]
+    goal_rob_area = hsv[GOAL_ROB[2]:GOAL_ROB[3],GOAL_ROB[0]:GOAL_ROB[1]]
+    #detect user goal 
+    dest_image = cv2.inRange(goal_user_area, GOAL_LOWHSV,GOAL_UPPHSV)
+    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
+    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+    cv2.imshow('goal_rob_area',dilate)
+    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
+    user_ball_radius_max = 4
+    ball_center = (-1,-1)
+    if len(contours) >0:
+        for cnt in contours:
+            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
+            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
+                if tmp_radius > ball_radius_max:
+                    user_ball_radius_max = tmp_radius
+    #detect rob goal 
+    dest_image = cv2.inRange(goal_rob_area, GOAL_LOWHSV,GOAL_UPPHSV)
+    erosion = cv2.erode(dest_image,ERROR_FILTER,1)
+    dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
+    cv2.imshow('goal_user_area',dilate)
+    a,contours,hierarchy = cv2.findContours(dilate, 1, 2)
+    rob_ball_radius_max = 4
+    ball_center = (-1,-1)
+    if len(contours) >0:
+        for cnt in contours:
+            (x,y),tmp_radius = cv2.minEnclosingCircle(cnt)
+            if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
+                if tmp_radius > ball_radius_max:
+                    rob_ball_radius_max = tmp_radius
+                    ball_cur = (x,y)
+    #if  rob_ball_radius_max==user_ball_radius_max or (rob_ball_radius_max ==4 and user_ball_radius_max == 4): 
+    #    return goalR_goalU
+    if rob_ball_radius_max> user_ball_radius_max: 
+        goalR=True
+    if rob_ball_radius_max< user_ball_radius_max: 
+        goalU=True
+    return (goalR,goalU)
 
 
+def getPosition(ball_x,ball_y): # follow the ball
+    p = 0
+    if(ball_y-FOOSMAN_WIDTH/2-0.3)>3*FOOSMAN_DISTANCE:
+        p =  88
+    elif(ball_y-FOOSMAN_WIDTH/2-0.3)>2*FOOSMAN_DISTANCE:
+        p =  (ball_y-FOOSMAN_WIDTH/2)-2*FOOSMAN_DISTANCE
+    elif(ball_y-FOOSMAN_WIDTH/2-0.3)>FOOSMAN_DISTANCE:
+        p =  (ball_y-FOOSMAN_WIDTH/2)-FOOSMAN_DISTANCE
+    elif(ball_y-FOOSMAN_WIDTH/2-0.3)>0:
+        p =  (ball_y-FOOSMAN_WIDTH/2)
+    return p
 
 
 

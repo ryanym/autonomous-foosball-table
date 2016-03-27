@@ -1,4 +1,11 @@
+// BOF preprocessor bug prevent - insert me on top of your arduino-code
+#if 1
+__asm volatile ("nop");
+#endif
+
 #include "pin_def.h"
+
+
 /*The data to be sent should be comma delimited ex 4,5,6,7, the last comma is importatnt as well
  * When changing the number of receivevd varaibles make sure you change on the PC side
  */
@@ -7,6 +14,9 @@
  #define pi 3.14
  #define counter_clockwise -1
  #define clockwise 1
+
+ //DEFINTION
+ //#define SERIAL_PRINT    //for Serial print taht are not necessary
  
 /*four motors going from row1_linear,row1_rotational,row2_linear,row2_rotational
 max size is 32767 for each integer...do not go above this limit*/
