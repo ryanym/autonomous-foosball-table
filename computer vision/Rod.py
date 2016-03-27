@@ -41,12 +41,20 @@ class Rod:
             if x >= 120 and x <= 160:
                 return True
     def move(self,y,x):
-        if self.canKickForward(x) and not self.kicked:
-            rot = 60
+        global prekick, rot, pos
+        prekick = False
+        if self.canKickForward(x) and not self.kicked and not prekick:
+            rot = -45
+            prekick = True
+
+        elif self.canKickForward(x) and not self.kicked and prekick:
+            rot = 45
             self.kicked = True
+
         else:
             rot = 0
             self.kicked = False
+
         lin = self.ballFollowPosition(y)
         pos = [lin,rot,0,0]
         print self.canKickForward(x), self.kicked

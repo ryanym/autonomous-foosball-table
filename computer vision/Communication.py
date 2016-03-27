@@ -28,7 +28,7 @@ def moveTo(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(port='COM11',baudrate=9600)
+    serARD = serial.Serial(port='COM3',baudrate=9600)
     # printing the serial port conencted to
     # print serARD.name
     # print (x)
@@ -82,14 +82,14 @@ def test():
     moveTo(home)
 
 
-#testing out how fast i can recevie serial
-moveTo(home)
-time.sleep(1)
-
-moveTo(l1);
-serARD = serial.Serial(port='COM11',baudrate=9600)
-getCurrentSteps()
-serARD.close()
+# #testing out how fast i can recevie serial
+# moveTo(home)
+# time.sleep(1)
+#
+# moveTo(l1);
+# serARD = serial.Serial(port='COM11',baudrate=9600)
+# getCurrentSteps()
+# serARD.close()
 
 # notes on implementation
 # send a byte to start the signal

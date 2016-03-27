@@ -1,5 +1,6 @@
-from AI import * #Ai makes use of mudle_test so prevent recusrsive inclusion
+#from AI import * #Ai makes use of mudle_test so prevent recusrsive inclusion
 from Rod import Rod
+from ImageProcessing import *
 
 r1 = Rod(0)
 ###############################
