@@ -1,10 +1,12 @@
 #from AI import * #Ai makes use of mudle_test so prevent recusrsive inclusion
 from Rod import Rod
 from ImageProcessing import *
+from Communication import *
 
 r1 = Rod(0)
 ###############################
 cam_open,cap = SetupCam()
+serARD = serial.Serial(port='COM3', baudrate=9600)
 
 while(cam_open):
     hsv_edge,frame_field = getHSV(cap)
@@ -43,5 +45,6 @@ r1.homeRod()
 print home
 print 'after home'
 # r1.homeRod()
+serARD.close()
 cap.release()
 cv2.destroyAllWindows()

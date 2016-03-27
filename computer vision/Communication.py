@@ -7,6 +7,10 @@ SPACING_TEETH = 2
 NUM_TEETH = 30
 
 
+
+
+
+
 '''
     return a string sperated by commas with an endline character 'n' for sending over serial comm
     ex [3,4,5,6,3] = "3,4,5,6,3,n"
@@ -22,11 +26,13 @@ def array_to_string(x):
 '''
     @parma = [float row1_linear,float row1_roational,float row2_linear,float row2_roational,character t or f)
 '''
+
+
 def moveTo(x):
     COM_Port = 8;
     # turning on serial
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(port='COM3',baudrate=9600)
+    serARD = serial.Serial(port='COM3', baudrate=9600)
     # printing the serial port conencted to
     # print serARD.name
     # print (x)
@@ -35,15 +41,13 @@ def moveTo(x):
     str_send = array_to_string(x)
     # print("move rod to: %s" % str_send)
     # writing the string to the serial port
-    serARD.write(str_send);
 
-    # readinf data and printing it
-
-    time_start = time.clock()
+    serARD.write(str_send)
 
 
     # important to close
     serARD.close()
+
 
 '''
     return : array of motor absolute positions [l1,r1,l2,r2]
