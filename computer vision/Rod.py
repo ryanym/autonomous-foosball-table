@@ -3,8 +3,6 @@ from ImageProcessing import *
 
 class Rod:
 
-
-
     def __init__(self, rodNumber):
         self.rodNumber = rodNumber
         self.ball_y_pre = 0
