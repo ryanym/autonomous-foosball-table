@@ -10,6 +10,7 @@ int ReadSteps(float* lengths_angles,bool* safety){
   }
 
  //if flag riased dissect into propeer array
+ //if only one data then probably for getting current steps
   if(Read == 1){
     if(strlen(content.c_str()) != 1){
       for(int i = 0; i < 4; i++){
@@ -19,7 +20,6 @@ int ReadSteps(float* lengths_angles,bool* safety){
       }
     }
     else{
-      String send_back;
       int time_start2 = micros();
       Serial.print(motor_current[0]);
       Serial.print(",");

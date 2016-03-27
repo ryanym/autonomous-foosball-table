@@ -40,14 +40,13 @@ def moveTo(x):
     serARD.write(str_send);
 
     # readinf data and printing it
-    data = serARD.readline()
+
     time_start = time.clock()
-    print data
-    print serARD.readline()
+
 
     # important to close
     serARD.close()
-    print(time.clock() - time_start)
+
 
 def getCurrentSteps():
     time_start = time.clock()
@@ -55,12 +54,9 @@ def getCurrentSteps():
     serARD.write("0n")    #just send one random charcacter
     print  serARD.readline()
 
-   # print serARD.readline()
-   # print serARD.readline()
-
     #print(time.clock() - time_start)
     mylist = [int(x) for x in '3 ,2 ,6'.split(',')]
-    #print (mylist)
+    print (mylist)
 
     time_end = time.clock() - time_start;
     print(time_end)
@@ -85,12 +81,14 @@ def test():
     moveTo(home)
 
 
+#testing out how fast i can recevie serial
+#moveTo(home)
+#time.sleep(1)
 
-moveTo(l1);
-time.sleep(0.01)
-serARD = serial.Serial(port='COM11',baudrate=9600)
-getCurrentSteps()
-serARD.close()
+#moveTo(l1);
+#serARD = serial.Serial(port='COM11',baudrate=9600)
+#getCurrentSteps()
+#serARD.close()
 
 # notes on implementation
 # send a byte to start the signal
