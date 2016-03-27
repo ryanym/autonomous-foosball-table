@@ -34,7 +34,6 @@ bool serial_read,mid_serial_read = false;
 /* motor properties */
 int linear_steps = 200;                  //steps/rev for linear motors
 int rotational_steps = 200;              //steps /rev for rotational motor
-int motor_moved[4] = {false,false,false,false};
 
 /*  delays also used for movement as well as homing */ //200 works for motor_delay
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
@@ -53,11 +52,12 @@ int stop_pin  = STOP_PIN;
 float lengths_angles[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
-int reset_array[4][2] = {  {0,316},       //316 steps corresponds to 95mm
+int reset_array[4][2] = {  {0,316},       //316 steps corresponds to 95mm.this is for when the swithces are hit
                             {0,0},
                             {0,0},
-                            {0,0}
-                            };
+                            {0,0} };
+int motor_moved[4] = {false,false,false,false};    //flag to indicate individual motor step
+
 /* linear gear properties */
 int num_teeth = 30;                              //num of teeth on rotaional gear for linear tranlation
 float spacing_teeth  = 2;                        //in cm since as input of length is in mm
