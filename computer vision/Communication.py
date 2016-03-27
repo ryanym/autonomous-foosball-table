@@ -52,10 +52,10 @@ def getCurrentSteps():
     time_start = time.clock()
     #serARD = serial.Serial(port='COM11',baudrate=9600)
     serARD.write("0n")    #just send one random charcacter
-    print  serARD.readline()
+    data = serARD.readline()
+    print  data
 
-    #print(time.clock() - time_start)
-    mylist = [int(x) for x in '3 ,2 ,6'.split(',')]
+    mylist = [int(x) for x in data.split(',')]
     print (mylist)
 
     time_end = time.clock() - time_start;
@@ -82,13 +82,13 @@ def test():
 
 
 #testing out how fast i can recevie serial
-#moveTo(home)
-#time.sleep(1)
+moveTo(home)
+time.sleep(1)
 
-#moveTo(l1);
-#serARD = serial.Serial(port='COM11',baudrate=9600)
-#getCurrentSteps()
-#serARD.close()
+moveTo(l1);
+serARD = serial.Serial(port='COM11',baudrate=9600)
+getCurrentSteps()
+serARD.close()
 
 # notes on implementation
 # send a byte to start the signal
