@@ -6,6 +6,65 @@ MOTOR_STEPS = 200
 SPACING_TEETH = 2
 NUM_TEETH = 30
 
+# p2 = [200,1100,200,200,'t']
+#testing purposes
+l1 = [80, 360, 80, 360]
+l2 = [0, 0, 0, 0]
+r1 = [10, 360, 0, 0]
+r2 = [40, 0, 4, 0]
+home = [0, 0, 0, 0]
+TIME_SLEEP = 0.15;
+
+class Communication():
+
+    def __init__(self,COM_NUM):
+        self.COM_NUM = str(COM_NUM)
+
+    def array_to_string(self, x):
+        '''return a string sperated by commas with an endline character 'n' for sending over serial comm
+        ex [3,4,5,6,3] = "3,4,5,6,3,n"
+        there has to be a comma at the end to signify ending of characters
+        '''
+        str_send = ""
+        for j in range(0, len(x)):
+            str_send = str_send + str(x[j]) + ","
+        str_send += "n"
+        return str_send
+
+
+
+    def moveTo(self, pos_angles):
+        '''para : array[float row1_linear,float row1_roational,float row2_linear,float row2_roational,character t or f)
+        '''
+        # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
+        serARD = serial.Serial(port='COM18',baudrate=9600)
+        str_send = self.array_to_string(pos_angles)
+        serARD.write(str_send);
+        serARD.close()
+
+    def steps2Linear(self,steps):
+        '''converts steps to absolute linear'''
+        length_per_steps = (float(SPACING_TEETH) * NUM_TEETH) / MOTOR_STEPS
+        return length_per_steps * steps
+
+    def steps2Rotaional(self,steps):
+        '''converts ot absolute angle'''
+        return steps*360.0/MOTOR_STEPS
+
+    def getCurrentSteps(self):
+        '''get current absolute postions from controller - takes 17ms ish
+        send only one random character with character 'n'
+        '''
+        returnlist = [0, 0, 0, 0]
+        serARD.write("0n")
+        data = serARD.readline()
+        mylist = [int(x) for x in data.split(',')]
+        returnlist[0] = self.steps2Linear(mylist[0])
+        returnlist[1] = self.steps2Rotaional(mylist[1])
+        returnlist[2] = self.steps2Linear(mylist[2])
+        returnlist[3] = self.steps2Rotaional(mylist[3])
+        return returnlist
+
 
 
 
@@ -26,34 +85,20 @@ def array_to_string(x):
 '''
     @parma = [float row1_linear,float row1_roational,float row2_linear,float row2_roational,character t or f)
 '''
-
-
 def moveTo(x):
-    COM_Port = 8;
-    # turning on serial
+
     # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-    serARD = serial.Serial(port='COM3', baudrate=9600)
-    # printing the serial port conencted to
-    # print serARD.name
-    # print (x)
-
-    # converting arrray into a sendable string
+    serARD = serial.Serial(port='COM18',baudrate=9600)
     str_send = array_to_string(x)
-    # print("move rod to: %s" % str_send)
-    # writing the string to the serial port
-
-    serARD.write(str_send)
-
-
+    serARD.write(str_send);
     # important to close
     serARD.close()
-
 
 '''
     return : array of motor absolute positions [l1,r1,l2,r2]
 '''
 def getCurrentSteps():
-    returnList = [0,0,0,0]
+    returnList = [0, 0, 0, 0]
     time_start = time.clock()
 
     serARD.write("0n")    #just send one random charcacter
@@ -67,39 +112,32 @@ def getCurrentSteps():
     returnList[3] = steps2Rotaional(mylist[3])
     return(returnList)
 
-TIME_SLEEP = 0.15;
-# p2 = [200,1100,200,200,'t']
-l1 = [95, 360, 95, 360]
-l2 = [0, 0, 0, 0]
-r1 = [10, 360, 0, 0]
-r2 = [40, 0, 4, 0]
-
-home = [0, 0, 0, 0]
 
 def test():
-    for i in range(5):
+    for i in range(15):
         moveTo(l1)
         time.sleep(TIME_SLEEP)
-        moveTo(l2)
+        moveTo(home)
         time.sleep(TIME_SLEEP)
     moveTo(home)
 
 def steps2Linear(steps):
      length_per_steps = (float(SPACING_TEETH) * NUM_TEETH) / MOTOR_STEPS
-     return(length_per_steps * steps)
+     return length_per_steps * steps
 
 def steps2Rotaional(steps):
-    return(steps*360.0/MOTOR_STEPS)
+    return steps*360.0/MOTOR_STEPS
 
 
 
 # #testing out how fast i can recevie serial
 # moveTo(home)
 # time.sleep(1)
-#
+# #
 # moveTo(l1);
-# serARD = serial.Serial(port='COM11',baudrate=9600)
-
+# time.sleep(1)
+# serARD = serial.Serial(port='COM18',baudrate=9600)
+# print getCurrentSteps()
 # serARD.close()
 
 

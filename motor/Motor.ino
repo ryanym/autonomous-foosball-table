@@ -16,7 +16,7 @@ __asm volatile ("nop");
  #define clockwise 1
 
  //DEFINTION
- //#define SERIAL_PRINT    //for Serial print taht are not necessary
+ #define SERIAL_PRINT    //for Serial print taht are not necessary
  
 /*four motors going from row1_linear,row1_rotational,row2_linear,row2_rotational
 max size is 32767 for each integer...do not go above this limit*/
@@ -37,7 +37,7 @@ int rotational_steps = 200;              //steps /rev for rotational motor
 
 /*  delays also used for movement as well as homing */ //200 works for motor_delay
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
-int after_motor_delay = 100;
+int after_motor_delay = 300;
 int between_motor_delay = 0;
 int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
@@ -52,7 +52,7 @@ int stop_pin  = STOP_PIN;
 float lengths_angles[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
-int reset_array[4][2] = {  {0,316},       //316 steps corresponds to 95mm.this is for when the swithces are hit
+int reset_array[4][2] = {  {0,300},       //316 steps corresponds to 95mm.this is for when the swithces are hit
                             {0,0},
                             {0,0},
                             {0,0} };
