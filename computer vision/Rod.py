@@ -39,7 +39,7 @@ class Rod:
 
     def canKickForward(self, x):
         if self.rodNumber == 0:
-            if x >= 120 and x <= 160:
+            if x >= 120 and x <= 200:
                 return True
     def move(self,y,x):
         global lin, rot

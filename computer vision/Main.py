@@ -44,7 +44,7 @@ while(cam_open):
     ball_y_pre = ball_y
 
     # print ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)
-    print comm.getCurrentSteps()
+    # print comm.getCurrentSteps()
     time.sleep(0.1)
 # When everything done,home motors and release the capture
 print 'before home'
