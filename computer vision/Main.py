@@ -38,10 +38,18 @@ while(cam_open):
     # if(testp):
     #     moveTo(test)
     # print ball_x
-    comm.moveTo(r1.move(ball_y,ball_x))
+    if ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][0]:
+        predY = ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][1]
+    else:
+        predY = ball_y
+    int(predY)
+    comm.moveTo(r1.move(predY,ball_x))
     # r1.move(ball_y,ball_x)
     ball_x_pre = ball_x
     ball_y_pre = ball_y
+
+    predY_pre = predY
+
 
     # print ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)
     # print comm.getCurrentSteps()

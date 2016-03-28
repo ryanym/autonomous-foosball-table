@@ -14,8 +14,8 @@ class Rod:
 
     def home(self):
         print 'homing rod'
-        return [0,0,0,0]
-
+        # return [0,0,0,0]
+        return [100,0,0,0]
     def ballFollowPosition(self,ball_y):
 
         curP = 0
@@ -30,6 +30,7 @@ class Rod:
 
         int(round(curP))
         # curP = int(round(curP))
+
         if abs(self.prevP - curP) > 5:
             # print (abs(self.ball_y_prey_pre - curP))
             self.prevP = curP
@@ -39,7 +40,7 @@ class Rod:
 
     def canKickForward(self, x):
         if self.rodNumber == 0:
-            if x >= 120 and x <= 200:
+            if x >= 125 and x <= 160:
                 return True
     def move(self,y,x):
         global lin, rot
@@ -60,7 +61,8 @@ class Rod:
         lin = int(self.ballFollowPosition(y))
         # lin = self.ballFollowPosition(y)
         pos = [lin,rot,0,0]
-        print "cal:", pos
+        print "predict:", pos
+
         return pos
         # print self.canKickForward(x), self.prekick, self.kicked
         # print pos

@@ -78,7 +78,7 @@ void setup() {
   //pinMode(STOP_PIN , INPUT);
 
   /* home motors */
-  //homing(motor_current);
+  homing(motor_current);
 
 }
 

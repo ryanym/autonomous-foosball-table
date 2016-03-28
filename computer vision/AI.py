@@ -94,7 +94,7 @@ def ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre):
 
                 #find y coodinate
                 y[j][0] = True
-                y[j][1] = m * ROW_FRIENDLY[j] + c
+                y[j][1] = m * ROW_FRIENDLY[j] + c - BALL_R
     return y
 
 #random rotatoon between 90 and -90

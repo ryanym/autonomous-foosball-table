@@ -35,6 +35,6 @@ void homing(int* motor_current){
   
   /* zero-in the current motors */
   for(j=0;j<4;j++){
-    motor_current[j] = 0;
+    motor_current[j] = reset_array[j][0];
   }
 }
