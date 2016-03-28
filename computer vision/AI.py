@@ -107,4 +107,4 @@ def assignDefaultPos():
     rod_pos[r1] = 0
     rod_pos[r2] = 0
 
-AI(250,250,240,240)
+
