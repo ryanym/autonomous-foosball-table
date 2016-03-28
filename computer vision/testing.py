@@ -1,3 +1,3 @@
 from AI import *
-path = find_ball_path(ball_cur = [100,250] ,ball_pre = [90,240])
-print path
+print ball_FollowBallPath(240,240,230,230)
+x=0

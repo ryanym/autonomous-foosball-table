@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5a4fed0a-8c10-4f10-9026-1f7a795a0822" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/Main.py" afterPath="$PROJECT_DIR$/computer vision/Main.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/Rod.py" afterPath="$PROJECT_DIR$/computer vision/Rod.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/.idea/workspace.xml" afterPath="$PROJECT_DIR$/computer vision/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/AI.py" afterPath="$PROJECT_DIR$/computer vision/AI.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/ImageProcessing.py" afterPath="$PROJECT_DIR$/computer vision/ImageProcessing.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/testing.py" afterPath="$PROJECT_DIR$/computer vision/testing.py" />
     </list>
     <ignored path="autonomous-foosball-table.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,11 +54,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ImageProcessing.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ImageProcessing.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5100">
-              <caret line="354" column="0" selection-start-line="354" selection-start-column="0" selection-end-line="354" selection-end-column="0" />
+            <state relative-caret-position="1486">
+              <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
               <folding>
                 <element signature="e#140#158#0" expanded="true" />
               </folding>
@@ -68,13 +70,13 @@
         <entry file="file://$PROJECT_DIR$/computer vision/AI.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="415">
-              <caret line="100" column="23" selection-start-line="100" selection-start-column="23" selection-end-line="100" selection-end-column="23" />
+              <caret line="99" column="23" selection-start-line="99" selection-start-column="23" selection-end-line="99" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/computer vision/Main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="408">
@@ -116,10 +118,10 @@
         <option value="$PROJECT_DIR$/computer vision/__init__.py" />
         <option value="$PROJECT_DIR$/computer vision/RodLogic.py" />
         <option value="$PROJECT_DIR$/computer vision/Communication.py" />
-        <option value="$PROJECT_DIR$/computer vision/ImageProcessing.py" />
         <option value="$PROJECT_DIR$/computer vision/AI.py" />
         <option value="$PROJECT_DIR$/computer vision/Rod.py" />
         <option value="$PROJECT_DIR$/computer vision/Main.py" />
+        <option value="$PROJECT_DIR$/computer vision/ImageProcessing.py" />
       </list>
     </option>
   </component>
@@ -838,18 +840,8 @@
     <entry file="file://$PROJECT_DIR$/computer vision/AI.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="415">
-          <caret line="100" column="23" selection-start-line="100" selection-start-column="23" selection-end-line="100" selection-end-column="23" />
+          <caret line="99" column="23" selection-start-line="99" selection-start-column="23" selection-end-line="99" selection-end-column="23" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5100">
-          <caret line="354" column="0" selection-start-line="354" selection-start-column="0" selection-end-line="354" selection-end-column="0" />
-          <folding>
-            <element signature="e#140#158#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -879,6 +871,16 @@
           <caret line="46" column="43" selection-start-line="46" selection-start-column="43" selection-end-line="46" selection-end-column="43" />
           <folding>
             <element signature="e#78#97#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1486">
+          <caret line="357" column="0" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
+          <folding>
+            <element signature="e#140#158#0" expanded="true" />
           </folding>
         </state>
       </provider>
