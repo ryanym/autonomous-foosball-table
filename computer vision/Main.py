@@ -1,12 +1,15 @@
 #from AI import * #Ai makes use of mudle_test so prevent recusrsive inclusion
 from Rod import Rod
 from ImageProcessing import *
-from Communication import *
+from Communication import Communication
+
+from AI import  ball_FollowBallPath
 
 r1 = Rod(0)
+comm = Communication('COM3')
+
 ###############################
 cam_open,cap = SetupCam()
-serARD = serial.Serial(port='COM3', baudrate=9600)
 
 while(cam_open):
     hsv_edge,frame_field = getHSV(cap)
@@ -35,16 +38,29 @@ while(cam_open):
     # if(testp):
     #     moveTo(test)
     # print ball_x
-    r1.move(ball_y,ball_x)
-    time.sleep(0.2)
+    if ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][0]:
+        predY = ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][1]
+    else:
+        predY = ball_y
+    int(predY)
+    comm.moveTo(r1.move(predY,ball_x))
+    # r1.move(ball_y,ball_x)
+    ball_x_pre = ball_x
+    ball_y_pre = ball_y
+
+    predY_pre = predY
 
 
+    # print ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)
+    # print comm.getCurrentSteps()
+    time.sleep(0.1)
 # When everything done,home motors and release the capture
 print 'before home'
-r1.homeRod()
+comm.moveTo(r1.home())
 print home
 print 'after home'
 # r1.homeRod()
-serARD.close()
+
+comm.closeComm()
 cap.release()
 cv2.destroyAllWindows()

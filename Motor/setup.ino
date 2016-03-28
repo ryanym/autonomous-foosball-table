@@ -29,6 +29,9 @@ void enable_pins(){
   pinMode(Q_DIR_PIN    , OUTPUT);
   pinMode(Q_ENABLE_PIN    , OUTPUT);
 
+  pinMode(FAN_PIN, OUTPUT);
+  
+   digitalWrite(FAN_PIN, HIGH); 
    digitalWrite(X_ENABLE_PIN    , LOW);
    digitalWrite(Y_ENABLE_PIN    , LOW);
    digitalWrite(Z_ENABLE_PIN    , LOW);

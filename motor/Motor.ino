@@ -16,7 +16,7 @@ __asm volatile ("nop");
  #define clockwise 1
 
  //DEFINTION
- #define SERIAL_PRINT    //for Serial print taht are not necessary
+//#define SERIAL_PRINT    //for Serial print taht are not necessary
  
 /*four motors going from row1_linear,row1_rotational,row2_linear,row2_rotational
 max size is 32767 for each integer...do not go above this limit*/
@@ -52,7 +52,7 @@ int stop_pin  = STOP_PIN;
 float lengths_angles[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
-int reset_array[4][2] = {  {0,300},       //316 steps corresponds to 95mm.this is for when the swithces are hit
+int reset_array[4][2] = {  {16,293},       //316 steps corresponds to 95mm.this is for when the swithces are hit
                             {0,0},
                             {0,0},
                             {0,0} };
@@ -78,7 +78,7 @@ void setup() {
   //pinMode(STOP_PIN , INPUT);
 
   /* home motors */
-  //homing(motor_current);
+  homing(motor_current);
 
 }
 

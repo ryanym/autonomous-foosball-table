@@ -42,12 +42,16 @@ void move_motor(int r1_l,int r1_r,int r2_l,int r2_r){
           delayMicroseconds(between_motor_delay);
           motor_moved[j] = true;
          }
-//        else if(!digitalRead(sensor_pins[j][1])){
-//          motor_current[j] = reset_array[j][1];
-//          }
-//        else if(!digitalRead(sensor_pins[j][0])){
-//          motor_current[j]= reset_array[j][0];
-//          }
+        else if(!digitalRead(sensor_pins[j][1])){
+#ifdef SERIAL_PRINT
+          if(j == 1 || j == 3){
+            Serial.println("ROTATION");
+          }
+#endif
+          motor_current[j] = reset_array[j][1];
+          }
+        else if(!digitalRead(sensor_pins[j][0])){
+          motor_current[j]= reset_array[j][0];          }
        }   
      }
 

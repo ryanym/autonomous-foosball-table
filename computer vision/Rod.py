@@ -1,6 +1,7 @@
 from Communication import *
 from ImageProcessing import *
 
+
 class Rod:
 
     def __init__(self, rodNumber):
@@ -11,15 +12,15 @@ class Rod:
         self.kicked = False
         self.prekick = False
 
-    def homeRod(self):
+    def home(self):
         print 'homing rod'
-        moveTo(home)
-
+        # return [0,0,0,0]
+        return [100,0,0,0]
     def ballFollowPosition(self,ball_y):
 
         curP = 0
         if (ball_y - FOOSMAN_WIDTH / 2.0 - 0.3) > 3 * FOOSMAN_DISTANCE:
-            curP = 90.0
+            curP = 88.0
         elif (ball_y - FOOSMAN_WIDTH / 2.0 - 0.3) > 2 * FOOSMAN_DISTANCE:
             curP = (ball_y - FOOSMAN_WIDTH / 2.0) - 2 * FOOSMAN_DISTANCE
         elif (ball_y - FOOSMAN_WIDTH / 2.0 - 0.3) > FOOSMAN_DISTANCE:
@@ -29,6 +30,7 @@ class Rod:
 
         int(round(curP))
         # curP = int(round(curP))
+
         if abs(self.prevP - curP) > 5:
             # print (abs(self.ball_y_prey_pre - curP))
             self.prevP = curP
@@ -38,7 +40,7 @@ class Rod:
 
     def canKickForward(self, x):
         if self.rodNumber == 0:
-            if x >= 120 and x <= 160:
+            if x >= 125 and x <= 160:
                 return True
     def move(self,y,x):
         global lin, rot
@@ -56,8 +58,12 @@ class Rod:
         else:
             rot = 0
 
-        lin = self.ballFollowPosition(y)
+        lin = int(self.ballFollowPosition(y))
+        # lin = self.ballFollowPosition(y)
         pos = [lin,rot,0,0]
-        print self.canKickForward(x), self.prekick, self.kicked
-        print pos
-        moveTo(pos)
+        print "predict:", pos
+
+        return pos
+        # print self.canKickForward(x), self.prekick, self.kicked
+        # print pos
+        # moveTo(pos)
