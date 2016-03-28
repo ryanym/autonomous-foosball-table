@@ -52,7 +52,7 @@ int stop_pin  = STOP_PIN;
 float lengths_angles[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
-int reset_array[4][2] = {  {16,293},       //316 steps corresponds to 95mm.this is for when the swithces are hit
+int reset_array[4][2] = {  {6,293},       //316 steps corresponds to 95mm.this is for when the swithces are hit
                             {0,0},
                             {0,0},
                             {0,0} };
