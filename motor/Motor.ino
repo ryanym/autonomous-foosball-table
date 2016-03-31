@@ -3,24 +3,19 @@
 __asm volatile ("nop");
 #endif
 
+/************** includes ***********************************************/
 #include "pin_def.h"
-
-
-/*The data to be sent should be comma delimited ex 4,5,6,7, the last comma is importatnt as well
- * When changing the number of receivevd varaibles make sure you change on the PC side
- */
+#include <avr/io.h> 
+#include <avr/wdt.h>
  
- //constants
+/********************* constants and DEFINES ***************************/
  #define pi 3.14
  #define counter_clockwise -1
  #define clockwise 1
+#define SERIAL_PRINT    //for Serial print taht are not necessary
 
- //DEFINTION
-//#define SERIAL_PRINT    //for Serial print taht are not necessary
- 
-/*four motors going from row1_linear,row1_rotational,row2_linear,row2_rotational
-max size is 32767 for each integer...do not go above this limit*/
 
+/************************ VARIABLES ************************************/
 /* Safety is false but turns true if system needs to stop */
 bool safety = false;
  
@@ -65,6 +60,7 @@ float spacing_teeth  = 2;                        //in cm since as input of lengt
 /* time keeping */
 long time_start,time_end,time_elapsed,time1,time2,time3,time4,time5 = 0;
 
+/************************************* SETUP ***************************/
 void setup() {
   /* enable all pins */
   enable_pins();
@@ -73,6 +69,9 @@ void setup() {
   /* begin Serial config */
   serial_config();
 
+  /* clear reset pin */
+  clear_reset_bit();
+  
   /*setup interrupt*/
   //attachInterrupt(digitalPinToInterrupt(STOP_PIN), stop_button_interupt , CHANGE);
   //pinMode(STOP_PIN , INPUT);
@@ -82,6 +81,7 @@ void setup() {
 
 }
 
+/************************ LOOP ************************************s******/
 void loop() {
   /* Check if serial data avaible */
   ReadSteps(lengths_angles,&safety);

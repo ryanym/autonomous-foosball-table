@@ -10,7 +10,7 @@ int ReadSteps(float* lengths_angles,bool* safety){
   }
 
  //if flag riased dissect into propeer array
- //if only one data then probably for getting current steps
+ //if only one data then probably for getting current steps or RESET
   if(Read == 1){
     if(strlen(content.c_str()) != 1){
       for(int i = 0; i < 4; i++){
@@ -20,24 +20,29 @@ int ReadSteps(float* lengths_angles,bool* safety){
       }
     }
     else{
-      int time_start2 = micros();
-      Serial.print(motor_current[0]);
-      Serial.print(",");
-      Serial.print(motor_current[1]);
-      Serial.print(",");
-      Serial.print(motor_current[2]);
-      Serial.print(",");
-      Serial.println(motor_current[3]);
-      int time_end = micros()-time_start2;
-      int time_end2 = time_start2-time_start;
-#ifdef SERIAL_PRINT
-      Serial.println(time_end);
-      Serial.println(time_end2);
-#endif
-      serial_read = false;    //for motor move so not needed
-      Read = 0;
-      return(-1);
+      if( content[0] == 'R'){
+        wdt_enable(WDTO_15MS ); 
+        }
+      else{
+        int time_start2 = micros();
+        Serial.print(motor_current[0]);
+        Serial.print(",");
+        Serial.print(motor_current[1]);
+        Serial.print(",");
+        Serial.print(motor_current[2]);
+        Serial.print(",");
+        Serial.println(motor_current[3]);
+        int time_end = micros()-time_start2;
+        int time_end2 = time_start2-time_start;
+  #ifdef SERIAL_PRINT
+        Serial.println(time_end);
+        Serial.println(time_end2);
+  #endif
+        serial_read = false;    //for motor move so not needed
+        Read = 0;
+        return(-1);
       }
+    }
     //check safety flag
     //int index = content.indexOf(","); 
     //if(content.substring(0,index)[0] == 't'){

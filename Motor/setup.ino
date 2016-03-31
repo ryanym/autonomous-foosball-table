@@ -1,5 +1,5 @@
 #include "pin_def.h"
-
+//////////////
 void enable_pins(){
   pinMode(LED_PIN  , OUTPUT);
   
@@ -39,7 +39,7 @@ void enable_pins(){
    digitalWrite(Q_ENABLE_PIN    , LOW);
   
 }
-
+/////////////
 void serial_config(){
   Serial.begin(baudrate);
 #ifdef SERIAL_PRINT
@@ -48,3 +48,16 @@ void serial_config(){
   }
 
 
+/////////////
+void clear_reset_bit(){
+  // Clear the reset bit
+  MCUSR &= ~_BV(WDRF);
+}
+
+//////////////////
+void disable_watchdog_timer(){
+  // Disable the WDT
+
+  WDTCSR |= _BV(WDCE) | _BV(WDE);
+  WDTCSR = 0;
+}
