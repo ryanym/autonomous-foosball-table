@@ -3,15 +3,15 @@
 __asm volatile ("nop");
 #endif
 
-/************** includes ***********************************************/
+/************** INCLUDES ***********************************************/
 #include "pin_def.h"
 #include <avr/io.h> 
 #include <avr/wdt.h>
  
-/********************* constants and DEFINES ***************************/
- #define pi 3.14
- #define counter_clockwise -1
- #define clockwise 1
+/********************* DEFINES ***************************/
+#define pi 3.14
+#define counter_clockwise -1
+#define clockwise 1
 #define SERIAL_PRINT    //for Serial print taht are not necessary
 
 
@@ -19,12 +19,11 @@ __asm volatile ("nop");
 /* Safety is false but turns true if system needs to stop */
 bool safety = false;
  
-/* number of data to be received */
-int Read = 0 ;                            //to signify if anything has entered serial   
-long baudrate = 9600;
+/* Serial props */
+long baudrate = 57600;
    
 /* Serial read confirmed. So movement funcitons only run when needed to */
-bool serial_read,mid_serial_read = false;       
+bool serial_read_flag,mid_serial_read_flag = false;       
       
 /* motor properties */
 int linear_steps = 200;                  //steps/rev for linear motors
@@ -36,6 +35,7 @@ int after_motor_delay = 300;
 int between_motor_delay = 0;
 int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
+int serial_motor_delay = 500;
 
 /* PIN configuration */
 int motor_control_pins[4] = {X_STEP_PIN  ,E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
@@ -77,19 +77,20 @@ void setup() {
   //pinMode(STOP_PIN , INPUT);
 
   /* home motors */
-  homing(motor_current);
+  homing();
 
 }
 
 /************************ LOOP ************************************s******/
+
 void loop() {
   /* Check if serial data avaible */
-  ReadSteps(lengths_angles,&safety);
+  ReadSteps();
 
-  if(serial_read == true || mid_serial_read == true){
-    convert_to_steps(steps_to_move,lengths_angles,motor_current);
-    move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
-    serial_read = false;
+  if(serial_read_flag == true || mid_serial_read_flag == true){
+    convert_to_steps();
+    move_motor();  
+    serial_read_flag = false;
   }
 }
 
