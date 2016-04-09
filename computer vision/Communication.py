@@ -52,7 +52,7 @@ class Communication():
         return steps*360.0/MOTOR_STEPS
 
     def getCurrentSteps(self):
-        '''get current absolute postions from controller - takes 17ms ish
+        '''get current absolute postions from control ler - takes 17ms ish
         send only one random character with character 'n'
         '''
         returnlist = [0, 0, 0, 0]
