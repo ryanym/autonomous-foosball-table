@@ -60,10 +60,10 @@ BALL_R_MIN = 4 #pixel
 BALL_R_MAX = 12 #pixel
 BALL_R_PIXEL = int(BALL_R * FIELD_L_PIXEL / FIELD_L )
 #Ball center moving area
-BALL_X_MAX = FIELD_L_PIXEL - BALL_R_PIXEL -1
-BALL_Y_MAX = FIELD_W_PIXEL - BALL_R_PIXEL - 1
-BALL_X_MIN = BALL_R_PIXEL
-BALL_Y_MIN = BALL_R_PIXEL
+BALL_X_MAX = FIELD_L - BALL_R -1
+BALL_Y_MAX = FIELD_W - BALL_R - 1
+BALL_X_MIN = BALL_R
+BALL_Y_MIN = BALL_R
 
 GOAL_W = 90#mm
 GOAL_L = 23#mm
@@ -136,7 +136,7 @@ def find_ball_path(ball_cur,ball_pre):
             ball_tar[1]  = BALL_Y_MAX
         else:
             ball_tar[1]  = ball_cur[1] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
-            
+
         if ball_tar[1] > BALL_Y_MAX:
             ball_col[0] = ball_cur[0]+(BALL_Y_MAX-ball_cur[1])/ball_diff_y*ball_diff_x
             ball_col[1] = BALL_Y_MAX;
@@ -152,7 +152,7 @@ def find_ball_path(ball_cur,ball_pre):
             ball_tar[1]  = BALL_Y_MIN
         else:
             ball_tar[1]  = ball_cur[1] + (ball_tar[0] - ball_cur[0])/ball_diff_x*ball_diff_y
-            
+
         if ball_tar[1] < BALL_Y_MIN:
             ball_col[0] = ball_cur[0]+(BALL_Y_MIN-ball_cur[1])/ball_diff_y*ball_diff_x
             ball_col[1] = BALL_Y_MIN;
@@ -187,7 +187,7 @@ def foosmen_location(foosmen):
     return foosmen_relocate
 
 
-################################################################################################################################ 
+################################################################################################################################
 def getRowPosition(hsv):
     first_fil_img = cv2.inRange(hsv, ROB_LOWHSV, ROB_UPPHSV)
     erosion = cv2.erode(first_fil_img,ERROR_FILTER,1)
@@ -301,14 +301,14 @@ def getBallPosition(hsv):  # return true position in mm
             if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
                 ball_found = True
                 if tmp_radius > ball_radius_max:
-                    ball_cur = (x,y)  
-    return (ball_cur[0]*L_PTOMM,ball_cur[1]*W_PTOMM,ball_found)
+                    ball_cur = (x,y)
+    return ((ball_cur[0]*L_PTOMM,ball_cur[1]*W_PTOMM),ball_found)
 
 def getUnknown(hsv_edge):
      #0,1 compare with x-axis; 2,3 compare with y-axis
     #return true when unknown detected, else false
     for edge_index in [0,1]:
-            edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV) 
+            edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV)
             dilate = cv2.dilate(edge_fil_img,ERROR_FILTER,1)
             asfdas,contours,hierarchy = cv2.findContours(dilate, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
             c = sorted(contours, key = cv2.contourArea, reverse = True)
@@ -325,11 +325,11 @@ def getUnknown(hsv_edge):
                     edge_cover['x'] = x
                     break
             #print edge_cover
-            cv2.imshow("edge"+str(edge_index),edge_fil_img) 
+            cv2.imshow("edge"+str(edge_index),edge_fil_img)
             if  edge_cover['x']> EDGE_X_MIN or edge_cover['x']+edge_cover['w']< EDGE_X_MAX:
                 return True
-            
-                
+
+
     for edge_index in [2,3]:
             edge_fil_img = cv2.inRange(hsv_edge[edge_index], EDGE_LOWHSV, EDGE_UPPHSV)
             dilate = cv2.dilate(edge_fil_img,ERROR_FILTER,1)
@@ -360,7 +360,7 @@ def getGoal(hsv):
     goalU=False
     goal_user_area = hsv[GOAL_USER[2]:GOAL_USER[3],GOAL_USER[0]:GOAL_USER[1]]
     goal_rob_area = hsv[GOAL_ROB[2]:GOAL_ROB[3],GOAL_ROB[0]:GOAL_ROB[1]]
-    #detect user goal 
+    #detect user goal
     dest_image = cv2.inRange(goal_user_area, GOAL_LOWHSV,GOAL_UPPHSV)
     erosion = cv2.erode(dest_image,ERROR_FILTER,1)
     dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
@@ -374,7 +374,7 @@ def getGoal(hsv):
             if tmp_radius >BALL_R_MIN and tmp_radius <BALL_R_MAX:
                 if tmp_radius > ball_radius_max:
                     user_ball_radius_max = tmp_radius
-    #detect rob goal 
+    #detect rob goal
     dest_image = cv2.inRange(goal_rob_area, GOAL_LOWHSV,GOAL_UPPHSV)
     erosion = cv2.erode(dest_image,ERROR_FILTER,1)
     dilate = cv2.dilate(dest_image,ERROR_FILTER,1)
@@ -389,11 +389,11 @@ def getGoal(hsv):
                 if tmp_radius > ball_radius_max:
                     rob_ball_radius_max = tmp_radius
                     ball_cur = (x,y)
-    #if  rob_ball_radius_max==user_ball_radius_max or (rob_ball_radius_max ==4 and user_ball_radius_max == 4): 
+    #if  rob_ball_radius_max==user_ball_radius_max or (rob_ball_radius_max ==4 and user_ball_radius_max == 4):
     #    return goalR_goalU
-    if rob_ball_radius_max> user_ball_radius_max: 
+    if rob_ball_radius_max> user_ball_radius_max:
         goalR=True
-    if rob_ball_radius_max< user_ball_radius_max: 
+    if rob_ball_radius_max< user_ball_radius_max:
         goalU=True
     return (goalR,goalU)
 
@@ -409,6 +409,10 @@ def getPosition(ball_x,ball_y): # follow the ball
     elif(ball_y-FOOSMAN_WIDTH/2-0.3)>0:
         p =  (ball_y-FOOSMAN_WIDTH/2)
     return p
+
+
+
+
 
 
 

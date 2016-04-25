@@ -3,33 +3,27 @@
 __asm volatile ("nop");
 #endif
 
+/************** INCLUDES ***********************************************/
 #include "pin_def.h"
-
-
-/*The data to be sent should be comma delimited ex 4,5,6,7, the last comma is importatnt as well
- * When changing the number of receivevd varaibles make sure you change on the PC side
- */
+#include <avr/io.h> 
+#include <avr/wdt.h>
  
- //constants
- #define pi 3.14
- #define counter_clockwise -1
- #define clockwise 1
+/********************* DEFINES ***************************/
+#define pi 3.14
+#define counter_clockwise -1
+#define clockwise 1
+#define SERIAL_PRINT    //for Serial print taht are not necessary
 
- //DEFINTION
-//#define SERIAL_PRINT    //for Serial print taht are not necessary
- 
-/*four motors going from row1_linear,row1_rotational,row2_linear,row2_rotational
-max size is 32767 for each integer...do not go above this limit*/
 
+/************************ VARIABLES ************************************/
 /* Safety is false but turns true if system needs to stop */
 bool safety = false;
  
-/* number of data to be received */
-int Read = 0 ;                            //to signify if anything has entered serial   
-long baudrate = 9600;
+/* Serial props */
+long baudrate = 57600;
    
 /* Serial read confirmed. So movement funcitons only run when needed to */
-bool serial_read,mid_serial_read = false;       
+bool serial_read_flag,mid_serial_read_flag = false;       
       
 /* motor properties */
 int linear_steps = 200;                  //steps/rev for linear motors
@@ -41,6 +35,7 @@ int after_motor_delay = 300;
 int between_motor_delay = 0;
 int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
+int serial_motor_delay = 500;
 
 /* PIN configuration */
 int motor_control_pins[4] = {X_STEP_PIN  ,E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
@@ -52,7 +47,7 @@ int stop_pin  = STOP_PIN;
 float lengths_angles[4] = {0,0,0,0};                 //actual lenghts and angles to move
 int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
-int reset_array[4][2] = {  {6,293},       //316 steps corresponds to 95mm.this is for when the swithces are hit
+int reset_array[4][2] = {  {16,293},       //316 steps corresponds to 95mm.this is for when the swithces are hit
                             {0,0},
                             {0,0},
                             {0,0} };
@@ -65,6 +60,7 @@ float spacing_teeth  = 2;                        //in cm since as input of lengt
 /* time keeping */
 long time_start,time_end,time_elapsed,time1,time2,time3,time4,time5 = 0;
 
+/************************************* SETUP ***************************/
 void setup() {
   /* enable all pins */
   enable_pins();
@@ -73,23 +69,28 @@ void setup() {
   /* begin Serial config */
   serial_config();
 
+  /* clear reset pin */
+  clear_reset_bit();
+  
   /*setup interrupt*/
   //attachInterrupt(digitalPinToInterrupt(STOP_PIN), stop_button_interupt , CHANGE);
   //pinMode(STOP_PIN , INPUT);
 
   /* home motors */
-  homing(motor_current);
+  homing();
 
 }
 
+/************************ LOOP ************************************s******/
+
 void loop() {
   /* Check if serial data avaible */
-  ReadSteps(lengths_angles,&safety);
+  ReadSteps();
 
-  if(serial_read == true || mid_serial_read == true){
-    convert_to_steps(steps_to_move,lengths_angles,motor_current);
-    move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
-    serial_read = false;
+  if(serial_read_flag == true || mid_serial_read_flag == true){
+    convert_to_steps();
+    move_motor();  
+    serial_read_flag = false;
   }
 }
 

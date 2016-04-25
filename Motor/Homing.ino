@@ -1,4 +1,8 @@
-void homing(int* motor_current){
+/* 
+ *  Home all the motors 
+ *  Homing done when all stop swithces hit
+ */
+void homing(){
   int j,i = 0;
   int max_steps = 400;
   
