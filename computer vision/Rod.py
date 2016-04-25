@@ -20,7 +20,7 @@ class Rod:
 
         curP = 0
         if (ball_y - FOOSMAN_WIDTH / 2.0 - 0.3) > 3 * FOOSMAN_DISTANCE:
-            curP = 95
+            curP = 88.0
         elif (ball_y - FOOSMAN_WIDTH / 2.0 - 0.3) > 2 * FOOSMAN_DISTANCE:
             curP = (ball_y - FOOSMAN_WIDTH / 2.0) - 2 * FOOSMAN_DISTANCE
         elif (ball_y - FOOSMAN_WIDTH / 2.0 - 0.3) > FOOSMAN_DISTANCE:
@@ -40,7 +40,7 @@ class Rod:
 
     def canKickForward(self, x):
         if self.rodNumber == 0:
-            if x >= 125 and x <= 160:
+            if x >= 110 and x <= 160:
                 return True
     def move(self,y,x):
         global lin, rot

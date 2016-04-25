@@ -18,7 +18,7 @@ TIME_SLEEP = 0.15;
 class Communication():
 
     def __init__(self,COM_NUM):
-        self.serARD = serial.Serial(port=COM_NUM, baudrate=57600)  #can't go beyond 57600 baud
+        self.serARD = serial.Serial(port=COM_NUM, baudrate=9600)
 
     def array_to_string(self, x):
         '''return a string sperated by commas with an endline character 'n' for sending over serial comm
@@ -39,7 +39,7 @@ class Communication():
         # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
 
         str_send = self.array_to_string(pos_angles)
-        self.write(str_send);
+        self.serARD.write(str_send);
 
 
     def steps2Linear(self,steps):
@@ -52,15 +52,12 @@ class Communication():
         return steps*360.0/MOTOR_STEPS
 
     def getCurrentSteps(self):
-        '''get current absolute postions from control ler - takes 17ms ish
+        '''get current absolute postions from controller - takes 17ms ish
         send only one random character with character 'n'
         '''
         returnlist = [0, 0, 0, 0]
-        self.write("0n")
-        data = self.readLine()
-        print self.readLine()
-        print self.readLine()
-
+        self.serARD.write("0n")
+        data = self.serARD.readline()
         mylist = [int(x) for x in data.split(',')]
 
         returnlist[0] = self.steps2Linear(mylist[0])
@@ -72,18 +69,9 @@ class Communication():
     def closeComm(self):
         self.serARD.close()
 
-    def resetController(self):
-        self.write("Rn")
-
-    def write(self,data):
-        self.serARD.write(data)
-
-    def readLine(self):
-        return self.serARD.readline()
 
 
-co = Communication('COM11')
-print co.getCurrentSteps()
+
 
 '''
     return a string sperated by commas with an endline character 'n' for sending over serial comm
