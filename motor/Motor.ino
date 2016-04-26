@@ -37,15 +37,15 @@ int rotational_steps = 200;              //steps /rev for rotational motor
 
 /*  delays also used for movement as well as homing */ //200 works for motor_delay
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
-int after_motor_delay = 300;
-int between_motor_delay = 0;
+int after_motor_delay = 450;
+int between_motor_delay = 10;
 int polarity_delay = 2000;
 int homing_delay = motor_delay+1000;
 
 /* PIN configuration */
 int motor_control_pins[4] = {X_STEP_PIN  ,E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
 int polarity_pins[4] = {X_DIR_PIN,E_DIR_PIN,Y_DIR_PIN,Q_DIR_PIN};        //for clockwise or anticlockwise rotation
-int sensor_pins[4][2] = {{X_MIN_PIN,X_MAX_PIN},{0,0},{0,0},{0,0}};       //two for linear
+int sensor_pins[4][2] = {{Y_MAX_PIN,Y_MIN_PIN},{0,0},{X_MAX_MIN,X_MIN_PIN},{0,0}};       //two for linear
 int stop_pin  = STOP_PIN;
 
 /* arrays actively manipualted */
@@ -54,7 +54,7 @@ int motor_current[4] ={0,0,0,0};         //current step postion of motors
 int steps_to_move[4] = {0,0,0,0};        //numer of steps to move
 int reset_array[4][2] = {  {6,293},       //316 steps corresponds to 95mm.this is for when the swithces are hit
                             {0,0},
-                            {0,0},
+                            {0,316},
                             {0,0} };
 int motor_moved[4] = {false,false,false,false};    //flag to indicate individual motor step
 
