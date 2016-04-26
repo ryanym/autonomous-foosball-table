@@ -51,10 +51,10 @@ class Rod:
                 return True
         # kicking towards wall but not goal
         elif self.rodNumber == 1:
-            if x >= 330 and y <= 110 or y >= 190:
+            if x >= 330 and (y <= 110 or y >= 190):
                 return True
-    def osilate(self, rodNumber, p1, p2):
-        
+    # def osilate(self, p1, p2):
+
 
     def move(self,y,x):
         global lin, rot
@@ -69,6 +69,16 @@ class Rod:
                 rot = 0
                 self.kicked = False
                 self.prekick = False
+        elif self.canKickBackward(x,y):
+            if not self.kicked:
+                if self.rodNumber == 0:
+                    rot = 5
+                else:
+                    rot = 45
+                self.kicked = True
+            else:
+                rot = 0
+                self.kicked = False
         else:
             rot = 0
 
