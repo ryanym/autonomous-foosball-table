@@ -58,7 +58,7 @@ while(cam_open):
     time.sleep(0.1)
 # When everything done,home motors and release the capture
 print 'before home'
-comm.moveTo(r1.home())
+comm.home()
 print home
 print 'after home'
 # r1.homeRod()

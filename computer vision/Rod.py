@@ -11,6 +11,7 @@ class Rod:
         self.prevP = 0
         self.kicked = False
         self.prekick = False
+        self.oscillated = False
 
     def home(self):
         print 'homing rod'
@@ -53,7 +54,7 @@ class Rod:
         elif self.rodNumber == 1:
             if x >= 330 and (y <= 110 or y >= 190):
                 return True
-    # def osilate(self, p1, p2):
+    # def oscillate(self, p1, p2):
 
 
     def move(self,y,x):
@@ -74,7 +75,7 @@ class Rod:
                 if self.rodNumber == 0:
                     rot = 5
                 else:
-                    rot = 45
+                    rot = -90
                 self.kicked = True
             else:
                 rot = 0

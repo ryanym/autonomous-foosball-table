@@ -38,8 +38,15 @@ class Communication():
         '''
         # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
         combined_pos = [x + y for x, y in zip(pos_ang0, pos_ang1)]
+        print combined_pos
         str_send = self.array_to_string(combined_pos)
-        self.serARD.write(str_send);
+        self.serARD.write(str_send)
+
+    def home(self):
+        home = [0,0,0,0,'h']
+        str_send = self.array_to_string(home)
+        self.serARD.write(str_send)
+
 
 
     def steps2Linear(self,steps):
