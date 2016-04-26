@@ -40,8 +40,22 @@ class Rod:
 
     def canKickForward(self, x):
         if self.rodNumber == 0:
-            if x >= 110 and x <= 160:
+            if x >= 120 and x <= 160:
                 return True
+        elif self.rodNumber == 1:
+            if x >= 300 and x <= 330:
+                return True
+    def canKickBackward(self, x, y):
+        if self.rodNumber == 0:
+            if x >= 180 and x <= 200:
+                return True
+        # kicking towards wall but not goal
+        elif self.rodNumber == 1:
+            if x >= 330 and y <= 110 or y >= 190:
+                return True
+    def osilate(self, rodNumber, p1, p2):
+        
+
     def move(self,y,x):
         global lin, rot
         if self.canKickForward(x):
@@ -60,8 +74,10 @@ class Rod:
 
         lin = int(self.ballFollowPosition(y))
         # lin = self.ballFollowPosition(y)
-        pos = [lin,rot,0,0]
-        print "predict:", pos
+        if (self.rodNumber == 0):
+            pos = [lin,rot,0,0]
+        else:
+            pos = [0,0,lin,rot]
 
         return pos
         # print self.canKickForward(x), self.prekick, self.kicked

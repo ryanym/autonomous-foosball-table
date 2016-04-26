@@ -33,12 +33,12 @@ class Communication():
 
 
 
-    def moveTo(self, pos_angles):
+    def moveTo(self, pos_ang0, pos_ang1):
         '''para : array[float row1_linear,float row1_roational,float row2_linear,float row2_roational,character t or f)
         '''
         # serARD = serial.Serial(port='/dev/cu.usbmodem1411', baudrate=9600);
-
-        str_send = self.array_to_string(pos_angles)
+        combined_pos = [x + y for x, y in zip(pos_ang0, pos_ang1)]
+        str_send = self.array_to_string(combined_pos)
         self.serARD.write(str_send);
 
 

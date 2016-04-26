@@ -272,7 +272,9 @@ def getHSV(cap):
     ret, frame = cap.read()
     cv2.imshow('foolcapture',frame)
     dst = cv2.filter2D(frame,-1,kernel)
-    #frame_field = frame[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
+    # frame_field = frame[EDGE_Y_MIN:EDGE_Y_MAX,EDGE_X_MIN:EDGE_X_MAX]
+    #
+    # cv2.imshow('foolcape', frame_field)
     hsv = cv2.cvtColor(dst, cv2.COLOR_BGR2HSV)
     '''
     hsv_edge = [None,None,None,None]
