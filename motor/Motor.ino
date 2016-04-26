@@ -29,7 +29,8 @@ int Read = 0 ;                            //to signify if anything has entered s
 long baudrate = 9600;
    
 /* Serial read confirmed. So movement funcitons only run when needed to */
-bool serial_read,mid_serial_read = false;       
+bool serial_read,mid_serial_read,homing_flag = false; 
+      
       
 /* motor properties */
 int linear_steps = 200;                  //steps/rev for linear motors
@@ -40,7 +41,7 @@ int motor_delay = 1000;                    //in microseconds  between setting mo
 int after_motor_delay = 450;
 int between_motor_delay = 10;
 int polarity_delay = 2000;
-int homing_delay = motor_delay+1000;
+int homing_delay = motor_delay+10;
 
 /* PIN configuration */
 int motor_control_pins[4] = {X_STEP_PIN , E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement
@@ -91,6 +92,11 @@ void loop() {
     move_motor(steps_to_move[0],steps_to_move[1],steps_to_move[2],steps_to_move[3]);  
     serial_read = false;
   }
+
+  if(homing_flag == true){
+    homing(motor_current);
+    homing_flag = false;
+    }
 }
 
 

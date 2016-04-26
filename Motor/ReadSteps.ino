@@ -20,24 +20,32 @@ int ReadSteps(float* lengths_angles,bool* safety){
       }
     }
     else{
-      int time_start2 = micros();
-      Serial.print(motor_current[0]);
-      Serial.print(",");
-      Serial.print(motor_current[1]);
-      Serial.print(",");
-      Serial.print(motor_current[2]);
-      Serial.print(",");
-      Serial.println(motor_current[3]);
-      int time_end = micros()-time_start2;
-      int time_end2 = time_start2-time_start;
+      if(content[0] == 'h'){
 #ifdef SERIAL_PRINT
-      Serial.println(time_end);
-      Serial.println(time_end2);
+          Serial.println("HOME");
 #endif
-      serial_read = false;    //for motor move so not needed
-      Read = 0;
-      return(-1);
+        homing_flag = true;
+        }
+      else{
+        int time_start2 = micros();
+        Serial.print(motor_current[0]);
+        Serial.print(",");
+        Serial.print(motor_current[1]);
+        Serial.print(",");
+        Serial.print(motor_current[2]);
+        Serial.print(",");
+        Serial.println(motor_current[3]);
+        int time_end = micros()-time_start2;
+        int time_end2 = time_start2-time_start;
+  #ifdef SERIAL_PRINT
+        Serial.println(time_end);
+        Serial.println(time_end2);
+  #endif
+        serial_read = false;    //for motor move so not needed
+        Read = 0;
+        return(-1);
       }
+    }
     //check safety flag
     //int index = content.indexOf(","); 
     //if(content.substring(0,index)[0] == 't'){
