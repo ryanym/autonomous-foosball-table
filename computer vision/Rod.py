@@ -70,6 +70,7 @@ class Rod:
                 rot = 0
                 self.kicked = False
                 self.prekick = False
+
         elif self.canKickBackward(x,y):
             if not self.kicked:
                 if self.rodNumber == 0:
@@ -81,7 +82,7 @@ class Rod:
                 rot = 0
                 self.kicked = False
         else:
-            rot = 0
+            rot = 0    #change this to -40
 
         lin = int(self.ballFollowPosition(y))
         # lin = self.ballFollowPosition(y)
