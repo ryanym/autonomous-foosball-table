@@ -77,7 +77,7 @@ class Rod:
                 return True
         # kicking towards wall but not goal
         elif self.rodNumber == 1:
-            if x >= 330 and (y <= 110 or y >= 190):
+            if x >= 360 and (y <= 90 or y >= 210):
                 return True
     def oscillate(self, p1, p2):
         if not self.oscillated:
@@ -107,7 +107,7 @@ class Rod:
                     self.kicked = False
             if self.rodNumber == 1:
                 if not self.kicked:
-                    self.rot = 45
+                    self.rot = 10
                     self.kicked = True
                 else:
                     self.rot = 0
@@ -127,12 +127,17 @@ class Rod:
         else:
             self.rot = 0
 
-        if self.rodNumber == 1 and not self.canKickForward(x):
-            self.lin = self.oscillate(self.intersect(p1,pball,pr1s) + BALL_R, self.intersect(p2, pball, pr1s)- BALL_R)
-            # self.lin = self.oscillate(112,184)
-            self.lin = int(self.lin)
+        # if (self.rodNumber == 1 and not self.canKickForward(x)):
+        if (self.rodNumber == 1 and not self.canKickForward(x)):
+
+            # self.lin = self.oscillate(self.intersect(p1,pball,pr1s) + BALL_R, self.intersect(p2, pball, pr1s)- BALL_R)
+            # # self.lin = self.oscillate(112,184)
+            # self.lin = int(self.lin)
+            self.lin = int(self.absPos(y + BALL_R / 2.0 * self.balldir_y(y)))
+        elif y > 170:
+            self.lin = int(self.absPos(y - BALL_R * self.balldir_y(y)))
         else:
-            self.lin = int(self.absPos(y + BALL_R * self.balldir_y(y)))
+            self.lin = int(self.absPos(y + BALL_R/2.0 * self.balldir_y(y)))
         # self.lin = int(self.ballFollowPosition(y))
         if (self.rodNumber == 0):
             pos = [self.lin,self.rot,0,0]

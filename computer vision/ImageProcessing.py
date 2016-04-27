@@ -329,7 +329,8 @@ def getUnknown(hsv_edge):
             #print edge_cover
             cv2.imshow("edge"+str(edge_index),edge_fil_img) 
             if  edge_cover['x']> EDGE_X_MIN or edge_cover['x']+edge_cover['w']< EDGE_X_MAX:
-                return True
+                # return True
+                return 't'
             
                 
     for edge_index in [2,3]:
@@ -352,8 +353,10 @@ def getUnknown(hsv_edge):
             #print edge_cover
             cv2.imshow("edge"+str(edge_index),edge_fil_img)
             if  edge_cover['y']> EDGE_Y_MIN or edge_cover['y']+edge_cover['h']< EDGE_Y_MAX:
-                return True
-    return False
+                # return True
+                return 't'
+    # return False
+    return 'f'
 
 
 def getGoal(hsv):

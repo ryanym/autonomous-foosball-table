@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb796616-93bf-49a9-9478-7d81f5dc87bc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/.idea/workspace.xml" afterPath="$PROJECT_DIR$/computer vision/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Motor/Homing.ino" afterPath="$PROJECT_DIR$/Motor/Homing.ino" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Motor/ReadSteps.ino" afterPath="$PROJECT_DIR$/Motor/ReadSteps.ino" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/Communication.py" afterPath="$PROJECT_DIR$/computer vision/Communication.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/ImageProcessing.py" afterPath="$PROJECT_DIR$/computer vision/ImageProcessing.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/Main.py" afterPath="$PROJECT_DIR$/computer vision/Main.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/Rod.py" afterPath="$PROJECT_DIR$/computer vision/Rod.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/motor/Motor.ino" afterPath="$PROJECT_DIR$/motor/Motor.ino" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/motor/MoveMotor.ino" afterPath="$PROJECT_DIR$/motor/MoveMotor.ino" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/computer vision/testing.py" afterPath="$PROJECT_DIR$/computer vision/testing.py" />
     </list>
     <ignored path="autonomous-foosball-table.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,7 +22,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/autonomous-foosball-table$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1461724912325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/computer vision" />
+    <SUITE FILE_PATH="coverage/autonomous-foosball-table$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1461783294634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/computer vision" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -35,10 +36,10 @@
       <file leaf-file-name="Main.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/computer vision/Main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+            <state relative-caret-position="408">
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding>
-                <marker date="1461725167413" expanded="false" signature="78:204" placeholder="import ..." />
+                <marker date="1461777975473" expanded="false" signature="78:204" placeholder="import ..." />
               </folding>
             </state>
           </provider>
@@ -47,24 +48,10 @@
       <file leaf-file-name="Rod.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/computer vision/Rod.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="129" column="9" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="9" />
+            <state relative-caret-position="291">
+              <caret line="77" column="36" selection-start-line="77" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Communication.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/computer vision/Communication.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-508">
-              <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
-              <folding>
-                <marker date="1461725073702" expanded="true" signature="1263:1362" placeholder="..." />
-                <marker date="1461725073702" expanded="true" signature="2283:2311" placeholder="..." />
-                <marker date="1461725073702" expanded="true" signature="2317:2528" placeholder="'''...'''" />
               </folding>
             </state>
           </provider>
@@ -73,9 +60,21 @@
       <file leaf-file-name="ImageProcessing.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+            <state relative-caret-position="4811">
+              <caret line="287" column="31" selection-start-line="287" selection-start-column="20" selection-end-line="287" selection-end-column="31" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Communication.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/computer vision/Communication.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -90,8 +89,9 @@
       <list>
         <option value="$PROJECT_DIR$/computer vision/ImageProcessing.py" />
         <option value="$PROJECT_DIR$/computer vision/Communication.py" />
-        <option value="$PROJECT_DIR$/computer vision/Rod.py" />
+        <option value="$PROJECT_DIR$/computer vision/testing.py" />
         <option value="$PROJECT_DIR$/computer vision/Main.py" />
+        <option value="$PROJECT_DIR$/computer vision/Rod.py" />
       </list>
     </option>
   </component>
@@ -161,34 +161,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="computer vision" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="autonomous-foosball-table" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="autonomous-foosball-table" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Motor" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="autonomous-foosball-table" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="autonomous-foosball-table" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Documentation" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -429,6 +401,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="fb796616-93bf-49a9-9478-7d81f5dc87bc" name="Default" comment="" />
@@ -463,6 +438,14 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -478,7 +461,7 @@
         <state relative-caret-position="731">
           <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
           <folding>
-            <marker date="1461725167413" expanded="false" signature="78:204" placeholder="import ..." />
+            <marker date="1461777975473" expanded="false" signature="78:204" placeholder="import ..." />
           </folding>
         </state>
       </provider>
@@ -498,9 +481,7 @@
         <state relative-caret-position="646">
           <caret line="39" column="59" selection-start-line="39" selection-start-column="8" selection-end-line="39" selection-end-column="59" />
           <folding>
-            <marker date="1461725073702" expanded="true" signature="1263:1362" placeholder="..." />
-            <marker date="1461725073702" expanded="true" signature="2283:2311" placeholder="..." />
-            <marker date="1461725073702" expanded="true" signature="2317:2528" placeholder="'''...'''" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -513,42 +494,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
+    <entry file="file://$PROJECT_DIR$/computer vision/testing.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
+        <state relative-caret-position="102">
+          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/computer vision/Communication.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-508">
-          <caret line="0" column="13" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+        <state relative-caret-position="153">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
           <folding>
-            <marker date="1461725073702" expanded="true" signature="1263:1362" placeholder="..." />
-            <marker date="1461725073702" expanded="true" signature="2283:2311" placeholder="..." />
-            <marker date="1461725073702" expanded="true" signature="2317:2528" placeholder="'''...'''" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/computer vision/Rod.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="129" column="9" selection-start-line="129" selection-start-column="9" selection-end-line="129" selection-end-column="9" />
+        <state relative-caret-position="291">
+          <caret line="77" column="36" selection-start-line="77" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/computer vision/ImageProcessing.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4811">
+          <caret line="287" column="31" selection-start-line="287" selection-start-column="20" selection-end-line="287" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/computer vision/Main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+        <state relative-caret-position="408">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
           <folding>
-            <marker date="1461725167413" expanded="false" signature="78:204" placeholder="import ..." />
+            <marker date="1461777975473" expanded="false" signature="78:204" placeholder="import ..." />
           </folding>
         </state>
       </provider>

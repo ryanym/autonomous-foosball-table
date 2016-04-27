@@ -10,6 +10,8 @@ void safety_broken(){
    Serial.println("safety violated");
 #endif
 
+  safety = true;
+
   }
 
 void stop_button_interupt(){

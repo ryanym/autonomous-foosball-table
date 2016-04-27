@@ -8,6 +8,7 @@ from AI import  ball_FollowBallPath
 r1 = Rod(0)
 r2 = Rod(1)
 comm = Communication('COM3')
+comm.home()
 
 ###############################
 cam_open,cap = SetupCam()
@@ -39,19 +40,21 @@ while(cam_open):
     #     moveTo(test)
     # print ball_x
 
-    if ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][0]:
-        predY = ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][1]
-    else:
-        predY = ball_y
-    int(predY)
+    # if ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][0]:
+    #     predY = ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][1]
+    # else:
+    #     predY = ball_y
+    # int(predY)
 
     # comm.moveTo(r1.move(predY,ball_x))
-    comm.moveTo(r1.move(ball_y - BALL_R/2.0, ball_x),r2.move(ball_y - BALL_R/2.0, ball_x))
-    # r1.move(ball_y,ball_x)
-    ball_x_pre = ball_x
-    ball_y_pre = ball_y
+    # comm.moveTo(r1.move(ball_y , ball_x),r2.move(ball_y, ball_x),getUnknown(hsv_edge))
+    comm.moveTo(r1.move(ball_y , ball_x),r2.move(ball_y, ball_x),'f')
 
-    predY_pre = predY
+    # r1.move(ball_y,ball_x)
+    # ball_x_pre = ball_x
+    # ball_y_pre = ball_y
+    #
+    # predY_pre = predY
     # print comm.getCurrentSteps();
 
     # print ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)

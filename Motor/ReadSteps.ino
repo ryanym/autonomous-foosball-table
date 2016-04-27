@@ -20,10 +20,13 @@ int ReadSteps(float* lengths_angles,bool* safety){
       }
     }
     else{
+      serial_read = false;
+      
       if(content[0] == 'h'){
 #ifdef SERIAL_PRINT
           Serial.println("HOME");
 #endif
+        mid_serial_read = false;
         homing_flag = true;
         }
       else{
@@ -41,17 +44,21 @@ int ReadSteps(float* lengths_angles,bool* safety){
         Serial.println(time_end);
         Serial.println(time_end2);
   #endif
-        serial_read = false;    //for motor move so not needed
         Read = 0;
         return(-1);
       }
     }
+    
     //check safety flag
-    //int index = content.indexOf(","); 
-    //if(content.substring(0,index)[0] == 't'){
+    int index = content.indexOf(","); 
+    if(content.substring(0,index)[0] == 't'){
+      *safety = true;
       //safety_broken();
-      //}
-  
+    }  
+    else{
+      *safety = false;
+      }
+    
     time_elapsed = micros() - time_start;
     time_start = micros();
 

@@ -33,8 +33,12 @@ void homing(int* motor_current){
      delayMicroseconds(homing_delay);
   }
   
+  //Reset rotation
+   move_motor(0,-motor_current[1],0,-motor_current[3]);
+   
   /* zero-in the current motors */
   for(j=0;j<4;j++){
     motor_current[j] = reset_array[j][0];
+    lengths_angles[j] = 0;
   }
 }
