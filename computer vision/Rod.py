@@ -15,10 +15,14 @@ class Rod:
         self.lin = 0
         self.rot = 0
 
-    def home(self):
-        print 'homing rod'
-        # return [0,0,0,0]
-        return [100,0,0,0]
+
+    def balldir_x(self,x):
+        return 1 if x - self.ball_x_pre > 0 else -1
+
+    def balldir_y(self,y):
+        return 1 if y - self.ball_y_pre > 0 else -1
+
+
     def absPos(self, ball_y):
 
         curP = 0
@@ -103,7 +107,7 @@ class Rod:
                     self.kicked = False
             if self.rodNumber == 1:
                 if not self.kicked:
-                    self.rot = 5
+                    self.rot = 45
                     self.kicked = True
                 else:
                     self.rot = 0
@@ -112,7 +116,7 @@ class Rod:
         elif self.canKickBackward(x,y):
             if not self.kicked:
                 if self.rodNumber == 0:
-                    self.rot = 5
+                    self.rot = 20
                 else:
                     self.rot = -45
                 self.kicked = True
@@ -127,12 +131,15 @@ class Rod:
             # self.lin = self.oscillate(112,184)
             self.lin = int(self.lin)
         else:
-            self.lin = int(self.absPos(y))
+            self.lin = int(self.absPos(y + BALL_R * self.balldir_y(y)))
         # self.lin = int(self.ballFollowPosition(y))
         if (self.rodNumber == 0):
             pos = [self.lin,self.rot,0,0]
         else:
             pos = [0,0,self.lin,self.rot]
+
+        self.ball_x_pre = x
+        self.ball_y_pre = y
 
         return pos
 
