@@ -18,7 +18,7 @@ while(cam_open):
 
     ##### GET BALL POS #####
     ball_x,ball_y,ball_found = getBallPosition(frame_field)   # ball position in mm.
-    print ball_x, ball_y
+    # print ball_x, ball_y
     #getRowPosition(frame_field);
     #getEnemyPosition(frame_field);
     #unkown = getUnknown(hsv_edge)
@@ -55,11 +55,10 @@ while(cam_open):
 
     # print ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)
     # print comm.getCurrentSteps()
-    time.sleep(0.1)
+    time.sleep(0.12)
 # When everything done,home motors and release the capture
 print 'before home'
 comm.home()
-print home
 print 'after home'
 # r1.homeRod()
 

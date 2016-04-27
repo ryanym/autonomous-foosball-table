@@ -43,9 +43,9 @@ class Communication():
         self.serARD.write(str_send)
 
     def home(self):
-        home = [0,0,0,0,'h']
-        str_send = self.array_to_string(home)
-        self.serARD.write(str_send)
+        home = 'hn'
+       # str_send = self.array_to_string(home)
+        self.serARD.write(home)
 
 
 
