@@ -47,8 +47,8 @@ while(cam_open):
     # int(predY)
 
     # comm.moveTo(r1.move(predY,ball_x))
-    # comm.moveTo(r1.move(ball_y , ball_x),r2.move(ball_y, ball_x),getUnknown(hsv_edge))
-    comm.moveTo(r1.move(ball_y , ball_x),r2.move(ball_y, ball_x),'f')
+    comm.moveTo(r1.move(ball_y , ball_x),r2.move(ball_y, ball_x),getUnknown(hsv_edge))
+    # comm.moveTo(r1.move(ball_y , ball_x),r2.move(ball_y, ball_x),'f')
 
     # r1.move(ball_y,ball_x)
     # ball_x_pre = ball_x
