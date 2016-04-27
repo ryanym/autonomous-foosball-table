@@ -25,11 +25,10 @@ while(cam_open):
     if(ball_found == False):
         Rob,User = getGoal(frame_field)
         print Rob,User
-    
+
+    ##### PRESS q FOR EXIT########
     if cv2.waitKey(2) & 0xFF == ord('q'):
         break
-
-
 
     # test = [rod_pos_r1l, rod_pos_r1r, rod_pos_r1l, rod_pos_r2r]
     # testp = r1.ballFollowPosition(ball_x,ball_y)
@@ -39,11 +38,13 @@ while(cam_open):
     # if(testp):
     #     moveTo(test)
     # print ball_x
+
     if ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][0]:
         predY = ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)[0][1]
     else:
         predY = ball_y
     int(predY)
+
     # comm.moveTo(r1.move(predY,ball_x))
     comm.moveTo(r1.move(ball_y - BALL_R/2.0, ball_x),r2.move(ball_y - BALL_R/2.0, ball_x))
     # r1.move(ball_y,ball_x)
@@ -55,7 +56,9 @@ while(cam_open):
 
     # print ball_FollowBallPath(ball_x,ball_y,ball_x_pre,ball_y_pre)
     # print comm.getCurrentSteps()
-    time.sleep(0.12)
+
+    time.sleep(0.1)
+
 # When everything done,home motors and release the capture
 print 'before home'
 comm.home()

@@ -40,7 +40,7 @@ int rotational_steps = 200;              //steps /rev for rotational motor
 int motor_delay = 1000;                    //in microseconds  between setting motor pin high and low
 int after_motor_delay = 450;
 int between_motor_delay = 10;
-int polarity_delay = 2000;
+int polarity_delay = 5000;
 int homing_delay = motor_delay+10;
 
 /* PIN configuration */

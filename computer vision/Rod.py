@@ -113,6 +113,7 @@ class Rod:
                     self.rot = 0
                     self.kicked = False
 
+
         elif self.canKickBackward(x,y):
             if not self.kicked:
                 if self.rodNumber == 0:
