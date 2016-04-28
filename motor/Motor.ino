@@ -41,7 +41,7 @@ int motor_delay = 1000;                    //in microseconds  between setting mo
 int after_motor_delay = 450;
 int between_motor_delay = 10;
 int polarity_delay = 2000;
-int homing_delay = motor_delay+10;
+int homing_delay = 950;
 
 /* PIN configuration */
 int motor_control_pins[4] = {X_STEP_PIN , E_STEP_PIN  ,Y_STEP_PIN  ,Q_STEP_PIN  };           //the motors pins which are set high and low to force motor movement

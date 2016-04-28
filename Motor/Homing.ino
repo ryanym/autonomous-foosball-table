@@ -30,7 +30,7 @@ void homing(int* motor_current){
        }
      }
 
-     delayMicroseconds(homing_delay);
+     delayMicroseconds(after_motor_delay);
   }
   
   //Reset rotation

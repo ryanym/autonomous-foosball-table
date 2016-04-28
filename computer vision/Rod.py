@@ -107,7 +107,7 @@ class Rod:
                     self.kicked = False
             if self.rodNumber == 1:
                 if not self.kicked:
-                    self.rot = 10
+                    self.rot = 30
                     self.kicked = True
                 else:
                     self.rot = 0
