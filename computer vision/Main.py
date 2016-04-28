@@ -35,7 +35,7 @@ while(cam_open):
         counter =  counter + 1;
         comm.moveTo(r1.move(ball_y, ball_x), r2.move(ball_y, ball_x), getUnknown(hsv_edge))
         #####DELAY#######
-        time.sleep(0.1)
+        time.sleep(0.08)
 
     else:
         comm.home()

@@ -66,14 +66,14 @@ class Rod:
 
     def canKickForward(self, x):
         if self.rodNumber == 0:
-            if x >= 120 and x <= 160:
+            if x >= 110 and x <= 150:
                 return True
         elif self.rodNumber == 1:
-            if x >= 300 and x <= 330:
+            if x >= 280 and x <= 330:
                 return True
     def canKickBackward(self, x, y):
         if self.rodNumber == 0:
-            if x >= 180 and x <= 200:
+            if x >= 170 and x <= 220:
                 return True
         # kicking towards wall but not goal
         elif self.rodNumber == 1:
